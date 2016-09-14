@@ -4,6 +4,7 @@ package com.sxhxjy.roadmonitor.base;
 
 import com.sxhxjy.roadmonitor.entity.Monitor;
 
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.FormBody;
@@ -33,10 +34,11 @@ public interface HttpService {
     /////////////////////////////////////////////////////////////////////////
     ////  general
     /////////////////////////////////////////////////////////////////////////
-    @GET("supervisor/login.htm")
-    Observable<Monitor> getMonitors(@Query("vcPhone") String username, @Query("vcPassword") String password);
-
-
+//    @FormUrlEncoded
+//    @POST("points/allPointList")
+//    Observable<HttpResponse<List<Monitor>>> getMonitors(@Field("pageNumber") int pageIndex, @Field("pageSize") int pageSize, @Field("name") String name);
+    @GET("points/allPointList")
+    Observable<HttpResponse<List<Monitor>>> getMonitors(@Query("pageNumber") int pageIndex, @Query("pageSize") int pageSize, @Query("name") String name);
 
     @Multipart
     @POST("jk/uploadPic.htm")

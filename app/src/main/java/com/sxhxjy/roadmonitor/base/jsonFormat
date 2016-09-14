@@ -1,0 +1,88 @@
+{
+    "data": {
+        "content": [
+            {
+                "id": "40288115567df95201567e00a6140002",
+                "name": "光感传感器",
+                "saveTime": 1471248914000,
+                "cstate": 0,
+                "remark": "光感传感器",
+                "cstype": "40288115568d152901568d3f0a4f0001",
+                "priDict": {
+                    "id": "40288115568d152901568d3f0a4f0001",
+                   "word": "device_type",
+                    "code": "1",
+                    "value": "平面值",
+                    "remark": "类似温度这样的平面显示值",
+                   "saveTime": 1471248534000
+                },
+                "unit": "1",
+                "style": null
+            },
+            {
+                "id": "40288115568d152901568d421b9e0003",
+                "name": "温度传感器",
+                "saveTime": 1471248735000,
+                "cstate": 0,
+                "remark": "温度传感器",
+                "cstype": "40288115568d152901568d3f0a4f0001",
+                "priDict": {
+                    "id": "40288115568d152901568d3f0a4f0001",
+                    "word": "device_type",
+                    "code": "1",
+                    "value": "平面值",
+                    "remark": "类似温度这样的平面显示值",
+                    "saveTime": 1471248534000
+                },
+                "unit": "℃",
+                "style": null
+            },
+            {
+                "id": "40288115568d152901568d42566b0004",
+                "name": "湿度传感器",
+                "saveTime": 1471248750000,
+                "cstate": 0,
+                "remark": "湿度传感器",
+                "cstype": "40288115568d152901568d3f0a4f0001",
+                "priDict": {
+                    "id": "40288115568d152901568d3f0a4f0001",
+                    "word": "device_type",
+                    "code": "1",
+                    "value": "平面值",
+                    "remark": "类似温度这样的平面显示值",
+                    "saveTime": 1471248534000
+                },
+                "unit": "RH",
+                "style": null
+            },
+            {
+                "id": "40288115568d80ee01568d97b4a70000",
+                "name": "压力传感器",
+                "saveTime": 1471254344000,
+                "cstate": 0,
+                "remark": "压力传感器",
+                "cstype": "40288115568d152901568d4143120002",
+                "priDict": {
+                    "id": "40288115568d152901568d4143120002",
+                    "word": "device_type",
+                    "code": "2",
+                    "value": "三维立体值",
+                    "remark": "类似于压力这样的，需要x，y，z",
+                    "saveTime": 1471248679000
+                },
+                "unit": "Pa",
+                "style": null
+            }
+        ],
+        "size": 7,
+        "number": 0,
+        "firstPage": true,
+        "lastPage": true,
+        "sort": null,
+        "totalPages": 1,
+        "numberOfElements": 4,
+        "totalElements": 4
+    },
+    "resultCode": "200",
+    "resultMessage": "查询成功"
+}

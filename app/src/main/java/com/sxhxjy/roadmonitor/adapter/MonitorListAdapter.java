@@ -3,6 +3,7 @@ package com.sxhxjy.roadmonitor.adapter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +16,12 @@ import com.sxhxjy.roadmonitor.base.BaseFragment;
 import com.sxhxjy.roadmonitor.entity.Monitor;
 import com.sxhxjy.roadmonitor.ui.chart.ChartActivity;
 import com.sxhxjy.roadmonitor.util.ActivityUtil;
+import com.sxhxjy.roadmonitor.util.DateUtil;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * 2016/9/10
@@ -42,6 +47,10 @@ public class MonitorListAdapter extends RecyclerView.Adapter<MonitorListAdapter.
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.itemView.setOnClickListener(this);
         holder.itemView.setTag(position);
+        holder.location.setText(mList.get(position).name);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINESE);
+
+        holder.date.setText(sdf.format(new Date(mList.get(position).saveTime)) );
     }
 
     @Override

@@ -40,26 +40,6 @@ import rx.schedulers.Schedulers;
  */
 public class Test extends BaseFragment {
 
-public void test() {
-    getHttpService().getMonitors("", "").subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(new Subscriber<Monitor>() {
-                @Override
-                public void onCompleted() {
-
-                }
-
-                @Override
-                public void onError(Throwable e) {
-
-                }
-
-                @Override
-                public void onNext(Monitor monitor) {
-
-                }
-            });
-}
 
 
 }

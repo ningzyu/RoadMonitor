@@ -15,7 +15,7 @@ public class HttpResponseFunc<T> implements Func1<HttpResponse<T>, T> {
     public T call(HttpResponse<T> tHttpResponse) {
 
         // TODO result code
-        if (tHttpResponse != null && tHttpResponse.getResultCode() > 200) {
+        if (tHttpResponse != null && tHttpResponse.getResultCode() == 200) {
             return tHttpResponse.getData();
         } else {
             Log.e("retrofit", tHttpResponse.toString());

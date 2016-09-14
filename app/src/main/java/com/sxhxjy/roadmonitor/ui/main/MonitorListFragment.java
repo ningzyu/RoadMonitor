@@ -10,6 +10,8 @@ import com.sxhxjy.roadmonitor.base.BaseListFragment;
 import com.sxhxjy.roadmonitor.base.HttpResponse;
 import com.sxhxjy.roadmonitor.entity.Monitor;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Response;
 import rx.Observable;
@@ -19,17 +21,11 @@ import rx.Observable;
  *
  * @author Michael Zhao
  */
-public class MonitorListFragment extends BaseListFragment<BaseEntity, Monitor> {
-
-
-    @Override
-    public Call<BaseEntity> getRetrofitCall() {
-        return null;
-    }
+public class MonitorListFragment extends BaseListFragment<Monitor> {
 
     @Override
-    public Observable<HttpResponse<BaseEntity>> getObservable() {
-        return null;
+    public Observable<HttpResponse<List<Monitor>>> getObservable() {
+        return getHttpService().getMonitors(mPageIndex, PAGE_SIZE, "");
     }
 
     @Override
@@ -38,7 +34,7 @@ public class MonitorListFragment extends BaseListFragment<BaseEntity, Monitor> {
     }
 
     @Override
-    protected JsonArray getJsonArray(Response<BaseEntity> response) {
+    protected JsonArray getJsonArray(Response<Monitor> response) {
         return null;
     }
 

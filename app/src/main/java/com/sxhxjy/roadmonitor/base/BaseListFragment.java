@@ -47,8 +47,8 @@ import rx.schedulers.Schedulers;
  *
  * @author Michael Zhao
  */
-public abstract class BaseListFragment<E extends BaseEntity, I> extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
-    private final static int PAGE_SIZE = 20;
+public abstract class BaseListFragment<I> extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, PullRefreshLoadLayout.OnLoadMoreListener, PullRefreshLoadLayout.OnRefreshListener {
+    protected final static int PAGE_SIZE = 20;
     protected RecyclerView mRecyclerView;
     protected LinearLayout mAboveList;
     protected LinearLayout mContainer;
@@ -97,18 +97,8 @@ public abstract class BaseListFragment<E extends BaseEntity, I> extends BaseFrag
         });
 
         PullRefreshLoadLayout pullRefreshLoadLayout = (PullRefreshLoadLayout) view.findViewById(R.id.pull_refresh_load_layout);
-        pullRefreshLoadLayout.setOnRefreshListener(new PullRefreshLoadLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                showToastMsg("refresh called !");
-            }
-        });
-        pullRefreshLoadLayout.setOnLoadMoreListener(new PullRefreshLoadLayout.OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                showToastMsg("load more called !");
-            }
-        });
+        pullRefreshLoadLayout.setOnRefreshListener(this);
+        pullRefreshLoadLayout.setOnLoadMoreListener(this);
 
 
    /*     swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
@@ -134,7 +124,7 @@ public abstract class BaseListFragment<E extends BaseEntity, I> extends BaseFrag
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mAdapter);
 
-        if (getRetrofitCall() != null && getItemClass() != null) {
+        if (getObservable() != null) {
             FAKE = false;
             getMessage();
         } else {
@@ -154,12 +144,12 @@ public abstract class BaseListFragment<E extends BaseEntity, I> extends BaseFrag
             getMessage();
     }
 
-/*    @Override
-    public void loadMore(int i, int i1) {
+    @Override
+    public void onLoadMore() {
         mPageIndex++;
         if (!FAKE)
             getMessage();
-    }*/
+    }
 
     @Override
     protected void loadOnce() {
@@ -172,34 +162,37 @@ public abstract class BaseListFragment<E extends BaseEntity, I> extends BaseFrag
 
         getObservable().subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
-                .map(new HttpResponseFunc<E>())
+                .map(new HttpResponseFunc<List<I>>())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<E>() {
+                .subscribe(new Subscriber<List<I>>() {
                     @Override
                     public void onStart() {
-
+                        Log.e("test", "start");
                     }
 
                     @Override
                     public void onCompleted() {
-
+                        Log.e("test", "completed");
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        Log.e("test", e.toString());
 
                     }
 
                     @Override
-                    public void onNext(E e) {
-
+                    public void onNext(List<I> es) {
+                        mList.clear();
+                        mList.addAll(es);
+                        mAdapter.notifyDataSetChanged();
                     }
                 });
 
 
 
 
-        if (getRetrofitCall() == null) return;
+       /* if (getRetrofitCall() == null) return;
 
 //        showWaitingDialog(null);
         dismissNetworkErrorLayout();
@@ -227,20 +220,20 @@ public abstract class BaseListFragment<E extends BaseEntity, I> extends BaseFrag
                      temp = JSON.parseArray(getJsonArray(response).toString(), getItemClass());
                 }
 
-                /*JsonArray a = getJsonArray(response);
+                *//*JsonArray a = getJsonArray(response);
                 if (a != null) {
                     for (JsonElement e : a) {
                         I i = gson.fromJson(e, new TypeToken<I>() {}.getType());
 
                         mList.add(i);
                     }
-                }*/
+                }*//*
                 if (temp != null)
                     mList.addAll(temp);
-        /*        if (response.body().size() < PAGE_SIZE)
+        *//*        if (response.body().size() < PAGE_SIZE)
                     mRecyclerView.disableLoadmore();
                 else
-                    mRecyclerView.reenableLoadmore();*/
+                    mRecyclerView.reenableLoadmore();*//*
 
                 injectData();
 
@@ -278,7 +271,7 @@ public abstract class BaseListFragment<E extends BaseEntity, I> extends BaseFrag
                     }
                 }
             }
-        });
+        });*/
     }
 
     protected void injectData() {
@@ -317,13 +310,12 @@ public abstract class BaseListFragment<E extends BaseEntity, I> extends BaseFrag
 
      /* Override following method to make subclass have different behavior */
 
-    public abstract Call<E> getRetrofitCall();
 
-    public abstract Observable<HttpResponse<E>> getObservable();
+    public abstract Observable<HttpResponse<List<I>>> getObservable();
 
     protected abstract Class<I> getItemClass();
 
-    protected abstract JsonArray getJsonArray(Response<E> response);
+    protected abstract JsonArray getJsonArray(Response<I> response);
 
     protected abstract void initActionBar();
 
