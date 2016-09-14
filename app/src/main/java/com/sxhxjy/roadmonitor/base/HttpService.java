@@ -3,17 +3,20 @@ package com.sxhxjy.roadmonitor.base;
 
 
 import com.sxhxjy.roadmonitor.entity.Monitor;
+import com.sxhxjy.roadmonitor.entity.Station;
 
 import java.util.List;
 import java.util.Map;
 
 import okhttp3.FormBody;
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
@@ -34,19 +37,38 @@ public interface HttpService {
     /////////////////////////////////////////////////////////////////////////
     ////  general
     /////////////////////////////////////////////////////////////////////////
-//    @FormUrlEncoded
-//    @POST("points/allPointList")
-//    Observable<HttpResponse<List<Monitor>>> getMonitors(@Field("pageNumber") int pageIndex, @Field("pageSize") int pageSize, @Field("name") String name);
+//    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
+//    @POST("points/pointList")
+//    Observable<HttpResponse<List<Monitor>>> getMonitors(@Body RequestBody route);
     @GET("points/allPointList")
     Observable<HttpResponse<List<Monitor>>> getMonitors(@Query("pageNumber") int pageIndex, @Query("pageSize") int pageSize, @Query("name") String name);
+
+
+//    @POST("stations/stationList")
+
+
+
+
+    @GET("points/pointDetail")
+    Observable<HttpResponse<Monitor>> getMonitor(@Query("id") String id);
+
+    @GET("stations/stationDetail")
+    Observable<HttpResponse<Station>> getStation(@Query("id") String id);
+
+
+
+
+
+
+
+
+
 
     @Multipart
     @POST("jk/uploadPic.htm")
     Call<BaseResult> uploadGoods(@Part MultipartBody.Part file);
 
 
-    @GET("supervisor/login.htm")
-    Call<UserData> login(@Query("vcPhone") String username, @Query("vcPassword") String password);
 
     @GET("visitPlan/findByUserid.htm")
     Call<BaseResult> getPlans(@Query("vcUserid") String uid, @Query("state") Integer state, @Query("stateOpt") String stateOpt, @Query("planTime") String time, @Query("planTimeOpt") String planTimeOpt);

@@ -200,9 +200,11 @@ public class PullRefreshLoadLayout extends LinearLayout implements NestedScrolli
     }
 
     public void loadMoreEnd() {
-        mValueAnimator.setIntValues(getScrollY(), 0);
-        mValueAnimator.start();
-        mLoading = false;
+        if (mLoadMoreEnable) {
+            mValueAnimator.setIntValues(getScrollY(), 0);
+            mValueAnimator.start();
+            mLoading = false;
+        }
     }
 
     @Override

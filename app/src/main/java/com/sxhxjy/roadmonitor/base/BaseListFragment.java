@@ -68,6 +68,7 @@ public abstract class BaseListFragment<I> extends BaseFragment implements SwipeR
     protected RecyclerView.ItemDecoration dividerItemDecoration;
     protected FrameLayout mGlobalContainer;
     protected LinearLayoutManager linearLayoutManager;
+    private PullRefreshLoadLayout mPullRefreshLoadLayout;
 
     @Nullable
     @Override
@@ -96,9 +97,9 @@ public abstract class BaseListFragment<I> extends BaseFragment implements SwipeR
             }
         });
 
-        PullRefreshLoadLayout pullRefreshLoadLayout = (PullRefreshLoadLayout) view.findViewById(R.id.pull_refresh_load_layout);
-        pullRefreshLoadLayout.setOnRefreshListener(this);
-        pullRefreshLoadLayout.setOnLoadMoreListener(this);
+        mPullRefreshLoadLayout = (PullRefreshLoadLayout) view.findViewById(R.id.pull_refresh_load_layout);
+        mPullRefreshLoadLayout.setOnRefreshListener(this);
+        mPullRefreshLoadLayout.setOnLoadMoreListener(this);
 
 
    /*     swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
@@ -177,7 +178,9 @@ public abstract class BaseListFragment<I> extends BaseFragment implements SwipeR
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("test", e.toString());
+                        mPullRefreshLoadLayout.refreshEnd();
+                        mPullRefreshLoadLayout.loadMoreEnd();
+                        showToastMsg("请检查您的网络连接");
 
                     }
 
@@ -186,6 +189,8 @@ public abstract class BaseListFragment<I> extends BaseFragment implements SwipeR
                         mList.clear();
                         mList.addAll(es);
                         mAdapter.notifyDataSetChanged();
+                        mPullRefreshLoadLayout.refreshEnd();
+                        mPullRefreshLoadLayout.loadMoreEnd();
                     }
                 });
 
