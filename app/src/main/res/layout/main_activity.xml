@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <android.support.v4.view.ViewPager android:id="@+id/view_pager"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent" android:layout_above="@+id/nav_footer">
+
+    </android.support.v4.view.ViewPager>
+
+    <View android:layout_width="match_parent" android:layout_height="1px" android:background="@color/default_color"
+          android:layout_above="@+id/nav_footer" android:layout_alignParentLeft="true"
+          android:layout_alignParentStart="true"/>
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:id="@+id/nav_footer"
+            android:layout_width="match_parent"
+            android:layout_height="52dp" android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true">
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" android:layout_weight="1" android:id="@+id/bar0"
+                android:gravity="center">
+            <ImageView
+                    android:id="@+id/imageView_bar0" style="@style/nav_footer_image_view"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="传感器"
+                    android:id="@+id/textView_bar0"
+                    android:textSize="@dimen/nav_footer_text_size"/>
+        </LinearLayout>
+        <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:gravity="center" android:layout_height="fill_parent"
+                      android:layout_weight="1" android:id="@+id/bar1">
+            <ImageView
+                    android:id="@+id/imageView_bar1" style="@style/nav_footer_image_view"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="监测点"
+                    android:id="@+id/textView_bar1"
+                    android:textSize="@dimen/nav_footer_text_size"/>
+        </LinearLayout>
+        <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:gravity="center"
+                      android:layout_height="fill_parent" android:layout_weight="1" android:id="@+id/bar2">
+            <ImageView
+                    android:id="@+id/imageView_bar2" style="@style/nav_footer_image_view"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="警告"
+                    android:id="@+id/textView_bar2"
+                    android:textSize="@dimen/nav_footer_text_size"/>
+        </LinearLayout>
+        <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:gravity="center"
+                      android:layout_height="fill_parent" android:layout_weight="1" android:id="@+id/bar3"
+                      android:visibility="gone">
+            <ImageView
+                    android:id="@+id/imageView_bar3" style="@style/nav_footer_image_view"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="发现"
+                    android:id="@+id/textView_bar3"
+                    android:textSize="@dimen/nav_footer_text_size"/>
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

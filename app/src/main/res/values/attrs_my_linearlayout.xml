@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="MyLinearLayout">
+        <attr name="titleOfMyLinearLayout" format="string"/>
+        <attr name="dividerShowOfMyLinearLayout" format="boolean"/>
+        <attr name="expandedOfMyLinearLayout" format="boolean"/>
+        <attr name="contentOfMyLinearLayout" format="string"/>
+        <attr name="decoratedDrawableOfMyLinearLayout" format="reference"/>
+        <attr name="formNameOfMyLinearLayout" format="reference"/>
+        <attr name="isNumOfMyLinearLayout" format="boolean"/>
+    </declare-styleable>
+</resources>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:id="@+id/global_container"
+    android:animateLayoutChanges="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff">
+
+   <include layout="@layout/toolbar_layout"/>
+
+
+    <!-- A layout maybe needed above the list view, just inflate and add ... -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:id="@+id/above_list">
+    </LinearLayout>
+
+    <!-- When list is empty, you should replace list_container with a fragment -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:id="@+id/list_container"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:layout_height="match_parent">
+
+        <com.sxhxjy.roadmonitor.view.PullRefreshLoadLayout
+            android:layout_width="match_parent"
+            android:id="@+id/pull_refresh_load_layout"
+            android:layout_height="match_parent">
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_weight="100"
+                    android:id="@+id/recycler_view"
+                    android:scrollbars="vertical"
+                    android:background="@color/white"
+                    android:layout_height="match_parent"
+                    >
+                </android.support.v7.widget.RecyclerView>
+
+        </com.sxhxjy.roadmonitor.view.PullRefreshLoadLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:id="@+id/empty_layout"
+            android:visibility="gone"
+            android:background="@color/white"
+            android:layout_height="match_parent" android:layout_gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="暂时没有数据~ ~"
+                android:id="@+id/textView" android:layout_gravity="center"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+                android:textColor="@color/default_text_color"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="点 击 刷 新"
+                android:id="@+id/refresh" android:layout_gravity="center" android:layout_marginTop="30dp"
+                android:textColor="@color/text_view_selector_darker"/>
+        </FrameLayout>
+
+        <FrameLayout android:layout_width="match_parent" android:id="@+id/loading_layout" android:visibility="gone"
+                     android:layout_height="match_parent" android:layout_gravity="center"
+                     android:background="@color/white">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="正在加载..."
+                      android:id="@+id/textView5" android:layout_gravity="center"
+                      android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+                      android:textColor="@color/default_text_color"/>
+        </FrameLayout>
+        <RelativeLayout
+            android:id="@+id/network_error_container"
+                        android:visibility="gone"
+            android:background="@color/white"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView7"
+                android:src="@mipmap/network_error"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/textView52"
+                android:layout_toStartOf="@+id/textView52"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="      请检查您的网络连接..."
+                android:id="@+id/textView52"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="点击屏幕重试"
+                android:id="@+id/textView53"
+                android:layout_below="@+id/imageView7"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="49dp"/>
+        </RelativeLayout>
+    </FrameLayout>
+
+</LinearLayout>

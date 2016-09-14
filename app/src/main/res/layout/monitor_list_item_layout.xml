@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="15dp"
+    android:background="@drawable/gray_white_selector">
+    <com.facebook.drawee.view.SimpleDraweeView
+
+        android:layout_width="60dp"
+        android:src="@color/colorPrimary"
+        android:layout_height="60dp"
+        android:id="@+id/avatar"
+        fresco:fadeDuration="300"
+        fresco:actualImageScaleType="focusCrop"
+        fresco:placeholderImage="@color/colorPrimary"
+        fresco:failureImage="@color/colorPrimary"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="南中环桥监测点"
+        android:id="@+id/title"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/avatar"
+        android:layout_toEndOf="@+id/avatar"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="压力传感器：47mm"
+        android:drawablePadding="3dp"
+        android:id="@+id/location"
+        android:layout_alignLeft="@+id/title"
+        android:layout_alignStart="@+id/title"
+        android:layout_marginLeft="1dp"
+        android:layout_marginTop="10dp"
+        android:layout_alignBottom="@+id/avatar" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/smaller_text_view"
+        android:text="正常"
+        android:id="@+id/status"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/round_rectangle_keycolor"
+        android:padding="3dp"
+        android:textColor="#fff"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="false"
+        android:layout_marginTop="6dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/smaller_text_view"
+        android:text="3天前"
+        android:id="@+id/date"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="false"
+        android:layout_marginTop="6dp"
+        android:layout_alignBottom="@+id/avatar" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="光电传感器"
+        android:id="@+id/textView2"
+        android:visibility="gone"
+        android:layout_toRightOf="@+id/title"
+        android:layout_marginTop="7dp"
+        android:layout_marginLeft="50dp" />
+
+
+</RelativeLayout>
