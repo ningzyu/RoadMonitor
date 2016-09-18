@@ -1,88 +1,178 @@
-{
-    "data": {
-        "content": [
-            {
-                "id": "40288115567df95201567e00a6140002",
-                "name": "光感传感器",
-                "saveTime": 1471248914000,
-                "cstate": 0,
-                "remark": "光感传感器",
-                "cstype": "40288115568d152901568d3f0a4f0001",
-                "priDict": {
-                    "id": "40288115568d152901568d3f0a4f0001",
-                   "word": "device_type",
-                    "code": "1",
-                    "value": "平面值",
-                    "remark": "类似温度这样的平面显示值",
-                   "saveTime": 1471248534000
-                },
-                "unit": "1",
-                "style": null
-            },
-            {
-                "id": "40288115568d152901568d421b9e0003",
-                "name": "温度传感器",
-                "saveTime": 1471248735000,
-                "cstate": 0,
-                "remark": "温度传感器",
-                "cstype": "40288115568d152901568d3f0a4f0001",
-                "priDict": {
-                    "id": "40288115568d152901568d3f0a4f0001",
-                    "word": "device_type",
-                    "code": "1",
-                    "value": "平面值",
-                    "remark": "类似温度这样的平面显示值",
-                    "saveTime": 1471248534000
-                },
-                "unit": "℃",
-                "style": null
-            },
-            {
-                "id": "40288115568d152901568d42566b0004",
-                "name": "湿度传感器",
-                "saveTime": 1471248750000,
-                "cstate": 0,
-                "remark": "湿度传感器",
-                "cstype": "40288115568d152901568d3f0a4f0001",
-                "priDict": {
-                    "id": "40288115568d152901568d3f0a4f0001",
-                    "word": "device_type",
-                    "code": "1",
-                    "value": "平面值",
-                    "remark": "类似温度这样的平面显示值",
-                    "saveTime": 1471248534000
-                },
-                "unit": "RH",
-                "style": null
-            },
-            {
-                "id": "40288115568d80ee01568d97b4a70000",
-                "name": "压力传感器",
-                "saveTime": 1471254344000,
-                "cstate": 0,
-                "remark": "压力传感器",
-                "cstype": "40288115568d152901568d4143120002",
-                "priDict": {
-                    "id": "40288115568d152901568d4143120002",
-                    "word": "device_type",
-                    "code": "2",
-                    "value": "三维立体值",
-                    "remark": "类似于压力这样的，需要x，y，z",
-                    "saveTime": 1471248679000
-                },
-                "unit": "Pa",
-                "style": null
-            }
-        ],
-        "size": 7,
-        "number": 0,
-        "firstPage": true,
-        "lastPage": true,
-        "sort": null,
-        "totalPages": 1,
-        "numberOfElements": 4,
-        "totalElements": 4
-    },
-    "resultCode": "200",
-    "resultMessage": "查询成功"
-}
+    {
+            "id":"4028816456d59b480156d59dc2d40001",
+            "type":null,
+            "level":null,
+            "uid":"",
+            "num":"sxsjtt",
+            "name":"山西省交通运输厅",
+            "description":"山西省交通运输厅",
+            "saveTime":1472463480000,
+            "deleteState":"0",
+            "parentid":"0",
+            "provinceid":"140000",
+            "cityid":"140100",
+            "adCity":Object{...},
+            "adProvince":Object{...},
+            "priRoleList":null,
+            "roleIds":null,
+            "childrenGroup":[
+                {
+                    "id":"4028816456d5a2400156d5aaa38a0000",
+                    "type":null,
+                    "level":null,
+                    "uid":"",
+                    "num":"sxsgsglglj",
+                    "name":"山西省高速公路管理局",
+                    "description":"山西省高速公路管理局",
+                    "saveTime":1472463545000,
+                    "deleteState":"0",
+                    "parentid":"4028816456d59b480156d59dc2d40001",
+                    "provinceid":"140000",
+                    "cityid":"140100",
+                    "adCity":{
+                        "id":140100,
+                        "city":"太原市",
+                        "father":"140000"
+                    },
+                    "adProvince":{
+                        "id":140000,
+                        "province":"山西省"
+                    },
+                    "priRoleList":null,
+                    "roleIds":null,
+                    "childrenGroup":[
+                        {
+                            "id":"4028816456da23dd0156da29ee1c0000",
+                            "type":null,
+                            "level":null,
+                            "uid":"",
+                            "num":"TJGS",
+                            "name":"太旧公司",
+                            "description":"太旧公司",
+                            "saveTime":1472538996000,
+                            "deleteState":"0",
+                            "parentid":"4028816456d5a2400156d5aaa38a0000",
+                            "provinceid":"140000",
+                            "cityid":"140100",
+                            "adCity":{
+                                "id":140100,
+                                "city":"太原市",
+                                "father":"140000"
+                            },
+                            "adProvince":{
+                                "id":140000,
+                                "province":"山西省"
+                            },
+                            "priRoleList":null,
+                            "roleIds":null,
+                            "childrenGroup":[
+                                {
+                                    "id":"4028816456da23dd0156da2d05570003",
+                                    "type":null,
+                                    "level":null,
+                                    "uid":null,
+                                    "num":"TJGSYQ",
+                                    "name":"太旧高速阳泉路段",
+                                    "description":"太旧高速阳泉路段",
+                                    "saveTime":1472539198000,
+                                    "deleteState":"0",
+                                    "parentid":"4028816456da23dd0156da29ee1c0000",
+                                    "provinceid":"140000",
+                                    "cityid":"140100",
+                                    "adCity":{
+                                        "id":140100,
+                                        "city":"太原市",
+                                        "father":"140000"
+                                    },
+                                    "adProvince":{
+                                        "id":140000,
+                                        "province":"山西省"
+                                    },
+                                    "priRoleList":null,
+                                    "roleIds":null,
+                                    "childrenGroup":null
+                                }
+                            ]
+                        },
+                        {
+                            "id":"4028816456da23dd0156da2b59400001",
+                            "type":null,
+                            "level":null,
+                            "uid":"",
+                            "num":"DTGS",
+                            "name":"大同公司",
+                            "description":"大同公司",
+                            "saveTime":1472539089000,
+                            "deleteState":"0",
+                            "parentid":"4028816456d5a2400156d5aaa38a0000",
+                            "provinceid":"140000",
+                            "cityid":"140100",
+                            "adCity":{
+                                "id":140100,
+                                "city":"太原市",
+                                "father":"140000"
+                            },
+                            "adProvince":{
+                                "id":140000,
+                                "province":"山西省"
+                            },
+                            "priRoleList":null,
+                            "roleIds":null,
+                            "childrenGroup":null
+                        },
+                        {
+                            "id":"4028816456da23dd0156da2c64120002",
+                            "type":null,
+                            "level":null,
+                            "uid":"",
+                            "num":"QLGS",
+                            "name":"祁临公司",
+                            "description":"祁临公司",
+                            "saveTime":1472539157000,
+                            "deleteState":"0",
+                            "parentid":"4028816456d5a2400156d5aaa38a0000",
+                            "provinceid":"140000",
+                            "cityid":"140100",
+                            "adCity":{
+                                "id":140100,
+                                "city":"太原市",
+                                "father":"140000"
+                            },
+                            "adProvince":{
+                                "id":140000,
+                                "province":"山西省"
+                            },
+                            "priRoleList":null,
+                            "roleIds":null,
+                            "childrenGroup":null
+                        },
+                        {
+                            "id":"4028816456da23dd0156da9394820009",
+                            "type":null,
+                            "level":null,
+                            "uid":"",
+                            "num":"scsjtt",
+                            "name":"陕西省交通厅",
+                            "description":"陕西省交通厅",
+                            "saveTime":1472545920000,
+                            "deleteState":"0",
+                            "parentid":"4028816456d5a2400156d5aaa38a0000",
+                            "provinceid":"140000",
+                            "cityid":"140100",
+                            "adCity":{
+                                "id":140100,
+                                "city":"太原市",
+                                "father":"140000"
+                            },
+                            "adProvince":{
+                                "id":140000,
+                                "province":"山西省"
+                            },
+                            "priRoleList":null,
+                            "roleIds":null,
+                            "childrenGroup":null
+                        }
+                    ]
+                }
+            ]
+        }

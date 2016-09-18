@@ -1,6 +1,5 @@
 package com.sxhxjy.roadmonitor.base;
 
-import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -8,38 +7,27 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.reflect.TypeToken;
 import com.sxhxjy.roadmonitor.R;
-import com.sxhxjy.roadmonitor.entity.Monitor;
 import com.sxhxjy.roadmonitor.open.DividerItemDecoration;
 import com.sxhxjy.roadmonitor.view.PullRefreshLoadLayout;
 
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -58,9 +46,9 @@ public abstract class BaseListFragment<I> extends BaseFragment implements SwipeR
 
     protected RecyclerView.Adapter mAdapter;
     protected int mPageIndex = 1;
-    protected List<I> mList = new ArrayList<>();
+    protected ArrayList<I> mList = new ArrayList<>();
     protected RelativeLayout mActionBar;
-    public boolean FAKE = true;
+    public boolean FAKE;
     private Gson gson = new Gson();
 
     protected SwipeRefreshLayout swipeRefreshLayout;
@@ -69,6 +57,36 @@ public abstract class BaseListFragment<I> extends BaseFragment implements SwipeR
     protected FrameLayout mGlobalContainer;
     protected LinearLayoutManager linearLayoutManager;
     private PullRefreshLoadLayout mPullRefreshLoadLayout;
+
+    private Func1<HttpResponse<List<I>>, List<I>> func1 = new HttpResponseFunc<>();
+
+    private Subscriber<List<I>> subscriber = new Subscriber<List<I>>() {
+        @Override
+        public void onStart() {
+        }
+
+        @Override
+        public void onCompleted() {
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            Log.e("retrofit", e.toString());
+            mPullRefreshLoadLayout.refreshEnd();
+            mPullRefreshLoadLayout.loadMoreEnd();
+            showToastMsg("请检查您的网络连接");
+
+        }
+
+        @Override
+        public void onNext(List<I> es) {
+            mList.clear();
+            mList.addAll(es);
+            mAdapter.notifyDataSetChanged();
+            mPullRefreshLoadLayout.refreshEnd();
+            mPullRefreshLoadLayout.loadMoreEnd();
+        }
+    };
 
     @Nullable
     @Override
@@ -112,7 +130,7 @@ public abstract class BaseListFragment<I> extends BaseFragment implements SwipeR
         mContainer = (LinearLayout) view.findViewById(R.id.container);
         mGlobalContainer = (FrameLayout) view.findViewById(R.id.list_container);
 
-        initActionBar();
+        init();
         initRecyclerView();
     }
 
@@ -126,14 +144,19 @@ public abstract class BaseListFragment<I> extends BaseFragment implements SwipeR
         mRecyclerView.setAdapter(mAdapter);
 
         if (getObservable() != null) {
-            FAKE = false;
             getMessage();
         } else {
-            FAKE = true;
-            if (MyConstants.IS_DEBUG)
-                Log.e("BaseList", "retrofitCall or itemClass is null, fake data !");
-            for (int i = 0; i < 20; i++)
-                mList.add(newEntity());
+            if (FAKE) {
+                if (MyConstants.IS_DEBUG)
+                    Log.e("BaseList", "Server interface unavailable, fake data !");
+                for (int i = 0; i < 20; i++) {
+                    try {
+                        mList.add(getItemClass().newInstance()); // type erasure
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
         }
 
     }
@@ -141,15 +164,13 @@ public abstract class BaseListFragment<I> extends BaseFragment implements SwipeR
     @Override
     public void onRefresh() {
         mPageIndex = 1;
-        if (!FAKE)
-            getMessage();
+        getMessage();
     }
 
     @Override
     public void onLoadMore() {
         mPageIndex++;
-        if (!FAKE)
-            getMessage();
+        getMessage();
     }
 
     @Override
@@ -159,42 +180,18 @@ public abstract class BaseListFragment<I> extends BaseFragment implements SwipeR
     }
 
     public void getMessage() {
-        if (getObservable() == null) return;
+        if (getObservable() == null) {
+
+            mPullRefreshLoadLayout.refreshEnd();
+            mPullRefreshLoadLayout.loadMoreEnd();
+            return;
+        }
 
         getObservable().subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
-                .map(new HttpResponseFunc<I>())
+                .map(func1)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<I>>() {
-                    @Override
-                    public void onStart() {
-                        Log.e("test", "start");
-                    }
-
-                    @Override
-                    public void onCompleted() {
-                        Log.e("test", "completed");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e("test", e.toString());
-                        mPullRefreshLoadLayout.refreshEnd();
-                        mPullRefreshLoadLayout.loadMoreEnd();
-                        showToastMsg("请检查您的网络连接");
-
-                    }
-
-                    @Override
-                    public void onNext(List<I> es) {
-                        Log.e("test", "onNext");
-                        mList.clear();
-                        mList.addAll(es);
-                        mAdapter.notifyDataSetChanged();
-                        mPullRefreshLoadLayout.refreshEnd();
-                        mPullRefreshLoadLayout.loadMoreEnd();
-                    }
-                });
+                .subscribe(subscriber);
 
 
 
@@ -281,12 +278,6 @@ public abstract class BaseListFragment<I> extends BaseFragment implements SwipeR
         });*/
     }
 
-    protected void injectData() {
-
-    }
-
-
-
     public void showListViewOrEmptyView() {
         if (mList.isEmpty()) {
             mEmptyLayout.setVisibility(View.VISIBLE);
@@ -318,17 +309,13 @@ public abstract class BaseListFragment<I> extends BaseFragment implements SwipeR
      /* Override following method to make subclass have different behavior */
 
 
-    public abstract Observable<HttpResponse<I>> getObservable();
+    public abstract Observable<HttpResponse<List<I>>> getObservable();
 
     protected abstract Class<I> getItemClass();
 
-    protected abstract JsonArray getJsonArray(Response<I> response);
-
-    protected abstract void initActionBar();
+    protected abstract void init();
 
     protected abstract String getCacheKey();
-
-    public abstract I newEntity();
 
     protected abstract RecyclerView.Adapter getAdapter();
 }

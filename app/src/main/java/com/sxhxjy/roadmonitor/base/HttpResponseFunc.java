@@ -11,15 +11,15 @@ import rx.functions.Func1;
  *
  * @author Michael Zhao
  */
-public class HttpResponseFunc<T> implements Func1<HttpResponse<T>, List<T>> {
+public class HttpResponseFunc<T> implements Func1<HttpResponse<T>, T> {
 
     @Override
-    public List<T> call(HttpResponse<T> tHttpResponse) {
+    public T call(HttpResponse<T> tHttpResponse) {
 
         // TODO result code
         if (tHttpResponse != null && tHttpResponse.getResultCode() == 200) {
             Log.d("retrofit", tHttpResponse.toString());
-            return tHttpResponse.getData().getContent();
+            return tHttpResponse.getData();
         } else {
             if (tHttpResponse != null) {
                 Log.e("retrofit", "FAILURE ! msg:" + tHttpResponse.getResultMessage());

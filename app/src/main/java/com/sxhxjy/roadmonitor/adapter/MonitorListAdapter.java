@@ -13,6 +13,7 @@ import com.sxhxjy.roadmonitor.R;
 import com.sxhxjy.roadmonitor.base.BaseFragment;
 import com.sxhxjy.roadmonitor.entity.Monitor;
 import com.sxhxjy.roadmonitor.ui.chart.ChartActivity;
+import com.sxhxjy.roadmonitor.ui.main.StationListActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -60,7 +61,7 @@ public class MonitorListAdapter extends RecyclerView.Adapter<MonitorListAdapter.
         Bundle b = new Bundle();
 //        b.putSerializable("item", mList.get(p));
         Intent intent = new Intent();
-        intent.setClass(mFragment.getActivity(), ChartActivity.class);
+        intent.setClass(mFragment.getActivity(), StationListActivity.class);
         mFragment.startActivity(intent);
     }
 
@@ -70,7 +71,7 @@ public class MonitorListAdapter extends RecyclerView.Adapter<MonitorListAdapter.
 
         public ViewHolder(View itemView) {
             super(itemView);
-            avatar = (ImageView) itemView.findViewById(R.id.avatar);
+//            avatar = (ImageView) itemView.findViewById(R.id.avatar);
             location = (TextView) itemView.findViewById(R.id.location);
             date = (TextView) itemView.findViewById(R.id.date);
             status = (TextView) itemView.findViewById(R.id.status);

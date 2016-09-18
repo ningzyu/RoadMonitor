@@ -2,6 +2,7 @@ package com.sxhxjy.roadmonitor.base;
 
 
 
+import com.sxhxjy.roadmonitor.entity.GroupTree;
 import com.sxhxjy.roadmonitor.entity.Monitor;
 import com.sxhxjy.roadmonitor.entity.Station;
 
@@ -37,28 +38,27 @@ public interface HttpService {
     /////////////////////////////////////////////////////////////////////////
     ////  general
     /////////////////////////////////////////////////////////////////////////
+
+//    @FormUrlEncoded
+//    @POST("stations/findPointByStationId")
+@GET("stations/findPointByStationId")
+    Observable<HttpResponse<List<Monitor>>> getMonitors(@Query("stationId") String stationId);
+
+    @POST("stations/findStationByGroupId")
     @FormUrlEncoded
-    @POST("points/pointList")
-    Observable<HttpResponse<Monitor>> getMonitors(@Field("pageNumber") int pageIndex, @Field("pageSize") int pageSize, @Field("name") String name);
-//    @GET("points/allPointList")
-//    Observable<HttpResponse<List<Monitor>>> getMonitors(@Query("pageNumber") int pageIndex, @Query("pageSize") int pageSize, @Query("name") String name);
+    Observable<HttpResponse<Station>> getStations(@Field("groupId") String groupId);
 
 
-    @POST("stations/stationList")
-    @FormUrlEncoded
-    Observable<HttpResponse<Station>> getStations(@Field("pageNumber") int pageIndex, @Field("pageSize") int pageSize, @Field("name") String name);
+    @GET("userGroup/userGroupTreeList")
+    Observable<HttpResponse<List<GroupTree>>> getGroups();
+
+
 
 
 
 
     @GET("points/pointDetail")
     Observable<HttpResponse<Monitor>> getMonitor(@Query("id") String id);
-
-    @GET("stations/stationDetail")
-    Observable<HttpResponse<Station>> getStation(@Query("id") String id);
-
-
-
 
 
 

@@ -2,6 +2,8 @@ package com.sxhxjy.roadmonitor.base;
 
 import com.sxhxjy.roadmonitor.entity.Data;
 
+import java.util.List;
+
 /**
  * 2016/9/13
  *
@@ -11,7 +13,7 @@ public class HttpResponse<T> {
     private int resultCode;
     private String resultMessage;
 
-    private Data<T> data;
+    private T data;
 
     public int getResultCode() {
         return resultCode;
@@ -29,11 +31,11 @@ public class HttpResponse<T> {
         this.resultMessage = resultMessage;
     }
 
-    public Data<T> getData() {
+    public T getData() {
         return data;
     }
 
-    public void setData(Data<T> data) {
+    public void setData(T data) {
         this.data = data;
     }
 }

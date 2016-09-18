@@ -42,7 +42,7 @@ public class ChartActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chart_activity);
-        initToolBar("图表");
+
         lineChart = (LineChart) findViewById(R.id.line_chart);
         pieChart = (PieChart) findViewById(R.id.pie_chart);
         assert lineChart != null;

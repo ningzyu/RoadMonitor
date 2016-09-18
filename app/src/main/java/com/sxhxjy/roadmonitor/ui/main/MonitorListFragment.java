@@ -1,6 +1,7 @@
 package com.sxhxjy.roadmonitor.ui.main;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 
 import com.google.gson.JsonArray;
@@ -23,9 +24,10 @@ import rx.Observable;
  */
 public class MonitorListFragment extends BaseListFragment<Monitor> {
 
+
     @Override
-    public Observable<HttpResponse<Monitor>> getObservable() {
-        return getHttpService().getMonitors(mPageIndex, PAGE_SIZE, "");
+    public Observable<HttpResponse<List<Monitor>>> getObservable() {
+        return getHttpService().getMonitors("40288164568be6a401568bf1e5100000");
     }
 
     @Override
@@ -33,14 +35,11 @@ public class MonitorListFragment extends BaseListFragment<Monitor> {
         return null;
     }
 
-    @Override
-    protected JsonArray getJsonArray(Response<Monitor> response) {
-        return null;
-    }
 
     @Override
-    protected void initActionBar() {
-        initToolBar(getView(), "传感器");
+    protected void init() {
+        initToolBar(getView(), "传感器", false);
+
     }
 
     @Override
@@ -49,12 +48,13 @@ public class MonitorListFragment extends BaseListFragment<Monitor> {
     }
 
     @Override
-    public Monitor newEntity() {
-        return null;
+    protected RecyclerView.Adapter getAdapter() {
+        return new MonitorListAdapter(this, mList);
     }
 
     @Override
-    protected RecyclerView.Adapter getAdapter() {
-        return new MonitorListAdapter(this, mList);
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
     }
 }
