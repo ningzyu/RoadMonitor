@@ -163,7 +163,7 @@ public abstract class BaseListFragment<I> extends BaseFragment implements SwipeR
 
         getObservable().subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
-                .map(new HttpResponseFunc<List<I>>())
+                .map(new HttpResponseFunc<I>())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<I>>() {
                     @Override
@@ -178,6 +178,7 @@ public abstract class BaseListFragment<I> extends BaseFragment implements SwipeR
 
                     @Override
                     public void onError(Throwable e) {
+                        Log.e("test", e.toString());
                         mPullRefreshLoadLayout.refreshEnd();
                         mPullRefreshLoadLayout.loadMoreEnd();
                         showToastMsg("请检查您的网络连接");
@@ -186,6 +187,7 @@ public abstract class BaseListFragment<I> extends BaseFragment implements SwipeR
 
                     @Override
                     public void onNext(List<I> es) {
+                        Log.e("test", "onNext");
                         mList.clear();
                         mList.addAll(es);
                         mAdapter.notifyDataSetChanged();
@@ -316,7 +318,7 @@ public abstract class BaseListFragment<I> extends BaseFragment implements SwipeR
      /* Override following method to make subclass have different behavior */
 
 
-    public abstract Observable<HttpResponse<List<I>>> getObservable();
+    public abstract Observable<HttpResponse<I>> getObservable();
 
     protected abstract Class<I> getItemClass();
 

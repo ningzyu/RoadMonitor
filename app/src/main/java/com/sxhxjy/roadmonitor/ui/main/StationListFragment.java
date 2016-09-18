@@ -1,46 +1,42 @@
 package com.sxhxjy.roadmonitor.ui.main;
 
-import android.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 
 import com.google.gson.JsonArray;
 import com.sxhxjy.roadmonitor.adapter.MonitorListAdapter;
-import com.sxhxjy.roadmonitor.base.BaseEntity;
+import com.sxhxjy.roadmonitor.adapter.StationListAdapter;
 import com.sxhxjy.roadmonitor.base.BaseListFragment;
 import com.sxhxjy.roadmonitor.base.HttpResponse;
-import com.sxhxjy.roadmonitor.entity.Monitor;
+import com.sxhxjy.roadmonitor.entity.Station;
 
-import java.util.List;
-
-import retrofit2.Call;
 import retrofit2.Response;
 import rx.Observable;
 
 /**
- * 2016/9/10
+ * 2016/9/18
  *
  * @author Michael Zhao
  */
-public class MonitorListFragment extends BaseListFragment<Monitor> {
+public class StationListFragment extends BaseListFragment<Station> {
 
     @Override
-    public Observable<HttpResponse<Monitor>> getObservable() {
-        return getHttpService().getMonitors(mPageIndex, PAGE_SIZE, "");
+    public Observable<HttpResponse<Station>> getObservable() {
+        return getHttpService().getStations(mPageIndex, PAGE_SIZE, "");
     }
 
     @Override
-    protected Class<Monitor> getItemClass() {
+    protected Class<Station> getItemClass() {
         return null;
     }
 
     @Override
-    protected JsonArray getJsonArray(Response<Monitor> response) {
+    protected JsonArray getJsonArray(Response<Station> response) {
         return null;
     }
 
     @Override
     protected void initActionBar() {
-        initToolBar(getView(), "传感器");
+        initToolBar(getView(), "监测点");
     }
 
     @Override
@@ -49,12 +45,12 @@ public class MonitorListFragment extends BaseListFragment<Monitor> {
     }
 
     @Override
-    public Monitor newEntity() {
+    public Station newEntity() {
         return null;
     }
 
     @Override
     protected RecyclerView.Adapter getAdapter() {
-        return new MonitorListAdapter(this, mList);
+        return new StationListAdapter(this, mList);
     }
 }

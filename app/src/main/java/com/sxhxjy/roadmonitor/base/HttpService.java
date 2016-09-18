@@ -37,14 +37,16 @@ public interface HttpService {
     /////////////////////////////////////////////////////////////////////////
     ////  general
     /////////////////////////////////////////////////////////////////////////
-//    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
-//    @POST("points/pointList")
-//    Observable<HttpResponse<List<Monitor>>> getMonitors(@Body RequestBody route);
-    @GET("points/allPointList")
-    Observable<HttpResponse<List<Monitor>>> getMonitors(@Query("pageNumber") int pageIndex, @Query("pageSize") int pageSize, @Query("name") String name);
+    @FormUrlEncoded
+    @POST("points/pointList")
+    Observable<HttpResponse<Monitor>> getMonitors(@Field("pageNumber") int pageIndex, @Field("pageSize") int pageSize, @Field("name") String name);
+//    @GET("points/allPointList")
+//    Observable<HttpResponse<List<Monitor>>> getMonitors(@Query("pageNumber") int pageIndex, @Query("pageSize") int pageSize, @Query("name") String name);
 
 
-//    @POST("stations/stationList")
+    @POST("stations/stationList")
+    @FormUrlEncoded
+    Observable<HttpResponse<Station>> getStations(@Field("pageNumber") int pageIndex, @Field("pageSize") int pageSize, @Field("name") String name);
 
 
 

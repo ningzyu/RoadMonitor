@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.sxhxjy.roadmonitor.R;
 import com.sxhxjy.roadmonitor.base.BaseFragment;
-import com.sxhxjy.roadmonitor.entity.Monitor;
+import com.sxhxjy.roadmonitor.entity.Station;
 import com.sxhxjy.roadmonitor.ui.chart.ChartActivity;
 
 import java.text.SimpleDateFormat;
@@ -20,16 +20,15 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * 2016/9/10
+ * 2016/9/18
  *
  * @author Michael Zhao
  */
-public class MonitorListAdapter extends RecyclerView.Adapter<MonitorListAdapter.ViewHolder> implements View.OnClickListener {
+public class StationListAdapter extends RecyclerView.Adapter<StationListAdapter.ViewHolder> implements View.OnClickListener {
 
-
-    private List<Monitor> mList;
+    private List<Station> mList;
     private BaseFragment mFragment;
-    public MonitorListAdapter(BaseFragment fragment, List<Monitor> list) {
+    public StationListAdapter(BaseFragment fragment, List<Station> list) {
         mList = list;
         mFragment = fragment;
     }
