@@ -43,8 +43,6 @@ import rx.Observable;
  */
 public class ChartActivity extends BaseActivity {
 
-    private LineChart lineChart;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,91 +58,6 @@ public class ChartActivity extends BaseActivity {
 
         getFragmentManager().beginTransaction()
                 .add(R.id.container, f).commit();
-
-
-
-        lineChart = (LineChart) findViewById(R.id.line_chart);
-        assert lineChart != null;
-
-        lineChart.setDescription("fans line chart");
-        lineChart.setDescriptionColor(getResources().getColor(R.color.colorPrimary));
-        lineChart.setScaleEnabled(false);
-
-
-        XAxis xAxis = lineChart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setDrawGridLines(false);
-
-        YAxis yAxis = lineChart.getAxisLeft();
-
-        yAxis.setDrawZeroLine(true);
-        yAxis.setDrawGridLines(false);
-        yAxis.setAxisMaxValue(100f);
-        yAxis.setLabelCount(11, false);
-
-        lineChart.getAxisRight().setEnabled(false);
-
-        ArrayList<Entry> valsFans1 = new ArrayList<Entry>();
-        Entry f1e1 = new Entry(50f, 0);
-        Entry f1e2 = new Entry(90.000f, 1);
-        Entry f1e3 = new Entry(30.000f, 2);
-        Entry f1e4 = new Entry(60.000f, 3);
-        valsFans1.add(f1e1);
-        valsFans1.add(f1e2);
-        valsFans1.add(f1e3);
-        valsFans1.add(f1e4);
-
-        ArrayList<Entry> valsFans2 = new ArrayList<Entry>();
-        Entry f2e1 = new Entry(20f, 0);
-        Entry f2e2 = new Entry(60.000f, 1);
-        Entry f2e3 = new Entry(70.000f, 2);
-        Entry f2e4 = new Entry(40.000f, 3);
-        valsFans2.add(f2e1);
-        valsFans2.add(f2e2);
-        valsFans2.add(f2e3);
-        valsFans2.add(f2e4);
-
-        final LineDataSet setFans1 = new LineDataSet(valsFans1, "fans one");
-        setFans1.setCubicIntensity(0.5f);
-        setFans1.setColor(Color.MAGENTA);
-        setFans1.setAxisDependency(YAxis.AxisDependency.LEFT);
-        setFans1.setDrawCubic(false);
-//        setFans1.setDrawFilled(true);
-
-      /*  CountDownTimer countDownTimer = new CountDownTimer(5000, 1000) {
-            int i = 0;
-
-            @Override
-            public void onTick(long millisUntilFinished) {
-
-                setFans1.addEntry(new Entry(20f + i * 10, i++));
-                lineChart.invalidate();
-            }
-
-            @Override
-            public void onFinish() {
-
-            }
-        }.start();*/
-
-
-        LineDataSet setFans2 = new LineDataSet(valsFans2, "fans two");
-        setFans2.setAxisDependency(YAxis.AxisDependency.LEFT);
-        setFans2.setColor(Color.YELLOW);
-        setFans2.setDrawFilled(true);
-        setFans2.setFillAlpha(100);
-//        setFans2.setFillColor(Color.GREEN);
-
-        ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
-        dataSets.add(setFans1);
-        dataSets.add(setFans2);
-
-        ArrayList<String> xVals = new ArrayList<String>();
-        xVals.add("1.Q"); xVals.add("2.Q"); xVals.add("3.Q"); xVals.add("4.Q");
-
-        LineData data = new LineData(xVals, dataSets);
-        lineChart.setData(data);
-        lineChart.invalidate();
 
 
     }
