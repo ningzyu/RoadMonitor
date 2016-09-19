@@ -61,8 +61,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         initView();
 
         fragments.add(new MonitorListFragment());
-        fragments.add(new MonitorListFragment());
-        fragments.add(new MonitorListFragment());
+        fragments.add(new AlertFragment());
+        fragments.add(new AlertFragment());
 
         mViewPager.setOffscreenPageLimit(FRAGMENTS_IN_VIEW_PAGER);
         mViewPager.addOnPageChangeListener(this);

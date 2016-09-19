@@ -30,6 +30,7 @@ import rx.Observable;
  */
 public class MonitorListFragment extends BaseListFragment<Monitor> {
     private String stationId = "40288164568be6a401568bf1e5100000";
+    private TextView mTextViewRight;
 
 
     @Override
@@ -46,9 +47,9 @@ public class MonitorListFragment extends BaseListFragment<Monitor> {
     @Override
     protected void init() {
         initToolBar(getView(), "传感器", false);
-        TextView textViewRight = (TextView) getView().findViewById(R.id.toolbar_right);
-        textViewRight.setText("组织");
-        textViewRight.setOnClickListener(new View.OnClickListener() {
+        mTextViewRight = (TextView) getView().findViewById(R.id.toolbar_right);
+        mTextViewRight.setText("组织");
+        mTextViewRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), StationListActivity.class);
@@ -73,8 +74,8 @@ public class MonitorListFragment extends BaseListFragment<Monitor> {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == StationListActivity.REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             stationId = data.getStringExtra("stationId");
+            mTextViewRight.setText(data.getStringExtra("stationName"));
             mPullRefreshLoadLayout.refreshBegin();
-            onRefresh();
         }
 
     }

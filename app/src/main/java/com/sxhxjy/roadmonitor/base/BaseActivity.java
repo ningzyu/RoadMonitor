@@ -24,6 +24,28 @@ public class BaseActivity extends AppCompatActivity {
     private ProgressDialog mProgressDialog;
     protected Toolbar mToolbar;
 
+    public void initToolBar(String title, boolean canBack) {
+        mToolbar = (Toolbar) findViewById(R.id.tool_bar);
+        if (mToolbar != null) {
+            mToolbar.setVisibility(View.VISIBLE);
+            mToolbar.setBackgroundResource(R.color.colorPrimary);
+            TextView mTitle = (TextView) mToolbar.findViewById(R.id.toolbar_title);
+            mToolbar.setTitleTextColor(getResources().getColor(R.color.white));
+            if (title != null && mTitle != null) mTitle.setText(title);
+            mToolbar.setTitle("");
+            if (canBack) {
+                mToolbar.setNavigationIcon(R.mipmap.navigation_icon);
+                mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onBackPressed();
+                    }
+                });
+            }
+
+        }
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

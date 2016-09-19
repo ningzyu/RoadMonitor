@@ -189,9 +189,35 @@ public abstract class BaseListFragment<I> extends BaseFragment implements SwipeR
 
         getObservable().subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
-                .map(func1)
+                .map(new HttpResponseFunc<List<I>>())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subscriber);
+                .subscribe(new Subscriber<List<I>>() {
+                    @Override
+                    public void onStart() {
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("retrofit", e.toString());
+                        mPullRefreshLoadLayout.refreshEnd();
+                        mPullRefreshLoadLayout.loadMoreEnd();
+                        showToastMsg("请检查您的网络连接");
+
+                    }
+
+                    @Override
+                    public void onNext(List<I> es) {
+                        mList.clear();
+                        mList.addAll(es);
+                        mAdapter.notifyDataSetChanged();
+                        mPullRefreshLoadLayout.refreshEnd();
+                        mPullRefreshLoadLayout.loadMoreEnd();
+                    }
+                });
 
 
 

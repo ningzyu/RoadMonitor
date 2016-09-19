@@ -4,6 +4,7 @@ package com.sxhxjy.roadmonitor.base;
 
 import com.sxhxjy.roadmonitor.entity.GroupTree;
 import com.sxhxjy.roadmonitor.entity.Monitor;
+import com.sxhxjy.roadmonitor.entity.RealTimeData;
 import com.sxhxjy.roadmonitor.entity.Station;
 
 import java.util.List;
@@ -54,7 +55,8 @@ public interface HttpService {
 
 
 
-
+    @GET("sensorDataValue/dataList")
+    Observable<HttpResponse<List<RealTimeData>>> getRealTimeData(@Query("cid") String monitorId, @Query("beforeTime") String start, @Query("afterTime") String end);
 
 
     @GET("points/pointDetail")

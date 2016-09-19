@@ -98,6 +98,7 @@ public class StationListActivity extends BaseActivity {
         protected void init() {
             initToolBar(getView(), "选择监测点", true);
             getMessage();
+            mPullRefreshLoadLayout.enableRefresh(false);
         }
 
         @Override

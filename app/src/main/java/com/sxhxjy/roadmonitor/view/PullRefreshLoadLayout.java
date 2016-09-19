@@ -204,6 +204,14 @@ public class PullRefreshLoadLayout extends LinearLayout implements NestedScrolli
         mOnRefreshListener.onRefresh();
     }
 
+    public void enableRefresh(boolean enable) {
+        mRefreshEnable = enable;
+    }
+
+    public void enableLoadMore(boolean enable) {
+        mLoadMoreEnable = enable;
+    }
+
 
     public void loadMoreEnd() {
         if (mLoadMoreEnable) {

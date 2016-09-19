@@ -1,10 +1,12 @@
 package com.sxhxjy.roadmonitor.ui.chart;
 
+import android.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -22,11 +24,17 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.sxhxjy.roadmonitor.R;
+import com.sxhxjy.roadmonitor.adapter.RealTimeDataListAdapter;
 import com.sxhxjy.roadmonitor.base.BaseActivity;
+import com.sxhxjy.roadmonitor.base.BaseListFragment;
+import com.sxhxjy.roadmonitor.base.HttpResponse;
+import com.sxhxjy.roadmonitor.entity.RealTimeData;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
+
+import rx.Observable;
 
 /**
  * 2016/5/11
@@ -36,25 +44,31 @@ import java.util.Timer;
 public class ChartActivity extends BaseActivity {
 
     private LineChart lineChart;
-    private PieChart pieChart;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chart_activity);
+        initToolBar("实时数据", true);
+
+
+        Fragment f = new RealTimeDataListFragment();
+        String monitorId = getIntent().getStringExtra("monitorId");
+        Bundle bundle = new Bundle();
+        bundle.putString("monitorId", monitorId);
+        f.setArguments(bundle);
+
+        getFragmentManager().beginTransaction()
+                .add(R.id.container, f).commit();
+
+
 
         lineChart = (LineChart) findViewById(R.id.line_chart);
-        pieChart = (PieChart) findViewById(R.id.pie_chart);
         assert lineChart != null;
-        assert pieChart != null;
 
         lineChart.setDescription("fans line chart");
         lineChart.setDescriptionColor(getResources().getColor(R.color.colorPrimary));
         lineChart.setScaleEnabled(false);
-
-
-        pieChart.setDescriptionColor(getResources().getColor(R.color.colorPrimary));
-        pieChart.setDescription("fans pie chart");
 
 
         XAxis xAxis = lineChart.getXAxis();
@@ -133,22 +147,33 @@ public class ChartActivity extends BaseActivity {
         lineChart.invalidate();
 
 
-        List<Entry> pieValsFans = new ArrayList<>();
-        pieValsFans.add(new Entry(10, 0));
-        pieValsFans.add(new Entry(25, 1));
-        pieValsFans.add(new Entry(35, 2));
-        pieValsFans.add(new Entry(30, 3));
+    }
 
-        PieDataSet pieDataSet = new PieDataSet(pieValsFans, "fans percent");
-        pieDataSet.setColors(ColorTemplate.JOYFUL_COLORS);
-        pieDataSet.setSliceSpace(3);
-        pieDataSet.setValueFormatter(new PercentFormatter());
+    public static class RealTimeDataListFragment extends BaseListFragment<RealTimeData> {
 
+        @Override
+        public Observable<HttpResponse<List<RealTimeData>>> getObservable() {
+            return getHttpService().getRealTimeData(getArguments().getString("monitorId"), "2016-08-01 08:00:00", "2016-08-31 23:00:00");
+        }
 
-        PieData pieData = new PieData(xVals, pieDataSet);
-        pieChart.setData(pieData);
-        pieChart.invalidate();
+        @Override
+        protected Class<RealTimeData> getItemClass() {
+            return null;
+        }
 
+        @Override
+        protected void init() {
 
+        }
+
+        @Override
+        protected String getCacheKey() {
+            return null;
+        }
+
+        @Override
+        protected RecyclerView.Adapter getAdapter() {
+            return new RealTimeDataListAdapter(this, mList);
+        }
     }
 }

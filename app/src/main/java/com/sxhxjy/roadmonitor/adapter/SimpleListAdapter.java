@@ -79,6 +79,7 @@ public class SimpleListAdapter extends RecyclerView.Adapter<SimpleListAdapter.Vi
         if (isStation) {
             Intent intent = new Intent();
             intent.putExtra("stationId", mList.get(p).getId());
+            intent.putExtra("stationName", mList.get(p).getTitle());
             mFragment.getActivity().setResult(Activity.RESULT_OK, intent);
             mFragment.getActivity().finish();
         }
