@@ -4,6 +4,9 @@
     android:layout_height="match_parent">
   <include layout="@layout/toolbar_layout"/>
 
+  <com.sxhxjy.roadmonitor.view.LineChartView
+      android:layout_width="match_parent"
+      android:layout_height="300dp" />
     <com.github.mikephil.charting.charts.LineChart
         android:layout_width="match_parent"
         android:id="@+id/line_chart"

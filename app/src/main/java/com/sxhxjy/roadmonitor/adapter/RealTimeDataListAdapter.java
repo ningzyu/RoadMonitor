@@ -38,10 +38,6 @@ public class RealTimeDataListAdapter extends RecyclerView.Adapter<RealTimeDataLi
     public void onClick(View v) {
         int p = (int) v.getTag();
 
-        Intent intent = new Intent();
-        intent.putExtra("monitorId", mList.get(p).id);
-        intent.setClass(mFragment.getActivity(), ChartActivity.class);
-        mFragment.startActivity(intent);
     }
 
     @Override
