@@ -56,7 +56,7 @@ public abstract class BaseListFragment<I> extends BaseFragment implements SwipeR
     protected RecyclerView.ItemDecoration dividerItemDecoration;
     protected FrameLayout mGlobalContainer;
     protected LinearLayoutManager linearLayoutManager;
-    private PullRefreshLoadLayout mPullRefreshLoadLayout;
+    protected PullRefreshLoadLayout mPullRefreshLoadLayout;
 
     private Func1<HttpResponse<List<I>>, List<I>> func1 = new HttpResponseFunc<>();
 

@@ -111,11 +111,7 @@ public class PullRefreshLoadLayout extends LinearLayout implements NestedScrolli
                 mValueAnimator.setIntValues(getScrollY(), -mRefreshLayoutHeight);
                 if (!mRefreshing && mOnRefreshListener != null) {
                     mRefreshing = true;
-                    mTextView.setText("正在刷新...");
-                    mProgressBar.setVisibility(VISIBLE);
-                    mArrow.setVisibility(GONE);
-                    mLoading = false;
-                    mOnRefreshListener.onRefresh();
+                    setOnRefresh();
                 }
             } else { // pull up
                 mValueAnimator.setIntValues(getScrollY(), mLoadMoreLayoutHeight);
@@ -197,7 +193,17 @@ public class PullRefreshLoadLayout extends LinearLayout implements NestedScrolli
         mValueAnimator.setIntValues(getScrollY(), - mRefreshLayoutHeight);
         mValueAnimator.start();
         mRefreshing = true;
+        setOnRefresh();
     }
+
+    private void setOnRefresh() {
+        mTextView.setText("正在刷新...");
+        mProgressBar.setVisibility(VISIBLE);
+        mArrow.setVisibility(GONE);
+        mLoading = false;
+        mOnRefreshListener.onRefresh();
+    }
+
 
     public void loadMoreEnd() {
         if (mLoadMoreEnable) {

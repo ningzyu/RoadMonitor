@@ -1,7 +1,6 @@
 package com.sxhxjy.roadmonitor.ui.main;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 
@@ -12,7 +11,6 @@ import com.sxhxjy.roadmonitor.base.BaseListFragment;
 import com.sxhxjy.roadmonitor.base.HttpResponse;
 import com.sxhxjy.roadmonitor.entity.GroupTree;
 import com.sxhxjy.roadmonitor.entity.SimpleItem;
-import com.sxhxjy.roadmonitor.entity.Station;
 
 import java.util.List;
 
@@ -28,6 +26,8 @@ import rx.schedulers.Schedulers;
  * @author Michael Zhao
  */
 public class StationListActivity extends BaseActivity {
+    public static final int REQUEST_CODE = 47;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,8 +50,6 @@ public class StationListActivity extends BaseActivity {
      * @author Michael Zhao
      */
     public static class StationListFragment extends BaseListFragment<SimpleItem> {
-        private List<GroupTree> mGroupTrees;
-
 
         @Override
         public Observable<HttpResponse<List<SimpleItem>>> getObservable() {
@@ -82,12 +80,13 @@ public class StationListActivity extends BaseActivity {
 
                         @Override
                         public void onNext(List<GroupTree> groupTrees) {
-                            mGroupTrees = groupTrees;
-                            ((SimpleListAdapter)getAdapter()).foo();
-                            getAdapter().notifyDataSetChanged();
+                            ((SimpleListAdapter) mAdapter).inject(groupTrees);
+                            mAdapter.notifyDataSetChanged();
                         }
                     });
         }
+
+
 
         @Override
         protected Class<SimpleItem> getItemClass() {
@@ -98,7 +97,7 @@ public class StationListActivity extends BaseActivity {
         @Override
         protected void init() {
             initToolBar(getView(), "选择监测点", true);
-
+            getMessage();
         }
 
         @Override
@@ -108,7 +107,7 @@ public class StationListActivity extends BaseActivity {
 
         @Override
         protected RecyclerView.Adapter getAdapter() {
-            return new SimpleListAdapter(this, mGroupTrees);
+            return new SimpleListAdapter(this);
         }
     }
 }

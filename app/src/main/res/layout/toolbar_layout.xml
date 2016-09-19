@@ -20,6 +20,15 @@
                 android:textSize="20sp"
                 android:layout_gravity="center"
                 android:id="@+id/toolbar_title" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_view_selector"
+                android:textSize="17sp"
+                android:layout_margin="10dp"
+                android:layout_gravity="right"
+                android:id="@+id/toolbar_right" />
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
 </LinearLayout>

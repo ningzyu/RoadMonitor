@@ -44,9 +44,9 @@ public interface HttpService {
 @GET("stations/findPointByStationId")
     Observable<HttpResponse<List<Monitor>>> getMonitors(@Query("stationId") String stationId);
 
-    @POST("stations/findStationByGroupId")
-    @FormUrlEncoded
-    Observable<HttpResponse<Station>> getStations(@Field("groupId") String groupId);
+    @GET("stations/findStationByGroupId")
+//    @FormUrlEncoded
+    Observable<HttpResponse<List<Station>>> getStations(@Query("groupId") String groupId);
 
 
     @GET("userGroup/userGroupTreeList")

@@ -61,7 +61,7 @@ public class MonitorListAdapter extends RecyclerView.Adapter<MonitorListAdapter.
         Bundle b = new Bundle();
 //        b.putSerializable("item", mList.get(p));
         Intent intent = new Intent();
-        intent.setClass(mFragment.getActivity(), StationListActivity.class);
+        intent.setClass(mFragment.getActivity(), ChartActivity.class);
         mFragment.startActivity(intent);
     }
 
