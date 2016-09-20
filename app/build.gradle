@@ -36,4 +36,5 @@ dependencies {
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
     compile files('libs/fastjson-1.2.6.jar')
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha7'
 }
