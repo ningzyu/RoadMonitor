@@ -2,8 +2,14 @@ package com.sxhxjy.roadmonitor.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.DashPathEffect;
 import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.PathDashPathEffect;
+import android.graphics.PathEffect;
 import android.graphics.Point;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.os.CountDownTimer;
 import android.util.AttributeSet;
 import android.view.View;
@@ -25,6 +31,7 @@ public class LineChartView extends View {
     private static final int DELAY = 500;
     private static final int POINTS_COUNT = 21;
     private static final float OFFSET = 60;
+    private static final int ALERT_VALUE = 80;
     private Random mRandom = new Random(47);
     private int xAxisLength, yAxisLength;
     private long xStart, xEnd;
@@ -32,6 +39,11 @@ public class LineChartView extends View {
     private float firstPointX, nextPointX, firstPointY, nextPointY;
 
     private Paint mPaint;
+    private Path mPath = new Path();
+    private PorterDuffXfermode xfermode = new PorterDuffXfermode(PorterDuff.Mode.DST_OVER);
+
+    private PathEffect mPathEffect = new DashPathEffect(new float[] {8, 8}, 0);
+
 
     private List<MyPoint> mList = new ArrayList<>(POINTS_COUNT);
 
@@ -40,7 +52,7 @@ public class LineChartView extends View {
     public LineChartView(Context context, AttributeSet attrs) {
         super(context, attrs);
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-
+        mPath.setFillType(Path.FillType.WINDING);
         new CountDownTimer(1000000, DELAY) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -77,25 +89,52 @@ public class LineChartView extends View {
 //        yStart = (int) Collections.min(mList, comparatorY).value;
         yStart = 0;
 
+
+
         // draw point and line
         mPaint.setStrokeCap(Paint.Cap.ROUND);
+        mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setColor(getResources().getColor(R.color.colorPrimary));
-        mPaint.setStrokeWidth(10);
         for (MyPoint myPoint : mList) {
             firstPointX = nextPointX;
             firstPointY = nextPointY;
             nextPointX = (float) (((double)(myPoint.time - xStart)) / (xEnd - xStart) * xAxisLength);
             nextPointY = - (float) (((double)(myPoint.value - yStart)) / (yEnd - yStart) * yAxisLength);
-            canvas.drawPoint(nextPointX, nextPointY, mPaint);
-            if (mList.indexOf(myPoint) != 0) // do not draw line when draw first point !
-                 canvas.drawLine(firstPointX, firstPointY, nextPointX, nextPointY, mPaint);
-        }
-        // draw axis
 
+            mPaint.setColor(getResources().getColor(R.color.colorPrimary));
+            mPaint.setStrokeWidth(10);
+//            mPaint.setXfermode(xfermode);
+
+            if (mList.indexOf(myPoint) != 0) // do not draw line when draw first point !
+                canvas.drawLine(firstPointX, firstPointY, nextPointX, nextPointY, mPaint);
+
+            mPaint.setStrokeWidth(20);
+
+            if (myPoint.value > ALERT_VALUE) {
+                mPaint.setColor(getResources().getColor(android.R.color.holo_red_light));
+            } else {
+                mPaint.setColor(getResources().getColor(R.color.colorPrimary));
+            }
+
+            canvas.drawPoint(nextPointX, nextPointY, mPaint);
+
+        }
+
+        // draw axis
         mPaint.setColor(getResources().getColor(R.color.default_color));
         mPaint.setStrokeWidth(2);
         canvas.drawLine(0, 0, 0, - yAxisLength, mPaint);
         canvas.drawLine(0, 0, xAxisLength, 0, mPaint);
+
+
+        // draw alert line
+        mPaint.setColor(getResources().getColor(android.R.color.holo_red_light));
+        mPaint.setPathEffect(mPathEffect);
+        mPath.reset();
+        float alertY = - (float) (((double)(ALERT_VALUE - yStart)) / (yEnd - yStart) * yAxisLength);
+        mPath.moveTo(0, alertY);
+        mPath.lineTo(xAxisLength, alertY);
+        canvas.drawPath(mPath, mPaint);
 
     }
     private Comparator<MyPoint> comparatorX =  new Comparator<MyPoint>() {
