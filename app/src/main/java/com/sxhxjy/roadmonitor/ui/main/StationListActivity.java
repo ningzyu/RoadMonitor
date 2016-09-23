@@ -4,12 +4,15 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 
+import com.google.gson.Gson;
 import com.sxhxjy.roadmonitor.R;
 import com.sxhxjy.roadmonitor.adapter.SimpleListAdapter;
 import com.sxhxjy.roadmonitor.base.BaseActivity;
 import com.sxhxjy.roadmonitor.base.BaseListFragment;
+import com.sxhxjy.roadmonitor.base.CacheManager;
 import com.sxhxjy.roadmonitor.base.HttpResponse;
 import com.sxhxjy.roadmonitor.entity.GroupTree;
+import com.sxhxjy.roadmonitor.entity.LoginData;
 import com.sxhxjy.roadmonitor.entity.SimpleItem;
 
 import java.util.List;
@@ -58,7 +61,7 @@ public class StationListActivity extends BaseActivity {
 
         @Override
         public void getMessage() {
-            getHttpService().getGroups().subscribeOn(Schedulers.io())
+            getHttpService().getGroups(new Gson().fromJson(CacheManager.getInstance().get("login"), LoginData.class).getGid()).subscribeOn(Schedulers.io())
                     .unsubscribeOn(Schedulers.io())
                     .map(new Func1<HttpResponse<List<GroupTree>>, List<GroupTree>>() {
                         @Override

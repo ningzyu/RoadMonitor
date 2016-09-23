@@ -14,17 +14,28 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.google.gson.Gson;
 import com.sxhxjy.roadmonitor.R;
 import com.sxhxjy.roadmonitor.base.BaseActivity;
+import com.sxhxjy.roadmonitor.base.CacheManager;
+import com.sxhxjy.roadmonitor.base.HttpResponseFunc;
 import com.sxhxjy.roadmonitor.base.MyApplication;
+import com.sxhxjy.roadmonitor.base.MySubscriber;
 import com.sxhxjy.roadmonitor.base.UserManager;
+import com.sxhxjy.roadmonitor.entity.LoginData;
 import com.sxhxjy.roadmonitor.util.ActivityUtil;
+import com.sxhxjy.roadmonitor.util.StringX;
 import com.sxhxjy.roadmonitor.util.Utils;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Response;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 
 /**
@@ -89,17 +100,19 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         switch (v.getId()) {
 
             case R.id.login:
-                if (isValid()) {
-                    /*MyApplication.getMyApplication().getHttpService().login(mUser.getText().toString(),
-                            mPassword.getText().toString()).enqueue(new MyCallBack<UserData>(this) {
+                    getMessage(getHttpService()
+                            .login(mUser.getText().toString(), StringX.md5(mPassword.getText().toString().getBytes()).toLowerCase()), new MySubscriber<LoginData>() {
                         @Override
-                        public void onMySuccess(Call<UserData> call, Response<UserData> response) {
-                          UserManager.loginUser(LoginActivity.this, response.body());
+                        public void onNext(LoginData loginData) {
+                            if (loginData != null) {
+                                showToastMsg("登录成功");
+                                CacheManager.getInstance().set("login", new Gson().toJson(loginData));
+                                ActivityUtil.startActivityForResult(LoginActivity.this, MainActivity.class);
+                                finish();
+                            }
                         }
-                    });*/
-                }
-                ActivityUtil.startActivityForResult(this, MainActivity.class);
-                finish();
+                    });
+
                 break;
         }
     }

@@ -128,6 +128,7 @@ public class LineChartView extends View {
             mPaint.setTextAlign(Paint.Align.CENTER);
 
             canvas.drawLine(nextPointX, 0, nextPointX, - OFFSET_SCALE, mPaint);
+            mPaint.setStrokeWidth(1);
             canvas.drawText((myPoint.time - BASE_TIME) / 1000 + " s", nextPointX, OFFSET_SCALE * 4, mPaint);
 
         }
@@ -149,7 +150,9 @@ public class LineChartView extends View {
             float yInView = y / (yEnd - yStart) * yAxisLength;
             yInView = -yInView; // reverse
 
+            mPaint.setStrokeWidth(1);
             canvas.drawText((int) y + "", - OFFSET_SCALE, yInView, mPaint);
+            mPaint.setStrokeWidth(2);
             canvas.drawLine(0, yInView, OFFSET_SCALE, yInView, mPaint);
 
         }

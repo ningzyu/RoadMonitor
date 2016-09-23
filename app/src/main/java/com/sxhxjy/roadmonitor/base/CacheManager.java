@@ -38,14 +38,14 @@ public final class CacheManager extends SQLiteOpenHelper {
     }
 
     /**
-     * | user | key | value |
-     * | ...  | ... | ...   |
-     * | ...  | ... | ...   |
+     * | key | value |
+     * | ... | ...   |
+     * | ... | ...   |
      */
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME
-                + " (user VARCHAR, key VARCHAR, value VARCHAR);");
+                + " (key VARCHAR, value VARCHAR);");
     }
 
     @Override
@@ -66,46 +66,41 @@ public final class CacheManager extends SQLiteOpenHelper {
     }
 
     public void set(String key, String value) {
-        if (UserManager.isLogin()) {
             // if exists, remove it firstly and add
             if (get(key) != null) {
                 remove(key);
             }
             ContentValues contentValues = new ContentValues();
-            contentValues.put("user", UserManager.getUID() + "");
             contentValues.put("key", key);
             contentValues.put("value", value);
             getWritableDatabase().insert(TABLE_NAME, null, contentValues);
             if (MyConstants.IS_DEBUG)
                 Log.i("CacheManager", "key:" + key + " value:" + value + " has set !");
-        }
+
     }
 
     public String get(String key) {
         String result = "";
-        if (UserManager.isLogin()) {
+
             Cursor cursor = getWritableDatabase().query(TABLE_NAME, new String[]{"value"},
-                    "user=? AND key=?", new String[]{UserManager.getUID() + "", key}, null, null, null);
+                    "key=?", new String[]{key}, null, null, null);
             if (!cursor.moveToFirst())
                 return null;
             result = cursor.getString(cursor.getColumnIndex("value"));
             cursor.close();
             return result;
-        } else
-            return result;
+
     }
 
     public void remove(String key) {
         if (UserManager.isLogin())
-            getWritableDatabase().delete(TABLE_NAME, "user=? AND key=?",
-                    new String[]{UserManager.getUID() + "", key});
+            getWritableDatabase().delete(TABLE_NAME, "key=?",
+                    new String[]{key});
     }
 
     public void removeAll() {
-        if (UserManager.isLogin())
-            getWritableDatabase().delete(TABLE_NAME, "user=?", new String[]{UserManager.getUID() + ""});
-        else
-            Log.e(TABLE_NAME, "user is NOT login ...");
+            getWritableDatabase().delete(TABLE_NAME, null, null);
+
     }
 
 

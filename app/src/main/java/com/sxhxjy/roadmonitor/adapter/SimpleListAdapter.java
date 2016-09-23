@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sxhxjy.roadmonitor.R;
@@ -66,6 +67,11 @@ public class SimpleListAdapter extends RecyclerView.Adapter<SimpleListAdapter.Vi
         holder.itemView.setOnClickListener(this);
         holder.itemView.setTag(position);
         holder.title.setText(mList.get(position).getTitle());
+
+        if (isStation)
+            holder.arrow.setVisibility(View.GONE);
+        else
+            holder.arrow.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -137,10 +143,13 @@ public class SimpleListAdapter extends RecyclerView.Adapter<SimpleListAdapter.Vi
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView title, location, date, status;
+        ImageView arrow;
 
         public ViewHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.title);
+            arrow = (ImageView) itemView.findViewById(R.id.right_arrow);
+            arrow.setColorFilter(itemView.getResources().getColor(R.color.default_color));
         }
     }
 }

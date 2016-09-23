@@ -3,6 +3,7 @@ package com.sxhxjy.roadmonitor.base;
 
 
 import com.sxhxjy.roadmonitor.entity.GroupTree;
+import com.sxhxjy.roadmonitor.entity.LoginData;
 import com.sxhxjy.roadmonitor.entity.Monitor;
 import com.sxhxjy.roadmonitor.entity.RealTimeData;
 import com.sxhxjy.roadmonitor.entity.Station;
@@ -51,9 +52,10 @@ public interface HttpService {
 
 
     @GET("userGroup/userGroupTreeList")
-    Observable<HttpResponse<List<GroupTree>>> getGroups();
+    Observable<HttpResponse<List<GroupTree>>> getGroups(@Query("gid") String gid);
 
-
+    @GET("user/appLogin")
+    Observable<HttpResponse<LoginData>> login(@Query("account") String username, @Query("password") String password);
 
     @GET("sensorDataValue/dataList")
     Observable<HttpResponse<List<RealTimeData>>> getRealTimeData(@Query("cid") String monitorId, @Query("beforeTime") String start, @Query("afterTime") String end);

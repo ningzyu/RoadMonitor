@@ -58,7 +58,7 @@ public abstract class BaseListFragment<I> extends BaseFragment implements SwipeR
     protected LinearLayoutManager linearLayoutManager;
     protected PullRefreshLoadLayout mPullRefreshLoadLayout;
 
-    private Func1<HttpResponse<List<I>>, List<I>> func1 = new HttpResponseFunc<>();
+    private Func1<HttpResponse<List<I>>, List<I>> func1 = new HttpResponseFunc<>((BaseActivity) getActivity());
 
     private Subscriber<List<I>> subscriber = new Subscriber<List<I>>() {
         @Override
@@ -189,7 +189,7 @@ public abstract class BaseListFragment<I> extends BaseFragment implements SwipeR
 
         getObservable().subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
-                .map(new HttpResponseFunc<List<I>>())
+                .map(new HttpResponseFunc<List<I>>((BaseActivity) getActivity()))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<I>>() {
                     @Override

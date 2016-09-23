@@ -10,7 +10,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sxhxjy.roadmonitor.R;
+import com.sxhxjy.roadmonitor.entity.LoginData;
+import com.sxhxjy.roadmonitor.ui.main.LoginActivity;
+import com.sxhxjy.roadmonitor.ui.main.MainActivity;
 import com.sxhxjy.roadmonitor.util.ActivityUtil;
+
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 
 /**
@@ -74,6 +82,14 @@ public class BaseActivity extends AppCompatActivity {
 
     public void showToastMsg(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    public <T> void getMessage(Observable<HttpResponse<T>> observable, MySubscriber<T> mySubscriber) {
+        observable.subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .map(new HttpResponseFunc<T>(this))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(mySubscriber);
     }
 
 
