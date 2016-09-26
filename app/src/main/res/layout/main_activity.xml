@@ -30,7 +30,7 @@
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="传感器"
+                    android:text="首页"
                     android:id="@+id/textView_bar0"
                     android:textSize="@dimen/nav_footer_text_size"/>
         </LinearLayout>
@@ -41,31 +41,41 @@
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="监测点"
+                    android:text="实时数据"
                     android:id="@+id/textView_bar1"
                     android:textSize="@dimen/nav_footer_text_size"/>
         </LinearLayout>
         <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:gravity="center"
-                      android:layout_height="fill_parent" android:layout_weight="1" android:id="@+id/bar2">
+            android:layout_height="fill_parent" android:layout_weight="1" android:id="@+id/bar2">
             <ImageView
-                    android:id="@+id/imageView_bar2" style="@style/nav_footer_image_view"/>
+                android:id="@+id/imageView_bar2" style="@style/nav_footer_image_view"/>
             <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="警告"
-                    android:id="@+id/textView_bar2"
-                    android:textSize="@dimen/nav_footer_text_size"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="数据分析"
+                android:id="@+id/textView_bar2"
+                android:textSize="@dimen/nav_footer_text_size"/>
         </LinearLayout>
         <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:gravity="center"
-                      android:layout_height="fill_parent" android:layout_weight="1" android:id="@+id/bar3"
-                      android:visibility="gone">
+            android:layout_height="fill_parent" android:layout_weight="1" android:id="@+id/bar3">
             <ImageView
-                    android:id="@+id/imageView_bar3" style="@style/nav_footer_image_view"/>
+                android:id="@+id/imageView_bar3" style="@style/nav_footer_image_view"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="警告"
+                android:id="@+id/textView_bar3"
+                android:textSize="@dimen/nav_footer_text_size"/>
+        </LinearLayout>
+        <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:gravity="center"
+                      android:layout_height="fill_parent" android:layout_weight="1" android:id="@+id/bar4">
+            <ImageView
+                    android:id="@+id/imageView_bar4" style="@style/nav_footer_image_view"/>
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="发现"
-                    android:id="@+id/textView_bar3"
+                    android:text="我"
+                    android:id="@+id/textView_bar4"
                     android:textSize="@dimen/nav_footer_text_size"/>
         </LinearLayout>
     </LinearLayout>

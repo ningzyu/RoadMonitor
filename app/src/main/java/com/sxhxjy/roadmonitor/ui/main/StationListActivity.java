@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.google.gson.Gson;
 import com.sxhxjy.roadmonitor.R;
-import com.sxhxjy.roadmonitor.adapter.SimpleListAdapter;
+import com.sxhxjy.roadmonitor.adapter.StationListAdapter;
 import com.sxhxjy.roadmonitor.base.BaseActivity;
 import com.sxhxjy.roadmonitor.base.BaseListFragment;
 import com.sxhxjy.roadmonitor.base.CacheManager;
@@ -83,7 +83,7 @@ public class StationListActivity extends BaseActivity {
 
                         @Override
                         public void onNext(List<GroupTree> groupTrees) {
-                            ((SimpleListAdapter) mAdapter).inject(groupTrees);
+                            ((StationListAdapter) mAdapter).inject(groupTrees);
                             mAdapter.notifyDataSetChanged();
                         }
                     });
@@ -111,7 +111,7 @@ public class StationListActivity extends BaseActivity {
 
         @Override
         protected RecyclerView.Adapter getAdapter() {
-            return new SimpleListAdapter(this);
+            return new StationListAdapter(this);
         }
     }
 }

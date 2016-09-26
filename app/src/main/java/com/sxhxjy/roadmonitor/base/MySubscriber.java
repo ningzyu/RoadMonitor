@@ -1,6 +1,7 @@
 package com.sxhxjy.roadmonitor.base;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import rx.Subscriber;
 
@@ -19,6 +20,15 @@ public abstract class MySubscriber<T> extends Subscriber<T> {
 
     @Override
     public void onError(Throwable e) {
+        Toast.makeText(MyApplication.getMyApplication(), "请检查你的网络连接!", Toast.LENGTH_LONG).show();
         Log.e("retrofit", e.toString());
     }
+
+    @Override
+    public void onNext(T t) {
+        if (t != null)
+            onMyNext(t);
+    }
+
+    protected abstract void onMyNext(T t);
 }

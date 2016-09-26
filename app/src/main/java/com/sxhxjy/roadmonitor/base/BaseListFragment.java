@@ -48,7 +48,7 @@ public abstract class BaseListFragment<I> extends BaseFragment implements SwipeR
     protected int mPageIndex = 1;
     protected ArrayList<I> mList = new ArrayList<>();
     protected RelativeLayout mActionBar;
-    public boolean FAKE;
+    public boolean FAKE = true;
     private Gson gson = new Gson();
 
     protected SwipeRefreshLayout swipeRefreshLayout;
@@ -100,7 +100,7 @@ public abstract class BaseListFragment<I> extends BaseFragment implements SwipeR
         mAboveList = (LinearLayout) view.findViewById(R.id.above_list);
         mEmptyLayout = (FrameLayout) view.findViewById(R.id.empty_layout);
         mToolbar = (Toolbar) view.findViewById(R.id.tool_bar);
-        mEmptyLayout.findViewById(R.id.refresh).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.refresh).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onRefresh();

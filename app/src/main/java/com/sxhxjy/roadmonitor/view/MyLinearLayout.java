@@ -33,7 +33,8 @@ public class MyLinearLayout extends LinearLayout {
         TextView tvTitle = (TextView) v.findViewById(R.id.titleOfMy);
         tvContent = (TextView) v.findViewById(R.id.contentOfMy);
         View divider = v.findViewById(R.id.divider);
-        View ivArrow = v.findViewById(R.id.iv_arrow);
+        ImageView ivArrow = (ImageView) v.findViewById(R.id.iv_arrow);
+        ivArrow.setColorFilter(getResources().getColor(R.color.default_color));
         ImageView decoration = (ImageView)v.findViewById(R.id.decoration);
 
 

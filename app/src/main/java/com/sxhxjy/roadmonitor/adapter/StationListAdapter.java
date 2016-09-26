@@ -2,6 +2,7 @@ package com.sxhxjy.roadmonitor.adapter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,9 +18,9 @@ import com.sxhxjy.roadmonitor.base.MyApplication;
 import com.sxhxjy.roadmonitor.entity.GroupTree;
 import com.sxhxjy.roadmonitor.entity.SimpleItem;
 import com.sxhxjy.roadmonitor.entity.Station;
+import com.sxhxjy.roadmonitor.ui.main.MainActivity;
 import com.sxhxjy.roadmonitor.util.ActivityUtil;
 
-import java.security.AlgorithmParameterGenerator;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +34,7 @@ import rx.schedulers.Schedulers;
  *
  * @author Michael Zhao
  */
-public class SimpleListAdapter extends RecyclerView.Adapter<SimpleListAdapter.ViewHolder> implements View.OnClickListener {
+public class StationListAdapter extends RecyclerView.Adapter<StationListAdapter.ViewHolder> implements View.OnClickListener {
 
     private List<GroupTree> data;
     private BaseFragment mFragment;
@@ -41,7 +42,7 @@ public class SimpleListAdapter extends RecyclerView.Adapter<SimpleListAdapter.Vi
     private boolean isStation;
 
     private List<GroupTree> currentGroup;
-    public SimpleListAdapter(BaseFragment fragment) {
+    public StationListAdapter(BaseFragment fragment) {
         mFragment = fragment;
     }
 
@@ -83,11 +84,14 @@ public class SimpleListAdapter extends RecyclerView.Adapter<SimpleListAdapter.Vi
     public void onClick(View v) {
         int p = (int) v.getTag();
         if (isStation) {
-            Intent intent = new Intent();
-            intent.putExtra("stationId", mList.get(p).getId());
-            intent.putExtra("stationName", mList.get(p).getTitle());
-            mFragment.getActivity().setResult(Activity.RESULT_OK, intent);
+            Bundle b = new Bundle();
+            b.putString("stationId", mList.get(p).getId());
+            b.putString("stationName", mList.get(p).getTitle());
+//            mFragment.getActivity().setResult(Activity.RESULT_OK, intent);
+            ActivityUtil.startActivityForResult(mFragment.getActivity(), MainActivity.class, b, 111);
+
             mFragment.getActivity().finish();
+
         }
 
         if (currentGroup.get(p).childrenGroup != null) {

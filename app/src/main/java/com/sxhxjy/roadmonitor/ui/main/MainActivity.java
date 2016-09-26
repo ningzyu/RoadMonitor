@@ -1,8 +1,6 @@
 package com.sxhxjy.roadmonitor.ui.main;
 
-import android.app.AlertDialog;
 import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
@@ -15,10 +13,8 @@ import android.widget.TextView;
 
 import com.sxhxjy.roadmonitor.R;
 import com.sxhxjy.roadmonitor.base.BaseActivity;
-import com.sxhxjy.roadmonitor.base.CacheManager;
 import com.sxhxjy.roadmonitor.base.MyApplication;
-
-import org.json.JSONObject;
+import com.sxhxjy.roadmonitor.util.StringX;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,12 +30,12 @@ import java.util.List;
 public class MainActivity extends BaseActivity implements View.OnClickListener,
         ViewPager.OnPageChangeListener {
     private ViewPager mViewPager;
-    private static final int FRAGMENTS_IN_VIEW_PAGER = 3;
+    private static final int FRAGMENTS_IN_VIEW_PAGER = 5;
     private long firstTimeOfExit = 0;
     private List<Fragment> fragments = new ArrayList<>();
     private LinearLayout bar0, bar1, bar2, bar3, bar4;
-    private TextView textViewBar0, textViewBar1, textViewBar2, textViewBar3;
-    private ImageView imageViewBar0, imageViewBar1, imageViewBar2, imageViewBar3;
+    private TextView textViewBar0, textViewBar1, textViewBar2, textViewBar3, textViewBar4;
+    private ImageView imageViewBar0, imageViewBar1, imageViewBar2, imageViewBar3, imageViewBar4;
 
     private PagerAdapter mPagerAdapter = new FragmentPagerAdapter(getFragmentManager()) {
         @Override
@@ -58,11 +54,22 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
+        String stationName = getIntent().getStringExtra("stationName");
+        String stationId = getIntent().getStringExtra("stationId");
+
+
+
         initView();
 
-        fragments.add(new MonitorListFragment());
+        fragments.add(new HomeFragment());
+        Fragment monitorFragment = new MonitorListFragment();
+        Bundle b = new Bundle();
+        b.putString("stationName", stationName);
+        monitorFragment.setArguments(b);
+        fragments.add(monitorFragment);
+        fragments.add(new DataAnalysisFragment());
         fragments.add(new AlertFragment());
-        fragments.add(new AlertFragment());
+        fragments.add(new MyFragment());
 
         mViewPager.setOffscreenPageLimit(FRAGMENTS_IN_VIEW_PAGER);
         mViewPager.addOnPageChangeListener(this);
@@ -77,18 +84,23 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         bar1 = (LinearLayout) findViewById(R.id.bar1);
         bar2 = (LinearLayout) findViewById(R.id.bar2);
         bar3 = (LinearLayout) findViewById(R.id.bar3);
+        bar4 = (LinearLayout) findViewById(R.id.bar4);
         bar0.setOnClickListener(this);
         bar1.setOnClickListener(this);
         bar2.setOnClickListener(this);
         bar3.setOnClickListener(this);
+        bar4.setOnClickListener(this);
         textViewBar0 = (TextView) findViewById(R.id.textView_bar0);
         textViewBar1 = (TextView) findViewById(R.id.textView_bar1);
         textViewBar2 = (TextView) findViewById(R.id.textView_bar2);
         textViewBar3 = (TextView) findViewById(R.id.textView_bar3);
+        textViewBar4 = (TextView) findViewById(R.id.textView_bar4);
+
         imageViewBar0 = (ImageView) findViewById(R.id.imageView_bar0);
         imageViewBar1 = (ImageView) findViewById(R.id.imageView_bar1);
         imageViewBar2 = (ImageView) findViewById(R.id.imageView_bar2);
         imageViewBar3 = (ImageView) findViewById(R.id.imageView_bar3);
+        imageViewBar4 = (ImageView) findViewById(R.id.imageView_bar4);
 
         mViewPager = (ViewPager) findViewById(R.id.view_pager);
 
@@ -113,12 +125,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                 mViewPager.setCurrentItem(2, false);
                 textViewBar2.setTextColor(getResources().getColor(R.color.colorPrimary));
                 break;
-        /*    case 3:
+            case 3:
                 imageViewBar3.setImageResource(R.drawable.bar31);
-                mViewPager.setCurrentItem(3);
-                textViewBar3.setTextColor(getResources().getColor(R.color.key_color));
-                break;*/
-
+                mViewPager.setCurrentItem(3, false);
+                textViewBar3.setTextColor(getResources().getColor(R.color.colorPrimary));
+                break;
+            case 4:
+                imageViewBar4.setImageResource(R.drawable.bar41);
+                mViewPager.setCurrentItem(4, false);
+                textViewBar4.setTextColor(getResources().getColor(R.color.colorPrimary));
+                break;
             default:
         }
     }
@@ -127,12 +143,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         imageViewBar0.setImageResource(R.drawable.bar00);
         imageViewBar1.setImageResource(R.drawable.bar10);
         imageViewBar2.setImageResource(R.drawable.bar20);
-//        imageViewBar3.setImageResource(R.drawable.bar30);
+        imageViewBar3.setImageResource(R.drawable.bar30);
+        imageViewBar4.setImageResource(R.drawable.bar40);
 
         textViewBar0.setTextColor(getResources().getColor(R.color.default_color));
         textViewBar1.setTextColor(getResources().getColor(R.color.default_color));
         textViewBar2.setTextColor(getResources().getColor(R.color.default_color));
         textViewBar3.setTextColor(getResources().getColor(R.color.default_color));
+        textViewBar4.setTextColor(getResources().getColor(R.color.default_color));
     }
 
     @Override
@@ -149,6 +167,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                 break;
             case R.id.bar3:
                 selectedBar(3);
+                break;
+            case R.id.bar4:
+                selectedBar(4);
                 break;
         }
     }
@@ -187,7 +208,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                 break;
             case 3:
                 selectedBar(3);
-//                break;
+                break;
             case 4:
                 selectedBar(4);
                 break;

@@ -103,13 +103,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     getMessage(getHttpService()
                             .login(mUser.getText().toString(), StringX.md5(mPassword.getText().toString().getBytes()).toLowerCase()), new MySubscriber<LoginData>() {
                         @Override
-                        public void onNext(LoginData loginData) {
-                            if (loginData != null) {
-                                showToastMsg("登录成功");
-                                CacheManager.getInstance().set("login", new Gson().toJson(loginData));
-                                ActivityUtil.startActivityForResult(LoginActivity.this, MainActivity.class);
-                                finish();
-                            }
+                        public void onMyNext(LoginData loginData) {
+                            showToastMsg("登录成功");
+                            CacheManager.getInstance().set("login", new Gson().toJson(loginData));
+                            ActivityUtil.startActivityForResult(LoginActivity.this, StationListActivity.class);
+                            finish();
                         }
                     });
 

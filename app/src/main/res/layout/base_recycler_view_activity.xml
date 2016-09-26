@@ -72,6 +72,16 @@
                       android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
                       android:textColor="@color/default_text_color"/>
         </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:id="@+id/filter_content"
+            android:visibility="gone"
+            android:background="#0f000000"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" />
+
+
         <RelativeLayout
             android:id="@+id/network_error_container"
                         android:visibility="gone"
@@ -109,5 +119,4 @@
                 android:layout_marginTop="49dp"/>
         </RelativeLayout>
     </FrameLayout>
-
 </LinearLayout>

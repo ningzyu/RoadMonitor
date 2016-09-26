@@ -1,26 +1,19 @@
 package com.sxhxjy.roadmonitor.ui.main;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.gson.JsonArray;
 import com.sxhxjy.roadmonitor.R;
 import com.sxhxjy.roadmonitor.adapter.MonitorListAdapter;
-import com.sxhxjy.roadmonitor.base.BaseEntity;
 import com.sxhxjy.roadmonitor.base.BaseListFragment;
 import com.sxhxjy.roadmonitor.base.HttpResponse;
 import com.sxhxjy.roadmonitor.entity.Monitor;
-import com.sxhxjy.roadmonitor.ui.chart.ChartActivity;
-import com.sxhxjy.roadmonitor.util.ActivityUtil;
 
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Response;
 import rx.Observable;
 
 /**
@@ -30,7 +23,7 @@ import rx.Observable;
  */
 public class MonitorListFragment extends BaseListFragment<Monitor> {
     private String stationId = "40288164568be6a401568bf1e5100000";
-    private TextView mTextViewRight;
+    private TextView mTextViewCenter;
 
 
     @Override
@@ -46,10 +39,9 @@ public class MonitorListFragment extends BaseListFragment<Monitor> {
 
     @Override
     protected void init() {
-        initToolBar(getView(), "传感器", false);
-        mTextViewRight = (TextView) getView().findViewById(R.id.toolbar_right);
-        mTextViewRight.setText("组织");
-        mTextViewRight.setOnClickListener(new View.OnClickListener() {
+        initToolBar(getView(), getArguments().getString("stationName"), false);
+        mTextViewCenter = (TextView) getView().findViewById(R.id.toolbar_title);
+        mTextViewCenter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), StationListActivity.class);
@@ -74,9 +66,8 @@ public class MonitorListFragment extends BaseListFragment<Monitor> {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == StationListActivity.REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             stationId = data.getStringExtra("stationId");
-            mTextViewRight.setText(data.getStringExtra("stationName"));
+            mTextViewCenter.setText(data.getStringExtra("stationName"));
             mPullRefreshLoadLayout.refreshBegin();
         }
-
     }
 }
