@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/toolbar_layout"/>
+
+    <include layout="@layout/filter_title_monitor"/>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:id="@+id/container"
+        android:layout_height="match_parent">
+        <com.sxhxjy.roadmonitor.view.LineChartView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <include layout="@layout/filter_list"/>
+    </FrameLayout>
+
+</LinearLayout>

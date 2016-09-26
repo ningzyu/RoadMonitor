@@ -35,6 +35,7 @@
         <activity android:name=".ui.main.LoginActivity"/>
         <activity android:name=".ui.chart.ChartActivity"/>
         <activity android:name=".ui.main.StationListActivity"/>
+        <activity android:name=".ui.main.RealTimeDataListActivity"/>
 
     </application>
 

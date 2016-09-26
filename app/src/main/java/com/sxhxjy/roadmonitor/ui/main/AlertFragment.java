@@ -38,7 +38,7 @@ public class AlertFragment extends BaseListFragment<AlertData> {
 
     @Override
     protected void init() {
-        initToolBar(getView(), "数据分析", false);
+        initToolBar(getView(), "警告", false);
     }
 
     @Override

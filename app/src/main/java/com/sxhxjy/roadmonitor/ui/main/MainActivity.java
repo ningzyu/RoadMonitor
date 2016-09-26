@@ -62,7 +62,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         initView();
 
         fragments.add(new HomeFragment());
-        Fragment monitorFragment = new MonitorListFragment();
+        Fragment monitorFragment = new MonitorFragment();
         Bundle b = new Bundle();
         b.putString("stationName", stationName);
         monitorFragment.setArguments(b);

@@ -24,6 +24,6 @@ public class DataAnalysisFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        initToolBar(view, "数据分析", false);
     }
 }

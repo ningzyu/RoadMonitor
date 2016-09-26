@@ -3,7 +3,7 @@
               android:orientation="vertical"
                 android:id="@+id/global"
               android:layout_width="match_parent"
-              android:layout_height="match_parent" android:background="@color/white">
+              android:layout_height="wrap_content" android:background="@color/white">
 
     <LinearLayout
             android:orientation="horizontal"
@@ -20,7 +20,7 @@
                     android:layout_height="match_parent"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="位置"
-                    android:id="@+id/title_left" android:layout_weight="1" android:gravity="center"
+                    android:id="@+id/filter_left" android:layout_weight="1" android:gravity="center"
                     android:layout_alignParentLeft="true" android:layout_marginLeft="0dp"
                     android:layout_alignParentTop="true" android:layout_marginTop="0dp" android:paddingRight="10dp"/>
             <ImageView
@@ -37,7 +37,7 @@
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:background="@drawable/gray_white_selector"
                     android:text="时间"
-                    android:id="@+id/title_right" android:layout_weight="1" android:gravity="center"
+                    android:id="@+id/filter_right" android:layout_weight="1" android:gravity="center"
                     android:layout_alignParentLeft="true" android:layout_marginLeft="0dp"
                     android:layout_alignParentTop="true" android:layout_marginTop="0dp" android:paddingRight="10dp"/>
             <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"

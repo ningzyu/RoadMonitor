@@ -10,6 +10,14 @@ public class SimpleItem {
     String title;
     boolean checked;
 
+    public SimpleItem() {}
+
+    public SimpleItem(String id, String title, boolean checked) {
+        this.id = id;
+        this.title = title;
+        this.checked = checked;
+    }
+
     public String getId() {
         return id;
     }

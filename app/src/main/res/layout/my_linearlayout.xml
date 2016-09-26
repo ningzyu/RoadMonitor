@@ -12,7 +12,7 @@
         android:text="Medium Text"
         android:id="@+id/titleOfMy"
         android:layout_gravity="left"
-        android:layout_marginLeft="50dp"
+        android:layout_marginLeft="20dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
        />

@@ -84,14 +84,18 @@ public class StationListAdapter extends RecyclerView.Adapter<StationListAdapter.
     public void onClick(View v) {
         int p = (int) v.getTag();
         if (isStation) {
-            Bundle b = new Bundle();
-            b.putString("stationId", mList.get(p).getId());
-            b.putString("stationName", mList.get(p).getTitle());
-//            mFragment.getActivity().setResult(Activity.RESULT_OK, intent);
-            ActivityUtil.startActivityForResult(mFragment.getActivity(), MainActivity.class, b, 111);
-
-            mFragment.getActivity().finish();
-
+            if (mFragment.getActivity().getCallingActivity().getShortClassName().equals("LoginActivity")) {
+                Bundle b = new Bundle();
+                b.putString("stationId", mList.get(p).getId());
+                b.putString("stationName", mList.get(p).getTitle());
+                ActivityUtil.startActivityForResult(mFragment.getActivity(), MainActivity.class, b, 111);
+                mFragment.getActivity().finish();
+            } else {
+                Intent intent = new Intent();
+                intent.putExtra("stationId", mList.get(p).getId());
+                intent.putExtra("stationName", mList.get(p).getTitle());
+                mFragment.getActivity().setResult(Activity.RESULT_OK, intent);
+            }
         }
 
         if (currentGroup.get(p).childrenGroup != null) {

@@ -3,9 +3,11 @@ package com.sxhxjy.roadmonitor.ui.main;
 import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.sxhxjy.roadmonitor.R;
+import com.sxhxjy.roadmonitor.base.CacheManager;
 import com.sxhxjy.roadmonitor.base.UserManager;
 import com.sxhxjy.roadmonitor.util.ActivityUtil;
 
@@ -33,7 +35,7 @@ public class FlashActivity extends Activity {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                if (!UserManager.isLogin()) {
+                if (TextUtils.isEmpty(CacheManager.getInstance().get("login"))) {
                     ActivityUtil.startActivityForResult(FlashActivity.this, LoginActivity.class, null, -100, android.R.anim.fade_in, android.R.anim.fade_out);
                     finish();
                 } else {

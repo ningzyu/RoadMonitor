@@ -50,43 +50,8 @@ public class ChartActivity extends BaseActivity {
         initToolBar("实时数据", true);
 
 
-        Fragment f = new RealTimeDataListFragment();
-        String monitorId = getIntent().getStringExtra("monitorId");
-        Bundle bundle = new Bundle();
-        bundle.putString("monitorId", monitorId);
-        f.setArguments(bundle);
-
-        getFragmentManager().beginTransaction()
-                .add(R.id.container, f).commit();
-
 
     }
 
-    public static class RealTimeDataListFragment extends BaseListFragment<RealTimeData> {
 
-        @Override
-        public Observable<HttpResponse<List<RealTimeData>>> getObservable() {
-            return getHttpService().getRealTimeData(getArguments().getString("monitorId"), "2016-08-01 08:00:00", "2016-08-31 23:00:00");
-        }
-
-        @Override
-        protected Class<RealTimeData> getItemClass() {
-            return null;
-        }
-
-        @Override
-        protected void init() {
-
-        }
-
-        @Override
-        protected String getCacheKey() {
-            return null;
-        }
-
-        @Override
-        protected RecyclerView.Adapter getAdapter() {
-            return new RealTimeDataListAdapter(this, mList);
-        }
-    }
 }

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sxhxjy.roadmonitor.R;
@@ -24,6 +25,7 @@ import rx.Observable;
 public class MonitorListFragment extends BaseListFragment<Monitor> {
     private String stationId = "40288164568be6a401568bf1e5100000";
     private TextView mTextViewCenter;
+    private ImageView mImageViewLeft;
 
 
     @Override
@@ -41,6 +43,15 @@ public class MonitorListFragment extends BaseListFragment<Monitor> {
     protected void init() {
         initToolBar(getView(), getArguments().getString("stationName"), false);
         mTextViewCenter = (TextView) getView().findViewById(R.id.toolbar_title);
+        mImageViewLeft = (ImageView) getView().findViewById(R.id.toolbar_left);
+        mImageViewLeft.setVisibility(View.VISIBLE);
+        mImageViewLeft.setImageResource(R.mipmap.history);
+        mImageViewLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         mTextViewCenter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

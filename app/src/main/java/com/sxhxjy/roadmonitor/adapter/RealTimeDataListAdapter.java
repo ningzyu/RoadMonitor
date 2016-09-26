@@ -48,7 +48,7 @@ public class RealTimeDataListAdapter extends RecyclerView.Adapter<RealTimeDataLi
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.itemView.setOnClickListener(this);
         holder.itemView.setTag(position);
-        if (mList.get(position).sensorMonitoringStations.sensorMonitoringPoints.cstate == 0) {
+/*        if (mList.get(position).sensorMonitoringStations.sensorMonitoringPoints.cstate == 0) {
             holder.status.setText("异常");
             holder.status.setBackgroundResource(R.drawable.round_rectangle_alert);
         } else {
@@ -58,7 +58,7 @@ public class RealTimeDataListAdapter extends RecyclerView.Adapter<RealTimeDataLi
         holder.location.setText(mList.get(position).sensorMonitoringStations.sensorMonitoringPoints.name + ": " + mList.get(position).x + mList.get(position).sensorMonitoringStations.cunit);
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINESE);
-        holder.date.setText(sdf.format(new Date(mList.get(position).saveTime)) );
+        holder.date.setText(sdf.format(new Date(mList.get(position).saveTime)) );*/
     }
 
     @Override

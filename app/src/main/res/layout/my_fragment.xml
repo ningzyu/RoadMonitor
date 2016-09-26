@@ -13,4 +13,12 @@
 
     </com.sxhxjy.roadmonitor.view.MyLinearLayout>
 
+    <com.sxhxjy.roadmonitor.view.MyLinearLayout
+        android:layout_width="match_parent"
+        app:expandedOfMyLinearLayout="true"
+        app:titleOfMyLinearLayout="退出登录"
+        android:layout_height="wrap_content">
+
+    </com.sxhxjy.roadmonitor.view.MyLinearLayout>
+
 </LinearLayout>
