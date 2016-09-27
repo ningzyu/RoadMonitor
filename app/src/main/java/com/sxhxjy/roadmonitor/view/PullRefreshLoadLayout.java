@@ -7,6 +7,7 @@ import android.support.v4.view.NestedScrollingParent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -137,7 +138,17 @@ public class PullRefreshLoadLayout extends LinearLayout implements NestedScrolli
                 || (mLinearLayoutManager.findLastCompletelyVisibleItemPosition() == mRecyclerView.getAdapter().getItemCount() - 1 && dy > 0 && mLoadMoreEnable)
                 || mIsBeingDragged) {
 
+            // when scrollY will be 0, we should scroll recyclerView
+            if ((mLinearLayoutManager.findFirstCompletelyVisibleItemPosition() == 0 && getScrollY() + dy / 2 >= 0)) {
+                mIsBeingDragged = false;
+                scrollTo(0, 0); // scroll to boundary
+                return;
+            }
+
             scrollBy(0, dy / 2);
+            mIsBeingDragged = true;
+            consumed[0] = 0;
+            consumed[1] = dy;
 
             if (getScrollY() < 0 && !mRefreshing) {
                 if (-getScrollY() > mRefreshLayoutHeight && !mCanRelease) { // can release
@@ -155,9 +166,6 @@ public class PullRefreshLoadLayout extends LinearLayout implements NestedScrolli
                     mProgressBar.setVisibility(GONE);
                 }
             }
-            mIsBeingDragged = true;
-            consumed[0] = 0;
-            consumed[1] = dy;
         }
     }
     @Override
