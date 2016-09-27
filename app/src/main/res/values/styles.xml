@@ -63,4 +63,9 @@
         <item name="android:textSize">17sp</item>
     </style>
 
+    <style name="popup_window_anim" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/in_from_bottom</item>
+        <item name="android:windowExitAnimation">@anim/out_from_bottom</item>
+    </style>
+
 </resources>

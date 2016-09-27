@@ -1,5 +1,6 @@
 package com.sxhxjy.roadmonitor.adapter;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +20,6 @@ import java.util.List;
  *
  * @author Michael Zhao
  */
-
 public class SimpleListAdapter extends RecyclerView.Adapter<SimpleListAdapter.ViewHolder> implements View.OnClickListener {
     private BaseFragment mFragment;
     private List<SimpleItem> mList = new ArrayList<>();
@@ -41,7 +41,11 @@ public class SimpleListAdapter extends RecyclerView.Adapter<SimpleListAdapter.Vi
         holder.itemView.setOnClickListener(this);
         holder.itemView.setTag(position);
         holder.title.setText(mList.get(position).getTitle());
-
+        if (mList.get(position).isChecked()) {
+            holder.title.setTextColor(mFragment.getResources().getColor(R.color.colorPrimary));
+        } else {
+            holder.title.setTextColor(Color.BLACK);
+        }
     }
 
     @Override
@@ -52,12 +56,21 @@ public class SimpleListAdapter extends RecyclerView.Adapter<SimpleListAdapter.Vi
     @Override
     public void onClick(View v) {
         int p = (int) v.getTag();
+        for (SimpleItem simpleItem : mList) {
+            simpleItem.setChecked(false);
+        }
+        mList.get(p).setChecked(true);
+
         mFilterList.setVisibility(View.GONE);
 
     }
 
     public void setFilterList(RecyclerView mFilterList) {
         this.mFilterList = mFilterList;
+    }
+
+    public void setListData(List<SimpleItem> list) {
+        this.mList = list;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

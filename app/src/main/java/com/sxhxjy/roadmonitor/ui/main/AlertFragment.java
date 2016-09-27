@@ -33,7 +33,7 @@ public class AlertFragment extends BaseListFragment<AlertData> {
 
     @Override
     protected Class<AlertData> getItemClass() {
-        return null;
+        return AlertData.class;
     }
 
     @Override

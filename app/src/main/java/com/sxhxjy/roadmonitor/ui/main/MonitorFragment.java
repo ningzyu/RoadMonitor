@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -13,9 +15,11 @@ import android.widget.TextView;
 
 import com.sxhxjy.roadmonitor.R;
 import com.sxhxjy.roadmonitor.adapter.SimpleListAdapter;
+import com.sxhxjy.roadmonitor.base.BaseActivity;
 import com.sxhxjy.roadmonitor.base.BaseFragment;
 import com.sxhxjy.roadmonitor.entity.SimpleItem;
 import com.sxhxjy.roadmonitor.util.ActivityUtil;
+import com.sxhxjy.roadmonitor.view.MyPopupWindow;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,10 +35,12 @@ public class MonitorFragment extends BaseFragment {
     private String stationId = "40288164568be6a401568bf1e5100000";
     private TextView mTextViewCenter;
     private ImageView mImageViewLeft;
-    private List<SimpleItem> mList = new ArrayList<>();
+    private List<SimpleItem> mListLeft = new ArrayList<>();
+    private List<SimpleItem> mListRight = new ArrayList<>();
     private SimpleListAdapter mAdapter;
-    private TextView mFilterLeft, mFilterRight;
+    private TextView mFilterTitleLeft, mFilterTitleRight;
     private RecyclerView mFilterList;
+    private MyPopupWindow myPopupWindow;
 
     @Nullable
     @Override
@@ -65,38 +71,59 @@ public class MonitorFragment extends BaseFragment {
             }
         });
 
-        mFilterLeft = (TextView) view.findViewById(R.id.filter_left);
-        mFilterRight = (TextView) view.findViewById(R.id.filter_right);
+        mFilterTitleLeft = (TextView) view.findViewById(R.id.filter_left);
+        mFilterTitleRight = (TextView) view.findViewById(R.id.filter_right);
 
-        mFilterLeft.setOnClickListener(new View.OnClickListener() {
+        mListLeft.add(new SimpleItem("", "南中环桥", false));
+        mListLeft.add(new SimpleItem("", "南中环桥", false));
+        mListLeft.add(new SimpleItem("", "南中环桥", false));
+        mListRight.add(new SimpleItem("", "最近一周", false));
+        mListRight.add(new SimpleItem("", "最近一周", false));
+        mListRight.add(new SimpleItem("", "最近一周", false));
+
+        mFilterTitleLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mList.clear();
-                mList.add(new SimpleItem("", "最近一周", false));
-                mList.add(new SimpleItem("", "最近一周", false));
-                mList.add(new SimpleItem("", "最近一周", false));
+                mAdapter.setListData(mListLeft);
                 mAdapter.notifyDataSetChanged();
-                mFilterList.setVisibility(View.VISIBLE);
-            }
+
+                if (mFilterList.getVisibility() == View.GONE)
+                    mFilterList.setVisibility(View.VISIBLE);
+                else
+                    mFilterList.setVisibility(View.GONE);            }
         });
 
-        mFilterRight.setOnClickListener(new View.OnClickListener() {
+        mFilterTitleRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mList.clear();
-                mList.add(new SimpleItem("", "南中环桥", false));
-                mList.add(new SimpleItem("", "南中环桥", false));
-                mList.add(new SimpleItem("", "南中环桥", false));
+                mAdapter.setListData(mListRight);
                 mAdapter.notifyDataSetChanged();
-                mFilterList.setVisibility(View.VISIBLE);
+
+                if (mFilterList.getVisibility() == View.GONE)
+                    mFilterList.setVisibility(View.VISIBLE);
+                else
+                    mFilterList.setVisibility(View.GONE);
 
             }
         });
 
         mFilterList = (RecyclerView) view.findViewById(R.id.filter_list);
         mFilterList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new SimpleListAdapter(this, mList);
+        mAdapter = new SimpleListAdapter(this, mListLeft);
         mFilterList.setAdapter(mAdapter);
         mAdapter.setFilterList(mFilterList);
+
+
+        mToolbar.inflateMenu(R.menu.filter_right);
+        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                myPopupWindow.show();
+                return true;
+            }
+        });
+
+        myPopupWindow = new MyPopupWindow((BaseActivity) getActivity(), R.layout.popup_window_right);
+
     }
 }
