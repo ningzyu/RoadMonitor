@@ -93,7 +93,6 @@ public final class CacheManager extends SQLiteOpenHelper {
     }
 
     public void remove(String key) {
-        if (UserManager.isLogin())
             getWritableDatabase().delete(TABLE_NAME, "key=?",
                     new String[]{key});
     }

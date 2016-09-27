@@ -20,10 +20,11 @@ import java.util.List;
  *
  * @author Michael Zhao
  */
-public class SimpleListAdapter extends RecyclerView.Adapter<SimpleListAdapter.ViewHolder> implements View.OnClickListener {
+public class SimpleListAdapter extends RecyclerView.Adapter<SimpleListAdapter.ViewHolder> {
     private BaseFragment mFragment;
     private List<SimpleItem> mList = new ArrayList<>();
     private RecyclerView mFilterList;
+    private View.OnClickListener mListener;
 
 
     public SimpleListAdapter(BaseFragment fragment, List<SimpleItem> list) {
@@ -38,7 +39,7 @@ public class SimpleListAdapter extends RecyclerView.Adapter<SimpleListAdapter.Vi
 
     @Override
     public void onBindViewHolder(SimpleListAdapter.ViewHolder holder, int position) {
-        holder.itemView.setOnClickListener(this);
+        holder.itemView.setOnClickListener(mListener);
         holder.itemView.setTag(position);
         holder.title.setText(mList.get(position).getTitle());
         if (mList.get(position).isChecked()) {
@@ -53,16 +54,8 @@ public class SimpleListAdapter extends RecyclerView.Adapter<SimpleListAdapter.Vi
         return mList.size();
     }
 
-    @Override
-    public void onClick(View v) {
-        int p = (int) v.getTag();
-        for (SimpleItem simpleItem : mList) {
-            simpleItem.setChecked(false);
-        }
-        mList.get(p).setChecked(true);
-
-        mFilterList.setVisibility(View.GONE);
-
+    public void setListener(View.OnClickListener mListener) {
+        this.mListener = mListener;
     }
 
     public void setFilterList(RecyclerView mFilterList) {
@@ -71,6 +64,10 @@ public class SimpleListAdapter extends RecyclerView.Adapter<SimpleListAdapter.Vi
 
     public void setListData(List<SimpleItem> list) {
         this.mList = list;
+    }
+
+    public List<SimpleItem> getListData() {
+        return mList;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

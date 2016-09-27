@@ -17,6 +17,7 @@
         android:layout_width="match_parent"
         app:expandedOfMyLinearLayout="true"
         app:titleOfMyLinearLayout="退出登录"
+        android:onClick="logout"
         android:layout_height="wrap_content">
 
     </com.sxhxjy.roadmonitor.view.MyLinearLayout>

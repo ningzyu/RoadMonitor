@@ -44,7 +44,7 @@ import rx.schedulers.Schedulers;
  * adb push C:\Users\dell\Desktop\yiwu\trunk\Ewuexchange\app\app-debug.apk /data/local/tmp/com.efulink.ewuexchange
  *
  * adb shell pm install -r "/data/local/tmp/com.efulink.ewuexchange"
-
+ *
  * @author Michael Zhao
  */
 public class LoginActivity extends BaseActivity implements View.OnClickListener {

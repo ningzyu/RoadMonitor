@@ -13,7 +13,9 @@ import android.widget.TextView;
 
 import com.sxhxjy.roadmonitor.R;
 import com.sxhxjy.roadmonitor.base.BaseActivity;
+import com.sxhxjy.roadmonitor.base.CacheManager;
 import com.sxhxjy.roadmonitor.base.MyApplication;
+import com.sxhxjy.roadmonitor.util.ActivityUtil;
 import com.sxhxjy.roadmonitor.util.StringX;
 
 import java.util.ArrayList;
@@ -220,4 +222,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
 
     }
 
+    public void logout(View view) {
+        CacheManager.getInstance().remove("login");
+        ActivityUtil.startActivityForResult(this, LoginActivity.class);
+        finish();
+    }
 }

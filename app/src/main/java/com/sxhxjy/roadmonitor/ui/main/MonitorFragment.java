@@ -75,11 +75,11 @@ public class MonitorFragment extends BaseFragment {
         mFilterTitleRight = (TextView) view.findViewById(R.id.filter_right);
 
         mListLeft.add(new SimpleItem("", "南中环桥", false));
-        mListLeft.add(new SimpleItem("", "南中环桥", false));
-        mListLeft.add(new SimpleItem("", "南中环桥", false));
+        mListLeft.add(new SimpleItem("", "祥云桥", false));
+        mListLeft.add(new SimpleItem("", "漪汾桥", false));
+        mListRight.add(new SimpleItem("", "最近一天", false));
         mListRight.add(new SimpleItem("", "最近一周", false));
-        mListRight.add(new SimpleItem("", "最近一周", false));
-        mListRight.add(new SimpleItem("", "最近一周", false));
+        mListRight.add(new SimpleItem("", "最近一月", false));
 
         mFilterTitleLeft.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,7 +90,8 @@ public class MonitorFragment extends BaseFragment {
                 if (mFilterList.getVisibility() == View.GONE)
                     mFilterList.setVisibility(View.VISIBLE);
                 else
-                    mFilterList.setVisibility(View.GONE);            }
+                    mFilterList.setVisibility(View.GONE);
+            }
         });
 
         mFilterTitleRight.setOnClickListener(new View.OnClickListener() {
@@ -112,6 +113,23 @@ public class MonitorFragment extends BaseFragment {
         mAdapter = new SimpleListAdapter(this, mListLeft);
         mFilterList.setAdapter(mAdapter);
         mAdapter.setFilterList(mFilterList);
+
+        mAdapter.setListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int p = (int) v.getTag();
+                for (SimpleItem simpleItem : mAdapter.getListData()) {
+                    simpleItem.setChecked(false);
+                }
+                mAdapter.getListData().get(p).setChecked(true);
+                mFilterList.setVisibility(View.GONE);
+                if (mAdapter.getListData() == mListLeft) {
+                    mFilterTitleLeft.setText(mAdapter.getListData().get(p).getTitle());
+                } else {
+                    mFilterTitleRight.setText(mAdapter.getListData().get(p).getTitle());
+                }
+            }
+        });
 
 
         mToolbar.inflateMenu(R.menu.filter_right);
