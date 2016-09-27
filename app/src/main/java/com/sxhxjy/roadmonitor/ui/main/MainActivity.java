@@ -1,6 +1,8 @@
 package com.sxhxjy.roadmonitor.ui.main;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
@@ -223,8 +225,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     }
 
     public void logout(View view) {
-        CacheManager.getInstance().remove("login");
-        ActivityUtil.startActivityForResult(this, LoginActivity.class);
-        finish();
+        new AlertDialog.Builder(this).setTitle("退出登录").setMessage("确定要退出登录？").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                CacheManager.getInstance().remove("login");
+                ActivityUtil.startActivityForResult(MainActivity.this, LoginActivity.class);
+                finish();
+            }
+        }).setNegativeButton("取消", null).show();
     }
 }

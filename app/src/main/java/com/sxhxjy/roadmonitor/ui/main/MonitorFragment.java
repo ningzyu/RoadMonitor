@@ -10,10 +10,12 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sxhxjy.roadmonitor.R;
+import com.sxhxjy.roadmonitor.adapter.FilterTreeAdapter;
 import com.sxhxjy.roadmonitor.adapter.SimpleListAdapter;
 import com.sxhxjy.roadmonitor.base.BaseActivity;
 import com.sxhxjy.roadmonitor.base.BaseFragment;
@@ -142,6 +144,15 @@ public class MonitorFragment extends BaseFragment {
         });
 
         myPopupWindow = new MyPopupWindow((BaseActivity) getActivity(), R.layout.popup_window_right);
+        ExpandableListView expandableListView = (ExpandableListView) myPopupWindow.getContentView().findViewById(R.id.expandable_list_view);
 
+        expandableListView.setAdapter(new FilterTreeAdapter());
+        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                myPopupWindow.dismiss();
+                return true;
+            }
+        });
     }
 }
