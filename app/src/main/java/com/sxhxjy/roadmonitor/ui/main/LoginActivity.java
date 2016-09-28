@@ -106,7 +106,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         public void onMyNext(LoginData loginData) {
                             showToastMsg("登录成功");
                             CacheManager.getInstance().set("login", new Gson().toJson(loginData));
-                            ActivityUtil.startActivityForResult(LoginActivity.this, StationListActivity.class);
+                            ActivityUtil.startActivityForResult(LoginActivity.this, StationListActivity.class, null, 111);
                             finish();
                         }
                     });

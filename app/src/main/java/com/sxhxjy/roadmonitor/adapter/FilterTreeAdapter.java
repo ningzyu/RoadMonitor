@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sxhxjy.roadmonitor.R;
@@ -23,9 +24,9 @@ public class FilterTreeAdapter extends BaseExpandableListAdapter {
     private List<SimpleItem> mList0 = new ArrayList<>();
     private List<SimpleItem> mList1 = new ArrayList<>();
     private List<SimpleItem> mList2 = new ArrayList<>();
-    private List<String> groups = new ArrayList<>();
+    public List<Group> groups = new ArrayList<>();
     public FilterTreeAdapter() {
-        mList0.add(new SimpleItem("", "温度检测", false));
+        mList0.add(new SimpleItem("", "温度检测", true));
         mList0.add(new SimpleItem("", "温度检测", false));
         mList0.add(new SimpleItem("", "温度检测", false));
         mList1.add(new SimpleItem("", "位移检测", false));
@@ -34,21 +35,23 @@ public class FilterTreeAdapter extends BaseExpandableListAdapter {
         mList2.add(new SimpleItem("", "受力检测", false));
         mList2.add(new SimpleItem("", "受力检测", false));
         mList1.add(new SimpleItem("", "挠度检测", false));
-
-        groups.add("环境主题");
-        groups.add("变形主题");
-        groups.add("应变主题");
+        Group group0 = new Group(mList0, "环境主题");
+        Group group1 = new Group(mList1, "变形主题");
+        Group group2 = new Group(mList2, "应变主题");
+        groups.add(group0);
+        groups.add(group1);
+        groups.add(group2);
 
     }
 
     @Override
     public int getGroupCount() {
-        return 3;
+        return groups.size();
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return 3;
+        return groups.get(groupPosition).list.size();
     }
 
     @Override
@@ -79,11 +82,11 @@ public class FilterTreeAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.simple_list_item, parent, false);
+            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.filter_tree_item, parent, false);
         }
 
         TextView textView = (TextView) convertView.findViewById(R.id.title);
-        textView.setText(groups.get(groupPosition));
+        textView.setText(groups.get(groupPosition).getGroupName());
 
         return convertView;
     }
@@ -91,24 +94,50 @@ public class FilterTreeAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.simple_list_item, parent, false);
+            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.filter_tree_item, parent, false);
         }
 
         TextView textView = (TextView) convertView.findViewById(R.id.title);
-        if (groupPosition == 0)
-            textView.setText(mList0.get(childPosition).getTitle());
-        if (groupPosition == 1)
-            textView.setText(mList1.get(childPosition).getTitle());
-        if (groupPosition == 2)
-            textView.setText(mList2.get(childPosition).getTitle());
-        textView.setTextColor(parent.getResources().getColor(R.color.default_text_color));
-
-        textView.setPadding(50, 0, 0, 0);
+        ImageView imageView = (ImageView) convertView.findViewById(R.id.right_image);
+        textView.setText(groups.get(groupPosition).list.get(childPosition).getTitle());
+        textView.setTextSize(15);
+        textView.setPadding(70, 0, 0, 0);
+        if (groups.get(groupPosition).list.get(childPosition).isChecked()) {
+            imageView.setVisibility(View.VISIBLE);
+        } else {
+            imageView.setVisibility(View.GONE);
+        }
         return convertView;
     }
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
+    }
+
+    public static class Group {
+        List<SimpleItem> list;
+        String groupName;
+
+        public Group(List<SimpleItem> list, String groupName) {
+            this.list = list;
+            this.groupName = groupName;
+        }
+
+        public List<SimpleItem> getList() {
+            return list;
+        }
+
+        public void setList(List<SimpleItem> list) {
+            this.list = list;
+        }
+
+        public String getGroupName() {
+            return groupName;
+        }
+
+        public void setGroupName(String groupName) {
+            this.groupName = groupName;
+        }
     }
 }

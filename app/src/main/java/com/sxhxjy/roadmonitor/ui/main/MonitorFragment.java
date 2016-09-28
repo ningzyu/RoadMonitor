@@ -1,5 +1,6 @@
 package com.sxhxjy.roadmonitor.ui.main;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -43,6 +44,7 @@ public class MonitorFragment extends BaseFragment {
     private TextView mFilterTitleLeft, mFilterTitleRight;
     private RecyclerView mFilterList;
     private MyPopupWindow myPopupWindow;
+    private FilterTreeAdapter filterTreeAdapter;
 
     @Nullable
     @Override
@@ -145,14 +147,31 @@ public class MonitorFragment extends BaseFragment {
 
         myPopupWindow = new MyPopupWindow((BaseActivity) getActivity(), R.layout.popup_window_right);
         ExpandableListView expandableListView = (ExpandableListView) myPopupWindow.getContentView().findViewById(R.id.expandable_list_view);
-
-        expandableListView.setAdapter(new FilterTreeAdapter());
+        filterTreeAdapter = new FilterTreeAdapter();
+        expandableListView.setAdapter(filterTreeAdapter);
+        expandableListView.expandGroup(0);
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                for (FilterTreeAdapter.Group group : filterTreeAdapter.groups) {
+                    for (SimpleItem simpleItem : group.getList()) {
+                        simpleItem.setChecked(false);
+                    }
+                }
+                filterTreeAdapter.groups.get(groupPosition).getList().get(childPosition).setChecked(true);
                 myPopupWindow.dismiss();
+                filterTreeAdapter.notifyDataSetChanged();
                 return true;
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == StationListActivity.REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            stationId = data.getStringExtra("stationId");
+            mTextViewCenter.setText(data.getStringExtra("stationName"));
+        }
     }
 }
