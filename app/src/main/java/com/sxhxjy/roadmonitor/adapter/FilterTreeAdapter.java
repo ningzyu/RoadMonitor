@@ -1,6 +1,5 @@
 package com.sxhxjy.roadmonitor.adapter;
 
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,37 +20,19 @@ import java.util.List;
  */
 
 public class FilterTreeAdapter extends BaseExpandableListAdapter {
-    private List<SimpleItem> mList0 = new ArrayList<>();
-    private List<SimpleItem> mList1 = new ArrayList<>();
-    private List<SimpleItem> mList2 = new ArrayList<>();
-    public List<Group> groups = new ArrayList<>();
-    public FilterTreeAdapter() {
-        mList0.add(new SimpleItem("", "温度检测", true));
-        mList0.add(new SimpleItem("", "温度检测", false));
-        mList0.add(new SimpleItem("", "温度检测", false));
-        mList1.add(new SimpleItem("", "位移检测", false));
-        mList1.add(new SimpleItem("", "伸缩检测", false));
-        mList2.add(new SimpleItem("", "应变检测", false));
-        mList2.add(new SimpleItem("", "受力检测", false));
-        mList2.add(new SimpleItem("", "受力检测", false));
-        mList1.add(new SimpleItem("", "挠度检测", false));
-        Group group0 = new Group(mList0, "环境主题");
-        Group group1 = new Group(mList1, "变形主题");
-        Group group2 = new Group(mList2, "应变主题");
-        groups.add(group0);
-        groups.add(group1);
-        groups.add(group2);
-
+    public List<Group> mGroups;
+    public FilterTreeAdapter(List<Group> groups) {
+        mGroups = groups;
     }
 
     @Override
     public int getGroupCount() {
-        return groups.size();
+        return mGroups.size();
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return groups.get(groupPosition).list.size();
+        return mGroups.get(groupPosition).list.size();
     }
 
     @Override
@@ -86,7 +67,7 @@ public class FilterTreeAdapter extends BaseExpandableListAdapter {
         }
 
         TextView textView = (TextView) convertView.findViewById(R.id.title);
-        textView.setText(groups.get(groupPosition).getGroupName());
+        textView.setText(mGroups.get(groupPosition).getGroupName());
 
         return convertView;
     }
@@ -99,10 +80,10 @@ public class FilterTreeAdapter extends BaseExpandableListAdapter {
 
         TextView textView = (TextView) convertView.findViewById(R.id.title);
         ImageView imageView = (ImageView) convertView.findViewById(R.id.right_image);
-        textView.setText(groups.get(groupPosition).list.get(childPosition).getTitle());
+        textView.setText(mGroups.get(groupPosition).list.get(childPosition).getTitle());
         textView.setTextSize(15);
-        textView.setPadding(70, 0, 0, 0);
-        if (groups.get(groupPosition).list.get(childPosition).isChecked()) {
+        textView.setPadding(90, 0, 0, 0);
+        if (mGroups.get(groupPosition).list.get(childPosition).isChecked()) {
             imageView.setVisibility(View.VISIBLE);
         } else {
             imageView.setVisibility(View.GONE);

@@ -4,15 +4,20 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import com.sxhxjy.roadmonitor.R;
 import com.sxhxjy.roadmonitor.adapter.AlertListAdapter;
+import com.sxhxjy.roadmonitor.adapter.FilterTreeAdapter;
 import com.sxhxjy.roadmonitor.adapter.MonitorListAdapter;
 import com.sxhxjy.roadmonitor.adapter.SimpleListAdapter;
+import com.sxhxjy.roadmonitor.base.BaseActivity;
 import com.sxhxjy.roadmonitor.base.BaseFragment;
 import com.sxhxjy.roadmonitor.base.BaseListFragment;
 import com.sxhxjy.roadmonitor.base.HttpResponse;
@@ -37,6 +42,7 @@ public class AlertFragment extends BaseListFragment<AlertData> {
     private TextView mFilterTitleLeft, mFilterTitleRight;
     private RecyclerView mFilterList;
     private MyPopupWindow myPopupWindow;
+    private FilterTreeAdapter filterTreeAdapter;
 
 
     @Override
@@ -113,6 +119,57 @@ public class AlertFragment extends BaseListFragment<AlertData> {
                 }
             }
         });
+
+
+        mToolbar.inflateMenu(R.menu.filter_right);
+        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                myPopupWindow.show();
+                return true;
+            }
+        });
+
+        myPopupWindow = new MyPopupWindow((BaseActivity) getActivity(), R.layout.popup_window_right);
+
+        ExpandableListView expandableListView = (ExpandableListView) myPopupWindow.getContentView().findViewById(R.id.expandable_list_view);
+
+        final List<FilterTreeAdapter.Group> groups = new ArrayList<>();
+        List<SimpleItem> mList0 = new ArrayList<>();
+        mList0.add(new SimpleItem("", "一级", true));
+        mList0.add(new SimpleItem("", "二级", false));
+        mList0.add(new SimpleItem("", "三级", false));
+        List<SimpleItem> mList1 = new ArrayList<>();
+        mList1.add(new SimpleItem("", "传感器", false));
+        mList1.add(new SimpleItem("", "节点", false));
+        mList1.add(new SimpleItem("", "DTU", false));
+        List<SimpleItem> mList2 = new ArrayList<>();
+        mList2.add(new SimpleItem("", "新告警", false));
+        mList2.add(new SimpleItem("", "历史告警", false));
+        FilterTreeAdapter.Group group0 = new FilterTreeAdapter.Group(mList0, "告警等级");
+        FilterTreeAdapter.Group group1 = new FilterTreeAdapter.Group(mList1, "设备类型");
+        FilterTreeAdapter.Group group2 = new FilterTreeAdapter.Group(mList2, "状态");
+        groups.add(group0);
+        groups.add(group1);
+        groups.add(group2);
+
+        filterTreeAdapter = new FilterTreeAdapter(groups);
+        expandableListView.setAdapter(filterTreeAdapter);
+        expandableListView.expandGroup(0);
+        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+
+                    for (SimpleItem simpleItem : groups.get(groupPosition).getList()) {
+                        simpleItem.setChecked(false);
+                    }
+
+                filterTreeAdapter.mGroups.get(groupPosition).getList().get(childPosition).setChecked(true);
+                filterTreeAdapter.notifyDataSetChanged();
+                return true;
+            }
+        });
+
     }
 
     @Override

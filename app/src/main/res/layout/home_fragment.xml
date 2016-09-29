@@ -15,6 +15,7 @@
             android:layout_weight="1"
             android:text="环境主题\n\n优"
             android:gravity="center"
+            android:id="@+id/tv0"
             android:textColor="@color/white"
             android:layout_margin="10dp"
             android:background="@drawable/round_rectangle_keycolor"

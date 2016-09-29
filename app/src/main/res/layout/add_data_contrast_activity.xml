@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/toolbar_layout"/>
+    <com.sxhxjy.roadmonitor.view.MyLinearLayout
+        android:layout_width="match_parent"
+        app:titleOfMyLinearLayout="监测因素"
+        app:expandedOfMyLinearLayout="true"
+        android:onClick="monitorType"
+        android:layout_height="wrap_content">
+
+    </com.sxhxjy.roadmonitor.view.MyLinearLayout>
+
+    <com.sxhxjy.roadmonitor.view.MyLinearLayout
+        android:layout_width="match_parent"
+        app:titleOfMyLinearLayout="监测因素"
+        app:expandedOfMyLinearLayout="true"
+        android:onClick="monitorType"
+        android:layout_height="wrap_content">
+
+    </com.sxhxjy.roadmonitor.view.MyLinearLayout>
+
+    <com.sxhxjy.roadmonitor.view.MyLinearLayout
+        android:layout_width="match_parent"
+        app:titleOfMyLinearLayout="关联监测因素"
+        app:expandedOfMyLinearLayout="true"
+        android:onClick="monitorType"
+        android:layout_height="wrap_content">
+
+    </com.sxhxjy.roadmonitor.view.MyLinearLayout>
+
+    <com.sxhxjy.roadmonitor.view.MyLinearLayout
+        android:layout_width="match_parent"
+        app:titleOfMyLinearLayout="监测位置"
+        app:expandedOfMyLinearLayout="true"
+        android:onClick="monitorLocation"
+        android:layout_height="wrap_content">
+
+    </com.sxhxjy.roadmonitor.view.MyLinearLayout>
+
+    <com.sxhxjy.roadmonitor.view.MyLinearLayout
+        android:layout_width="match_parent"
+        app:titleOfMyLinearLayout="结束时间"
+        app:expandedOfMyLinearLayout="true"
+        android:onClick="timeEnd"
+        android:layout_height="wrap_content">
+
+    </com.sxhxjy.roadmonitor.view.MyLinearLayout>
+
+    <com.sxhxjy.roadmonitor.view.MyLinearLayout
+        android:layout_width="match_parent"
+        app:titleOfMyLinearLayout="开始时间"
+        app:expandedOfMyLinearLayout="true"
+        android:onClick="timeStart"
+        android:layout_height="wrap_content">
+
+    </com.sxhxjy.roadmonitor.view.MyLinearLayout>
+
+</LinearLayout>
