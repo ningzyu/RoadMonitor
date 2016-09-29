@@ -33,7 +33,7 @@ import java.util.List;
  * @author Michael Zhao
  */
 
-public class MonitorFragment extends BaseFragment {
+public class MonitorFragment extends BaseFragment implements View.OnClickListener {
 
     private String stationId = "40288164568be6a401568bf1e5100000";
     private TextView mTextViewCenter;
@@ -60,20 +60,10 @@ public class MonitorFragment extends BaseFragment {
         mImageViewLeft = (ImageView) getView().findViewById(R.id.toolbar_left);
         mImageViewLeft.setVisibility(View.VISIBLE);
         mImageViewLeft.setImageResource(R.mipmap.history);
-        mImageViewLeft.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ActivityUtil.startActivityForResult(getActivity(), RealTimeDataListActivity.class);
-
-            }
-        });
-        mTextViewCenter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), StationListActivity.class);
-                startActivityForResult(intent, StationListActivity.REQUEST_CODE);
-            }
-        });
+        mImageViewLeft.setOnClickListener(this);
+        mTextViewCenter.setOnClickListener(this);
+        mTextViewCenter.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.mipmap.expand), null);
+        mTextViewCenter.setCompoundDrawablePadding(20);
 
         mFilterTitleLeft = (TextView) view.findViewById(R.id.filter_left);
         mFilterTitleRight = (TextView) view.findViewById(R.id.filter_right);
@@ -85,32 +75,9 @@ public class MonitorFragment extends BaseFragment {
         mListRight.add(new SimpleItem("", "最近一周", false));
         mListRight.add(new SimpleItem("", "最近一月", false));
 
-        mFilterTitleLeft.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mAdapter.setListData(mListLeft);
-                mAdapter.notifyDataSetChanged();
+        mFilterTitleLeft.setOnClickListener(this);
 
-                if (mFilterList.getVisibility() == View.GONE)
-                    mFilterList.setVisibility(View.VISIBLE);
-                else
-                    mFilterList.setVisibility(View.GONE);
-            }
-        });
-
-        mFilterTitleRight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mAdapter.setListData(mListRight);
-                mAdapter.notifyDataSetChanged();
-
-                if (mFilterList.getVisibility() == View.GONE)
-                    mFilterList.setVisibility(View.VISIBLE);
-                else
-                    mFilterList.setVisibility(View.GONE);
-
-            }
-        });
+        mFilterTitleRight.setOnClickListener(this);
 
         mFilterList = (RecyclerView) view.findViewById(R.id.filter_list);
         mFilterList.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -146,19 +113,41 @@ public class MonitorFragment extends BaseFragment {
         });
 
         myPopupWindow = new MyPopupWindow((BaseActivity) getActivity(), R.layout.popup_window_right);
+
         ExpandableListView expandableListView = (ExpandableListView) myPopupWindow.getContentView().findViewById(R.id.expandable_list_view);
-        filterTreeAdapter = new FilterTreeAdapter();
+
+        List<FilterTreeAdapter.Group> groups = new ArrayList<>();
+        List<SimpleItem> mList0 = new ArrayList<>();
+        mList0.add(new SimpleItem("", "温度检测", true));
+        mList0.add(new SimpleItem("", "温度检测", false));
+        mList0.add(new SimpleItem("", "温度检测", false));
+        List<SimpleItem> mList1 = new ArrayList<>();
+        mList1.add(new SimpleItem("", "位移检测", false));
+        mList1.add(new SimpleItem("", "伸缩检测", false));
+        List<SimpleItem> mList2 = new ArrayList<>();
+        mList2.add(new SimpleItem("", "应变检测", false));
+        mList2.add(new SimpleItem("", "受力检测", false));
+        mList2.add(new SimpleItem("", "受力检测", false));
+        mList1.add(new SimpleItem("", "挠度检测", false));
+        FilterTreeAdapter.Group group0 = new FilterTreeAdapter.Group(mList0, "环境主题");
+        FilterTreeAdapter.Group group1 = new FilterTreeAdapter.Group(mList1, "变形主题");
+        FilterTreeAdapter.Group group2 = new FilterTreeAdapter.Group(mList2, "应变主题");
+        groups.add(group0);
+        groups.add(group1);
+        groups.add(group2);
+
+        filterTreeAdapter = new FilterTreeAdapter(groups);
         expandableListView.setAdapter(filterTreeAdapter);
         expandableListView.expandGroup(0);
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                for (FilterTreeAdapter.Group group : filterTreeAdapter.groups) {
+                for (FilterTreeAdapter.Group group : filterTreeAdapter.mGroups) {
                     for (SimpleItem simpleItem : group.getList()) {
                         simpleItem.setChecked(false);
                     }
                 }
-                filterTreeAdapter.groups.get(groupPosition).getList().get(childPosition).setChecked(true);
+                filterTreeAdapter.mGroups.get(groupPosition).getList().get(childPosition).setChecked(true);
                 myPopupWindow.dismiss();
                 filterTreeAdapter.notifyDataSetChanged();
                 return true;
@@ -172,6 +161,40 @@ public class MonitorFragment extends BaseFragment {
         if (requestCode == StationListActivity.REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             stationId = data.getStringExtra("stationId");
             mTextViewCenter.setText(data.getStringExtra("stationName"));
+        }
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.toolbar_title:
+                Intent intent = new Intent(getActivity(), StationListActivity.class);
+                startActivityForResult(intent, StationListActivity.REQUEST_CODE);
+                break;
+            case R.id.toolbar_left:
+                ActivityUtil.startActivityForResult(getActivity(), RealTimeDataListActivity.class);
+                break;
+
+            case R.id.filter_left:
+                mAdapter.setListData(mListLeft);
+                mAdapter.notifyDataSetChanged();
+
+                if (mFilterList.getVisibility() == View.GONE)
+                    mFilterList.setVisibility(View.VISIBLE);
+                else
+                    mFilterList.setVisibility(View.GONE);
+                break;
+            case R.id.filter_right:
+                mAdapter.setListData(mListRight);
+                mAdapter.notifyDataSetChanged();
+
+                if (mFilterList.getVisibility() == View.GONE)
+                    mFilterList.setVisibility(View.VISIBLE);
+                else
+                    mFilterList.setVisibility(View.GONE);
+
+                break;
         }
     }
 }
