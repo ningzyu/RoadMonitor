@@ -3,13 +3,11 @@ package com.sxhxjy.roadmonitor.ui.main;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
-import android.text.format.Formatter;
-import android.util.AttributeSet;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
@@ -20,29 +18,30 @@ import com.sxhxjy.roadmonitor.base.BaseActivity;
 import com.sxhxjy.roadmonitor.util.ActivityUtil;
 import com.sxhxjy.roadmonitor.view.MyLinearLayout;
 
-import java.text.Format;
-
 /**
  * 2016/9/29
  *
  * @author Michael Zhao
  */
 
-public class AddDataContrastActivity extends BaseActivity {
+public class AddDataCorrelationActivity extends BaseActivity {
+
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_data_contrast_activity);
-        initToolBar("数据对比", true);
+        setContentView(R.layout.add_data_correlation_activity);
+        initToolBar("数据关联", true);
 
         mToolbar.inflateMenu(R.menu.confirm_right);
         mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                ActivityUtil.finishActivityWithResult(AddDataContrastActivity.this, -1, null);
+                ActivityUtil.finishActivityWithResult(AddDataCorrelationActivity.this, -1, null);
                 return true;
             }
         });
+
+
     }
 
     public void monitorType(final View view) {
@@ -91,7 +90,7 @@ public class AddDataContrastActivity extends BaseActivity {
                 sb.append("-");
                 sb.append(dayOfMonth);
                 sb.append("  ");
-                new TimePickerDialog(AddDataContrastActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                new TimePickerDialog(AddDataCorrelationActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         sb.append(hourOfDay < 10 ? "0" + hourOfDay : hourOfDay);

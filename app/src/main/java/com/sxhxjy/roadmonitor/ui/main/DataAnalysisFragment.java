@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.sxhxjy.roadmonitor.R;
 import com.sxhxjy.roadmonitor.base.BaseFragment;
@@ -38,10 +39,16 @@ public class DataAnalysisFragment extends BaseFragment {
                 return true;
             }
         });
+
+        ImageView left = (ImageView) view.findViewById(R.id.toolbar_left);
+        left.setVisibility(View.VISIBLE);
+        left.setImageResource(R.mipmap.data_correlation);
+        left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityUtil.startActivityForResult(getActivity(), AddDataCorrelationActivity.class);
+            }
+        });
     }
-
-
-
-
 
 }

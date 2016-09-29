@@ -24,7 +24,9 @@
         android:supportsRtl="true"
         android:name=".base.MyApplication"
         android:theme="@style/AppTheme">
-
+        <meta-data
+            android:name="TencentMapSDK"
+            android:value="BPUBZ-HB3RQ-5SB5M-GLB4U-2A4QF-E7FT7"/>
         <activity android:name=".ui.main.FlashActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,6 +39,7 @@
         <activity android:name=".ui.main.StationListActivity"/>
         <activity android:name=".ui.main.RealTimeDataListActivity"/>
         <activity android:name=".ui.main.AddDataContrastActivity"/>
+        <activity android:name=".ui.main.AddDataCorrelationActivity"/>
 
     </application>
 

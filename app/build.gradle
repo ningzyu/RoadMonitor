@@ -37,4 +37,5 @@ dependencies {
     compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
     compile files('libs/fastjson-1.2.6.jar')
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha7'
+    compile files('libs/TencentMapSDK_Raster_v1.2.4_4af1d6f.jar')
 }
