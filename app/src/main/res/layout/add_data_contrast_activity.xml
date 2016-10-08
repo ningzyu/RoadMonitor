@@ -23,22 +23,67 @@
 
     </com.sxhxjy.roadmonitor.view.MyLinearLayout>
 
-    <com.sxhxjy.roadmonitor.view.MyLinearLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        app:titleOfMyLinearLayout="结束时间"
-        app:expandedOfMyLinearLayout="true"
-        android:onClick="timeEnd"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/add_time_single"
+        android:visibility="gone"
+        android:orientation="vertical">
+        <com.sxhxjy.roadmonitor.view.MyLinearLayout
+            android:layout_width="match_parent"
+            app:titleOfMyLinearLayout="结束时间"
+            app:expandedOfMyLinearLayout="true"
+            android:onClick="timeEnd"
+            android:layout_height="wrap_content">
 
-    </com.sxhxjy.roadmonitor.view.MyLinearLayout>
+        </com.sxhxjy.roadmonitor.view.MyLinearLayout>
 
-    <com.sxhxjy.roadmonitor.view.MyLinearLayout
+        <com.sxhxjy.roadmonitor.view.MyLinearLayout
+            android:layout_width="match_parent"
+            app:titleOfMyLinearLayout="开始时间"
+            app:expandedOfMyLinearLayout="true"
+            android:onClick="timeStart"
+            android:layout_height="wrap_content">
+
+        </com.sxhxjy.roadmonitor.view.MyLinearLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/add_time_multiple"
+        android:visibility="gone"
         android:layout_width="match_parent"
-        app:titleOfMyLinearLayout="开始时间"
-        app:expandedOfMyLinearLayout="true"
-        android:onClick="timeStart"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-    </com.sxhxjy.roadmonitor.view.MyLinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:text="添加时间段:"
+            android:textSize="15sp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="15dp"
+            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:id="@+id/container"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        </LinearLayout>
+
+        <Button
+        android:text="添加时间段"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button"
+        android:onClick="addTime"
+        android:background="@drawable/color_primary_selector"
+        android:textColor="#fff"
+        android:layout_margin="30dp" />
+    </LinearLayout>
+
+
 
 </LinearLayout>
