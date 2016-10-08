@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -90,16 +91,43 @@ public class MonitorFragment extends BaseFragment implements View.OnClickListene
             @Override
             public void onClick(View v) {
                 int p = (int) v.getTag();
-                for (SimpleItem simpleItem : mAdapter.getListData()) {
-                    simpleItem.setChecked(false);
+
+                if (mAdapter.isMultipleChoice()) {
+                    if (p == mAdapter.getListData().size()) {
+                        StringBuilder sb = new StringBuilder();
+                        for (SimpleItem simpleItem : mAdapter.getListData()) {
+                            if (simpleItem.isChecked()) {
+                                sb.append(simpleItem.getTitle() + "...");
+                                break;
+                            }
+                        }
+                        if (TextUtils.isEmpty(sb.toString())) {
+                            showToastMsg("请至少选择一个位置！");
+                            return;
+                        }
+                        mFilterTitleLeft.setText(sb.toString());
+                        mFilterList.setVisibility(View.GONE);
+                        return;
+                    } else {
+                        mAdapter.getListData().get(p).setChecked(!mAdapter.getListData().get(p).isChecked());
+                    }
+                } else {
+                    for (SimpleItem simpleItem : mAdapter.getListData()) {
+                        simpleItem.setChecked(false);
+                    }
+                    mAdapter.getListData().get(p).setChecked(true);
+                    mFilterList.setVisibility(View.GONE);
                 }
-                mAdapter.getListData().get(p).setChecked(true);
-                mFilterList.setVisibility(View.GONE);
+
+
                 if (mAdapter.getListData() == mListLeft) {
-                    mFilterTitleLeft.setText(mAdapter.getListData().get(p).getTitle());
+
+
                 } else {
                     mFilterTitleRight.setText(mAdapter.getListData().get(p).getTitle());
                 }
+
+                mAdapter.notifyDataSetChanged();
             }
         });
 
@@ -181,7 +209,9 @@ public class MonitorFragment extends BaseFragment implements View.OnClickListene
 
             case R.id.filter_left:
                 mAdapter.setListData(mListLeft);
+                mAdapter.setMultipleChoice(true);
                 mAdapter.notifyDataSetChanged();
+
 
                 if (mFilterList.getVisibility() == View.GONE)
                     mFilterList.setVisibility(View.VISIBLE);
@@ -190,7 +220,9 @@ public class MonitorFragment extends BaseFragment implements View.OnClickListene
                 break;
             case R.id.filter_right:
                 mAdapter.setListData(mListRight);
+                mAdapter.setMultipleChoice(false);
                 mAdapter.notifyDataSetChanged();
+
 
                 if (mFilterList.getVisibility() == View.GONE)
                     mFilterList.setVisibility(View.VISIBLE);

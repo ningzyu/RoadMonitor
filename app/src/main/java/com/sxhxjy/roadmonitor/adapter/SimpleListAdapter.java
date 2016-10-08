@@ -22,9 +22,10 @@ import java.util.List;
  */
 public class SimpleListAdapter extends RecyclerView.Adapter<SimpleListAdapter.ViewHolder> {
     private BaseFragment mFragment;
-    private List<SimpleItem> mList = new ArrayList<>();
+    private List<SimpleItem> mList;
     private RecyclerView mFilterList;
     private View.OnClickListener mListener;
+    private boolean isMultipleChoice;
 
 
     public SimpleListAdapter(BaseFragment fragment, List<SimpleItem> list) {
@@ -34,24 +35,52 @@ public class SimpleListAdapter extends RecyclerView.Adapter<SimpleListAdapter.Vi
 
     @Override
     public SimpleListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new SimpleListAdapter.ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.simple_list_item, parent, false));
+        if (viewType == 0)
+            return new SimpleListAdapter.ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.simple_list_item, parent, false));
+        else
+            return new SimpleListAdapter.ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.simple_list_item_multiple_confirm, parent, false));
+    }
+
+
+    @Override
+    public int getItemViewType(int position) {
+        return position == mList.size() ? 1 : 0;
     }
 
     @Override
     public void onBindViewHolder(SimpleListAdapter.ViewHolder holder, int position) {
         holder.itemView.setOnClickListener(mListener);
         holder.itemView.setTag(position);
+
+        if (position == mList.size()) return; // button clicked
+
         holder.title.setText(mList.get(position).getTitle());
         if (mList.get(position).isChecked()) {
             holder.title.setTextColor(mFragment.getResources().getColor(R.color.colorPrimary));
+            if (holder.checkMarker != null) {
+                holder.checkMarker.setVisibility(View.VISIBLE);
+                holder.checkMarker.setColorFilter(holder.itemView.getResources().getColor(R.color.colorPrimary));
+
+            }
         } else {
             holder.title.setTextColor(Color.BLACK);
+            if (holder.checkMarker != null) {
+                holder.checkMarker.setVisibility(View.INVISIBLE);
+            }
         }
+    }
+
+    public boolean isMultipleChoice() {
+        return isMultipleChoice;
+    }
+
+    public void setMultipleChoice(boolean multipleChoice) {
+        isMultipleChoice = multipleChoice;
     }
 
     @Override
     public int getItemCount() {
-        return mList.size();
+        return isMultipleChoice ? mList.size() + 1 : mList.size();
     }
 
     public void setListener(View.OnClickListener mListener) {
@@ -73,12 +102,14 @@ public class SimpleListAdapter extends RecyclerView.Adapter<SimpleListAdapter.Vi
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView title;
         ImageView arrow;
+        ImageView checkMarker;
 
         public ViewHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.title);
-            arrow = (ImageView) itemView.findViewById(R.id.right_arrow);
-            arrow.setColorFilter(itemView.getResources().getColor(R.color.default_color));
+//            arrow = (ImageView) itemView.findViewById(R.id.right_arrow);
+//            arrow.setColorFilter(itemView.getResources().getColor(R.color.default_color));
+            checkMarker = (ImageView) itemView.findViewById(R.id.imageView);
         }
     }
 }

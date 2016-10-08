@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 
 import com.sxhxjy.roadmonitor.R;
+import com.sxhxjy.roadmonitor.adapter.AlertDetailListAdapter;
 import com.sxhxjy.roadmonitor.adapter.AlertListAdapter;
 import com.sxhxjy.roadmonitor.adapter.RealTimeDataListAdapter;
 import com.sxhxjy.roadmonitor.base.BaseActivity;
@@ -29,7 +30,7 @@ public class AlertDetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.base_activity);
         getFragmentManager().beginTransaction()
-                .add(R.id.container, new RealTimeDataListActivity.RealTimeDataListFragment()).commit();
+                .add(R.id.container, new AlertDetailFragment()).commit();
         initToolBar("警告详情", true);
     }
 
@@ -58,7 +59,7 @@ public class AlertDetailActivity extends BaseActivity {
 
         @Override
         protected RecyclerView.Adapter getAdapter() {
-            return new AlertListAdapter(this, mList);
+            return new AlertDetailListAdapter(this, mList);
         }
     }
 

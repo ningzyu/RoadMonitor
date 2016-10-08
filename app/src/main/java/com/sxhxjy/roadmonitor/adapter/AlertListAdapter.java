@@ -62,9 +62,7 @@ public class AlertListAdapter extends RecyclerView.Adapter<AlertListAdapter.View
     public void onClick(View v) {
         int p = (int) v.getTag();
 
-        Intent intent = new Intent();
-
-        new AlertDialog.Builder(mFragment.getActivity()).setTitle("警告信息").setMessage("确定警告信息").setView(mFragment.getActivity().getLayoutInflater().inflate(R.layout.dialog_view_alert, null)).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+        new AlertDialog.Builder(mFragment.getActivity()).setTitle("确定警告信息").setView(mFragment.getActivity().getLayoutInflater().inflate(R.layout.dialog_view_alert, null)).setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 

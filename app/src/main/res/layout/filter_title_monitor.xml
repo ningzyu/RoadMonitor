@@ -20,7 +20,10 @@
                     android:layout_height="match_parent"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="位置"
-                    android:id="@+id/filter_left" android:layout_weight="1" android:gravity="center"
+                android:layout_alignLeft="@id/indicator_sort"
+                android:ems="1"
+                android:ellipsize="end"
+                android:id="@+id/filter_left" android:layout_weight="1" android:gravity="center"
                     android:layout_alignParentLeft="true" android:layout_marginLeft="0dp"
                     android:layout_alignParentTop="true" android:layout_marginTop="0dp" android:paddingRight="10dp"/>
             <ImageView

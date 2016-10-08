@@ -30,5 +30,15 @@
         android:layout_marginEnd="21dp"
         android:id="@+id/right_arrow" />
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@mipmap/check_mark"
+        android:layout_marginRight="15dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/imageView" />
+
 
 </RelativeLayout>
