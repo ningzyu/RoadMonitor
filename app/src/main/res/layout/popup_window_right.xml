@@ -1,14 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:background="@color/colorPrimary"
     android:layout_height="match_parent">
 
+
     <ExpandableListView
+        android:layout_weight="1"
         android:layout_width="match_parent"
         android:id="@+id/expandable_list_view"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="0dp">
     </ExpandableListView>
-</android.support.constraint.ConstraintLayout>
+
+
+    <Button
+        android:text="确定"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/confirm"
+        android:background="@android:color/holo_orange_light"
+        android:textColor="@android:color/white"
+         />
+
+
+</LinearLayout>

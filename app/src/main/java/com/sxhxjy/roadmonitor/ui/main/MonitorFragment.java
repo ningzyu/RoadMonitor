@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -115,6 +116,8 @@ public class MonitorFragment extends BaseFragment implements View.OnClickListene
         myPopupWindow = new MyPopupWindow((BaseActivity) getActivity(), R.layout.popup_window_right);
 
         ExpandableListView expandableListView = (ExpandableListView) myPopupWindow.getContentView().findViewById(R.id.expandable_list_view);
+        Button confirm = (Button) myPopupWindow.getContentView().findViewById(R.id.confirm);
+        confirm.setVisibility(View.GONE);
 
         List<FilterTreeAdapter.Group> groups = new ArrayList<>();
         List<SimpleItem> mList0 = new ArrayList<>();

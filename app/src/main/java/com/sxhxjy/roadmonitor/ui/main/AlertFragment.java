@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
@@ -133,17 +134,27 @@ public class AlertFragment extends BaseListFragment<AlertData> {
         myPopupWindow = new MyPopupWindow((BaseActivity) getActivity(), R.layout.popup_window_right);
 
         ExpandableListView expandableListView = (ExpandableListView) myPopupWindow.getContentView().findViewById(R.id.expandable_list_view);
+        Button confirm = (Button) myPopupWindow.getContentView().findViewById(R.id.confirm);
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myPopupWindow.dismiss();
+            }
+        });
 
         final List<FilterTreeAdapter.Group> groups = new ArrayList<>();
         List<SimpleItem> mList0 = new ArrayList<>();
-        mList0.add(new SimpleItem("", "一级", true));
+        mList0.add(new SimpleItem("", "全部", true));
+        mList0.add(new SimpleItem("", "一级", false));
         mList0.add(new SimpleItem("", "二级", false));
         mList0.add(new SimpleItem("", "三级", false));
         List<SimpleItem> mList1 = new ArrayList<>();
+        mList1.add(new SimpleItem("", "全部", true));
         mList1.add(new SimpleItem("", "传感器", false));
         mList1.add(new SimpleItem("", "节点", false));
         mList1.add(new SimpleItem("", "DTU", false));
         List<SimpleItem> mList2 = new ArrayList<>();
+        mList2.add(new SimpleItem("", "全部", true));
         mList2.add(new SimpleItem("", "新告警", false));
         mList2.add(new SimpleItem("", "历史告警", false));
         FilterTreeAdapter.Group group0 = new FilterTreeAdapter.Group(mList0, "告警等级");

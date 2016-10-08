@@ -7,46 +7,15 @@ android:layout_height="wrap_content"
 android:padding="15dp"
 android:background="@drawable/gray_white_selector">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/smaller_text_view"
-        android:text="3天前"
-        android:id="@+id/date"
-        android:layout_alignBaseline="@+id/location"
-        android:layout_toRightOf="@+id/location"
-        android:layout_toEndOf="@+id/location"
-        android:layout_marginLeft="150dp"
-        android:layout_marginStart="150dp" />
 
-    <TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    style="@style/smaller_text_view"
-    android:text="异常"
-    android:id="@+id/status"
-        android:background="@drawable/round_rectangle_alert"
-    android:padding="3dp"
-    android:textColor="#fff"
-        android:layout_alignBaseline="@+id/date"
-        android:layout_alignBottom="@+id/date"
-        android:layout_toRightOf="@+id/location"
-        android:layout_toEndOf="@+id/location"
-        android:layout_marginLeft="100dp"
-        android:layout_marginStart="100dp" />
 
-    <TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:textAppearance="?android:attr/textAppearanceSmall"
-    android:text="压力传感器：47mm"
-    android:drawablePadding="3dp"
-    android:id="@+id/location"
-        android:layout_marginLeft="13dp"
-        android:layout_marginStart="13dp"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+
+
+
+
+
+
+
 
 
 </RelativeLayout>

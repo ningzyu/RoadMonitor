@@ -1,5 +1,6 @@
 package com.sxhxjy.roadmonitor.adapter;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,8 +86,10 @@ public class FilterTreeAdapter extends BaseExpandableListAdapter {
         textView.setPadding(90, 0, 0, 0);
         if (mGroups.get(groupPosition).list.get(childPosition).isChecked()) {
             imageView.setVisibility(View.VISIBLE);
+            textView.setTextColor(Color.YELLOW);
         } else {
             imageView.setVisibility(View.GONE);
+            textView.setTextColor(Color.WHITE);
         }
         return convertView;
     }

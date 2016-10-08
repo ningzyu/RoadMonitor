@@ -40,6 +40,7 @@
         <activity android:name=".ui.main.RealTimeDataListActivity"/>
         <activity android:name=".ui.main.AddDataContrastActivity"/>
         <activity android:name=".ui.main.AddDataCorrelationActivity"/>
+        <activity android:name=".ui.main.AlertDetailActivity"/>
 
     </application>
 

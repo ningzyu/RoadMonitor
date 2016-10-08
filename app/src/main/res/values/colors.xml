@@ -6,5 +6,6 @@
 
     <color name="default_text_color">#aaaaaa</color>
     <color name="default_color">#dddddd</color>
+    <color name="default_color_light">#eeeeee</color>
     <color name="white">#fff</color>
 </resources>

@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.sxhxjy.roadmonitor.R;
 import com.sxhxjy.roadmonitor.base.BaseFragment;
@@ -40,11 +39,11 @@ public class HomeFragment extends BaseFragment {
         mapview = (MapView) view.findViewById(R.id.map_view);
         mapview.onCreate(savedInstanceState);
         TencentMap tencentMap = mapview.getMap();
-
-        tencentMap.setCenter(new LatLng(37.795034, 112.546477));
+        LatLng latLng = new LatLng(37.795034, 112.546477);
+        tencentMap.setCenter(latLng);
         tencentMap.setZoom(17);
         Marker marker = tencentMap.addMarker(new MarkerOptions()
-                .position(new LatLng(37.795034, 112.546477))
+                .position(latLng)
                 .title("清控")
                 .anchor(0.5f, 0.5f)
                 .icon(BitmapDescriptorFactory
