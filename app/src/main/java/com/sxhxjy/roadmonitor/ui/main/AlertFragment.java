@@ -64,9 +64,9 @@ public class AlertFragment extends BaseListFragment<AlertData> {
         mFilterTitleLeft = (TextView) getView().findViewById(R.id.filter_left);
         mFilterTitleRight = (TextView) getView().findViewById(R.id.filter_right);
 
-        mListLeft.add(new SimpleItem("", "一级", false));
-        mListLeft.add(new SimpleItem("", "二级", false));
-        mListLeft.add(new SimpleItem("", "三级", false));
+        mListLeft.add(new SimpleItem("", "由高到低", false));
+        mListLeft.add(new SimpleItem("", "由低到高", false));
+
         mListRight.add(new SimpleItem("", "最近一天", false));
         mListRight.add(new SimpleItem("", "最近一周", false));
         mListRight.add(new SimpleItem("", "最近一月", false));

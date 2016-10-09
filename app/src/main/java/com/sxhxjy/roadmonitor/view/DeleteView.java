@@ -26,7 +26,7 @@ public class DeleteView extends LinearLayout implements View.OnClickListener {
         findViewById(R.id.imageView).setOnClickListener(this);
         setClickable(true);
         ImageView imageView = (ImageView) findViewById(R.id.imageView);
-        imageView.setColorFilter(getResources().getColor(R.color.colorPrimary));
+        imageView.setColorFilter(getResources().getColor(android.R.color.holo_red_light));
         textView = (TextView) findViewById(R.id.textView);
         textView.setText(charSequence);
         mContainer = container;

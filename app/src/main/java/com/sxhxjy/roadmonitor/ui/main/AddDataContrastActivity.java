@@ -7,15 +7,18 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.text.format.Formatter;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.sxhxjy.roadmonitor.R;
 import com.sxhxjy.roadmonitor.base.BaseActivity;
@@ -87,17 +90,17 @@ public class AddDataContrastActivity extends BaseActivity {
                 for (int i = 0; i < aTypeChecked.length; i++) {
                     if (aTypeChecked[i]) {
                         checked++;
-                        sb.append(aType[i] + "  ");
+                        sb.append(aType[i]).append("  ");
                     }
                 }
                 MyLinearLayout myLinearLayout = (MyLinearLayout) view;
                 myLinearLayout.setContent(sb.toString());
                 if (checked > 1) {
-                    addTimeSingle.setVisibility(View.GONE);
-                    addTimeMultiple.setVisibility(View.VISIBLE);
-                } else {
                     addTimeSingle.setVisibility(View.VISIBLE);
                     addTimeMultiple.setVisibility(View.GONE);
+                } else {
+                    addTimeSingle.setVisibility(View.GONE);
+                    addTimeMultiple.setVisibility(View.VISIBLE);
                 }
             }
         }).create().show();
@@ -176,12 +179,11 @@ public class AddDataContrastActivity extends BaseActivity {
                                 }, 0, 0, true).show();
                             }
                         }, 2016, 0, 1).show();
-
+                        showToastMsg("请选择结束时间");
                     }
                 }, 0, 0, true).show();
             }
         }, 2016, 0, 1).show();
-
-
+        showToastMsg("请选择开始时间");
     }
 }

@@ -12,6 +12,7 @@ import android.graphics.PorterDuffXfermode;
 import android.os.CountDownTimer;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.sxhxjy.roadmonitor.R;
 
@@ -42,6 +43,8 @@ public class LineChartView extends View {
 
     private long BASE_TIME = System.currentTimeMillis();
 
+    private int[] colors = {Color.BLUE, Color.GREEN, Color.YELLOW, Color.CYAN};
+
 
 
     private Paint mPaint;
@@ -49,7 +52,7 @@ public class LineChartView extends View {
 
     private PathEffect mPathEffect = new DashPathEffect(new float[] {8, 8}, 0);
 
-
+    private List<MyLine> myLines = new ArrayList<>();
     private List<MyPoint> mList = new ArrayList<>(POINTS_COUNT);
 
     private float[] points = new float[POINTS_COUNT * 2]; // x0, y0, x1, y1 ...
@@ -59,6 +62,8 @@ public class LineChartView extends View {
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setDither(true);
         mPath.setFillType(Path.FillType.WINDING);
+
+        // fake data
         new CountDownTimer(1000000, DELAY) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -171,7 +176,19 @@ public class LineChartView extends View {
         mPaint.setTextAlign(Paint.Align.LEFT);
         canvas.drawText((int) ALERT_VALUE + "", xAxisLength + OFFSET_SCALE, alertY - OFFSET_SCALE, mPaint);
 
+        // draw legend
+
     }
+
+    public void addPoints(List<MyPoint> points, String s) {
+        myLines.add(new MyLine(s, points));
+        invalidate();
+    }
+
+    public List<MyLine> getLines() {
+        return myLines;
+    }
+
     private Comparator<MyPoint> comparatorX =  new Comparator<MyPoint>() {
         @Override
         public int compare(MyPoint lhs, MyPoint rhs) {
@@ -196,5 +213,15 @@ public class LineChartView extends View {
         long time;
         long value;
 
+    }
+
+    private static class MyLine {
+        MyLine(String name, List<MyPoint> points) {
+            this.name = name;
+            this.points = points;
+        }
+
+        String name;
+        List<MyPoint> points;
     }
 }
