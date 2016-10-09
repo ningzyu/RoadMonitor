@@ -7,6 +7,7 @@
     <include layout="@layout/toolbar_layout"/>
     <com.sxhxjy.roadmonitor.view.MyLinearLayout
         android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
         app:titleOfMyLinearLayout="监测因素"
         app:expandedOfMyLinearLayout="true"
         android:onClick="monitorType"

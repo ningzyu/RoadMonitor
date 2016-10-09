@@ -3,13 +3,14 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/gray_white_selector"
-    android:paddingTop="10dp">
+    android:paddingTop="12dp">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"
+        android:textSize="15sp"
         android:id="@+id/titleOfMy"
         android:layout_gravity="left"
         android:layout_marginLeft="20dp"
@@ -35,7 +36,7 @@
         android:background="@color/default_color"
         android:layout_alignParentBottom="false"
         android:layout_below="@+id/titleOfMy"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="12dp" />
 
     <TextView
         android:layout_width="wrap_content"

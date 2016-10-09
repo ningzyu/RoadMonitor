@@ -9,6 +9,7 @@ import android.graphics.Path;
 import android.graphics.PathEffect;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.graphics.RectF;
 import android.os.CountDownTimer;
 import android.util.AttributeSet;
 import android.view.View;
@@ -56,6 +57,10 @@ public class LineChartView extends View {
     private List<MyPoint> mList = new ArrayList<>(POINTS_COUNT);
 
     private float[] points = new float[POINTS_COUNT * 2]; // x0, y0, x1, y1 ...
+
+
+    private RectF rectF = new RectF();
+
 
     public LineChartView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -178,10 +183,18 @@ public class LineChartView extends View {
 
         // draw legend
 
+       /* for (MyLine myLine : myLines) {
+            mPaint.setColor(myLine.);
+            canvas.drawRoundRect(rectF, 2, 2, mPaint);
+        }*/
+
+
+
+
     }
 
-    public void addPoints(List<MyPoint> points, String s) {
-        myLines.add(new MyLine(s, points));
+    public void addPoints(List<MyPoint> points, String s, int color) {
+        myLines.add(new MyLine(s, points, color));
         invalidate();
     }
 
@@ -216,12 +229,14 @@ public class LineChartView extends View {
     }
 
     private static class MyLine {
-        MyLine(String name, List<MyPoint> points) {
+        MyLine(String name, List<MyPoint> points, int color) {
             this.name = name;
             this.points = points;
+            this.color = color;
         }
 
         String name;
+        int color;
         List<MyPoint> points;
     }
 }

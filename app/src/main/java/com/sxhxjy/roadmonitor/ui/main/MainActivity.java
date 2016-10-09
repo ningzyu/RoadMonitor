@@ -234,4 +234,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
             }
         }).setNegativeButton("取消", null).show();
     }
+
+    public void showAlert(View view) {
+        selectedBar(3);
+    }
 }
