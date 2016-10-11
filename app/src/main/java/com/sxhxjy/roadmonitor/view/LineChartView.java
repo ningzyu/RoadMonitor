@@ -32,7 +32,9 @@ public class LineChartView extends View {
     private static final int DELAY = 1000;
     private static final int POINTS_COUNT = 16;
     private static final int OFFSET = 60;
-    private static final int OFFSET_LEGEND = 50;
+    private static final int OFFSET_LEGEND = 40;
+    private static final int LEGEND_WIDTH= 70;
+    private static final int LEGEND_HEIGHT = 35;
 
     private static final float OFFSET_SCALE = 8;
     private static final float SPLIT_TO = 5;
@@ -190,6 +192,15 @@ public class LineChartView extends View {
             mPaint.setColor(myLine.);
             canvas.drawRoundRect(rectF, 2, 2, mPaint);
         }*/
+        rectF.top = OFFSET;
+        rectF.left = 0;
+        rectF.bottom = rectF.top + OFFSET_LEGEND - 20;
+        rectF.right = OFFSET_LEGEND * 3;
+        canvas.drawRoundRect(rectF, 2, 2, mPaint);
+        mPaint.setColor(Color.BLACK);
+        mPaint.setStrokeWidth(1);
+        mPaint.setTextAlign(Paint.Align.LEFT);
+        canvas.drawText("位移传感器", rectF.right + 15, rectF.bottom, mPaint);
 
 //canvas.drawBitmap();
 
