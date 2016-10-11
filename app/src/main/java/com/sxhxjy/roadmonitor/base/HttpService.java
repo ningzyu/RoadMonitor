@@ -5,6 +5,7 @@ package com.sxhxjy.roadmonitor.base;
 import com.sxhxjy.roadmonitor.entity.GroupTree;
 import com.sxhxjy.roadmonitor.entity.LoginData;
 import com.sxhxjy.roadmonitor.entity.Monitor;
+import com.sxhxjy.roadmonitor.entity.MonitorTypeTree;
 import com.sxhxjy.roadmonitor.entity.RealTimeData;
 import com.sxhxjy.roadmonitor.entity.Station;
 
@@ -30,7 +31,7 @@ import rx.Observable;
 /**
  * http request goes here...
  *
- * BASE_URL:    http://183.203.28.91:3000/yw_php_api/
+ * BASE_URL:
  *
  * @author Michael Zhao
  *
@@ -63,6 +64,9 @@ public interface HttpService {
 
     @GET("points/pointDetail")
     Observable<HttpResponse<Monitor>> getMonitor(@Query("id") String id);
+
+    @GET("points/pointTreeList")
+    Observable<HttpResponse<List<MonitorTypeTree>>> getMonitorTypeTree();
 
 
 

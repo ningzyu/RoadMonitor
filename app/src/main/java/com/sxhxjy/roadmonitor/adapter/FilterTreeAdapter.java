@@ -33,6 +33,7 @@ public class FilterTreeAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
+        if (mGroups.size() == 0) return 0;
         return mGroups.get(groupPosition).list.size();
     }
 

@@ -31,7 +31,9 @@ import java.util.Random;
 public class LineChartView extends View {
     private static final int DELAY = 1000;
     private static final int POINTS_COUNT = 16;
-    private static final float OFFSET = 60;
+    private static final int OFFSET = 60;
+    private static final int OFFSET_LEGEND = 50;
+
     private static final float OFFSET_SCALE = 8;
     private static final float SPLIT_TO = 5;
 
@@ -62,6 +64,7 @@ public class LineChartView extends View {
     private RectF rectF = new RectF();
 
 
+
     public LineChartView(Context context, AttributeSet attrs) {
         super(context, attrs);
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -89,14 +92,14 @@ public class LineChartView extends View {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        xAxisLength = (int) (getMeasuredWidth() - 2 * OFFSET);
-        yAxisLength = (int) (getMeasuredHeight() - 2 * OFFSET);
+        xAxisLength = getMeasuredWidth() - 2 * OFFSET;
+        yAxisLength = getMeasuredHeight() - 2 * OFFSET - OFFSET_LEGEND;
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.translate(OFFSET, getMeasuredHeight() - OFFSET);
+        canvas.translate(OFFSET, getMeasuredHeight() - OFFSET - OFFSET_LEGEND);
         canvas.drawColor(getResources().getColor(R.color.white));
         xEnd = Collections.max(mList, comparatorX).time;
         xStart = Collections.min(mList, comparatorX).time;
@@ -188,7 +191,7 @@ public class LineChartView extends View {
             canvas.drawRoundRect(rectF, 2, 2, mPaint);
         }*/
 
-
+//canvas.drawBitmap();
 
 
     }

@@ -22,6 +22,8 @@ import com.sxhxjy.roadmonitor.adapter.FilterTreeAdapter;
 import com.sxhxjy.roadmonitor.adapter.SimpleListAdapter;
 import com.sxhxjy.roadmonitor.base.BaseActivity;
 import com.sxhxjy.roadmonitor.base.BaseFragment;
+import com.sxhxjy.roadmonitor.base.MySubscriber;
+import com.sxhxjy.roadmonitor.entity.MonitorTypeTree;
 import com.sxhxjy.roadmonitor.entity.SimpleItem;
 import com.sxhxjy.roadmonitor.util.ActivityUtil;
 import com.sxhxjy.roadmonitor.view.MyPopupWindow;
@@ -47,6 +49,7 @@ public class MonitorFragment extends BaseFragment implements View.OnClickListene
     private RecyclerView mFilterList;
     private MyPopupWindow myPopupWindow;
     private FilterTreeAdapter filterTreeAdapter;
+    private List<FilterTreeAdapter.Group> groupsOfFilterTree =  new ArrayList<>();
 
     @Nullable
     @Override
@@ -137,6 +140,7 @@ public class MonitorFragment extends BaseFragment implements View.OnClickListene
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 myPopupWindow.show();
+                filterTreeAdapter.notifyDataSetChanged();
                 return true;
             }
         });
@@ -147,8 +151,27 @@ public class MonitorFragment extends BaseFragment implements View.OnClickListene
         Button confirm = (Button) myPopupWindow.getContentView().findViewById(R.id.confirm);
         confirm.setVisibility(View.GONE);
 
-        List<FilterTreeAdapter.Group> groups = new ArrayList<>();
-        List<SimpleItem> mList0 = new ArrayList<>();
+
+
+
+        getMessage(getHttpService().getMonitorTypeTree(), new MySubscriber<List<MonitorTypeTree>>() {
+            @Override
+            protected void onMyNext(List<MonitorTypeTree> monitorTypeTrees) {
+                for (MonitorTypeTree monitorTypeTree : monitorTypeTrees) {
+                    List<SimpleItem> list = new ArrayList<SimpleItem>();
+                    if (monitorTypeTree.getChildrenPoint() != null) {
+                        for (MonitorTypeTree.ChildrenPointBean childrenPointBean : monitorTypeTree.getChildrenPoint()) {
+                            list.add(new SimpleItem(childrenPointBean.getId(), childrenPointBean.getName(), false));
+                        }
+                    }
+                    FilterTreeAdapter.Group group = new FilterTreeAdapter.Group(list, monitorTypeTree.getName());
+                    groupsOfFilterTree.add(group);
+                }
+            }
+        });
+
+
+        /*List<SimpleItem> mList0 = new ArrayList<>();
         mList0.add(new SimpleItem("", "温度检测", true));
         mList0.add(new SimpleItem("", "温度检测", false));
         mList0.add(new SimpleItem("", "温度检测", false));
@@ -163,11 +186,11 @@ public class MonitorFragment extends BaseFragment implements View.OnClickListene
         FilterTreeAdapter.Group group0 = new FilterTreeAdapter.Group(mList0, "环境主题");
         FilterTreeAdapter.Group group1 = new FilterTreeAdapter.Group(mList1, "变形主题");
         FilterTreeAdapter.Group group2 = new FilterTreeAdapter.Group(mList2, "应变主题");
-        groups.add(group0);
-        groups.add(group1);
-        groups.add(group2);
+        groupsOfFilterTree.add(group0);
+        groupsOfFilterTree.add(group1);
+        groupsOfFilterTree.add(group2);*/
 
-        filterTreeAdapter = new FilterTreeAdapter(groups);
+        filterTreeAdapter = new FilterTreeAdapter(groupsOfFilterTree);
         expandableListView.setAdapter(filterTreeAdapter);
         expandableListView.expandGroup(0);
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {

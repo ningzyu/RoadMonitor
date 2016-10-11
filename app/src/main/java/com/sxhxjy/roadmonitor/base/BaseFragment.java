@@ -13,6 +13,10 @@ import android.widget.Toast;
 
 import com.sxhxjy.roadmonitor.R;
 
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
 
 /**
  * Extends fragment to add some methods
@@ -105,5 +109,13 @@ public class BaseFragment extends Fragment {
 
     public HttpService getHttpService() {
         return MyApplication.getMyApplication().getHttpService();
+    }
+
+    public <T> void getMessage(Observable<HttpResponse<T>> observable, MySubscriber<T> mySubscriber) {
+        observable.subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .map(new HttpResponseFunc<T>((BaseActivity) getActivity()))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(mySubscriber);
     }
 }
