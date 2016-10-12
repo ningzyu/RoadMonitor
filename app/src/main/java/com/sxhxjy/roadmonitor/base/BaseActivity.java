@@ -1,7 +1,10 @@
 package com.sxhxjy.roadmonitor.base;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -66,8 +69,10 @@ public class BaseActivity extends AppCompatActivity {
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
                     Toast.makeText(getApplicationContext(), "Permission granted", Toast.LENGTH_SHORT).show();
+                    Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, Environment.getExternalStorageDirectory().getPath() + "/PictureContrast/picture.jpg");
+                    startActivityForResult(intentCamera, 7);
 
-//                    PhotoPopupWindow.requestCamera(this);
 
                 } else {
 

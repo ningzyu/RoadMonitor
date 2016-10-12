@@ -197,8 +197,8 @@ public class LineChartView extends View {
         rectF.bottom = rectF.top + OFFSET_LEGEND - 20;
         rectF.right = OFFSET_LEGEND * 3;
         canvas.drawRoundRect(rectF, 2, 2, mPaint);
-        mPaint.setColor(Color.BLACK);
-        mPaint.setStrokeWidth(1);
+        mPaint.setColor(getResources().getColor(R.color.default_text_color));
+        mPaint.setStrokeWidth(0.1f);
         mPaint.setTextAlign(Paint.Align.LEFT);
         canvas.drawText("位移传感器", rectF.right + 15, rectF.bottom, mPaint);
 

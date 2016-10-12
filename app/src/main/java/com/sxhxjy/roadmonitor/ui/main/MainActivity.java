@@ -19,6 +19,7 @@ import com.sxhxjy.roadmonitor.base.CacheManager;
 import com.sxhxjy.roadmonitor.base.MyApplication;
 import com.sxhxjy.roadmonitor.util.ActivityUtil;
 import com.sxhxjy.roadmonitor.util.StringX;
+import com.sxhxjy.roadmonitor.view.TakePictureActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -237,5 +238,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
 
     public void showAlert(View view) {
         selectedBar(3);
+    }
+
+    public void test(View view) {
+        ActivityUtil.startActivityForResult(this, TakePictureActivity.class);
     }
 }

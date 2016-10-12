@@ -42,6 +42,8 @@
         <activity android:name=".ui.main.AddDataCorrelationActivity"/>
         <activity android:name=".ui.main.AlertDetailActivity"/>
 
+        <activity android:name=".view.TakePictureActivity"/>
+
     </application>
 
 </manifest>
