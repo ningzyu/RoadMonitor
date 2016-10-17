@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:orientation="vertical" android:layout_width="match_parent"
+                android:layout_height="match_parent">
+        <include layout="@layout/toolbar_layout"/>
+
+        <com.sxhxjy.roadmonitor.view.MyLinearLayout
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_width="match_parent"
+            app:titleOfMyLinearLayout="旧密码"
+            app:isEditText="true"
+app:isPsw="true"
+            android:layout_height="wrap_content">
+
+        </com.sxhxjy.roadmonitor.view.MyLinearLayout>
+
+        <com.sxhxjy.roadmonitor.view.MyLinearLayout
+            android:layout_width="match_parent"
+            app:titleOfMyLinearLayout="新密码"
+            app:isEditText="true"
+app:isPsw="true"
+            android:layout_height="wrap_content">
+
+        </com.sxhxjy.roadmonitor.view.MyLinearLayout>
+
+        <com.sxhxjy.roadmonitor.view.MyLinearLayout
+            android:layout_width="match_parent"
+            app:titleOfMyLinearLayout="确认密码"
+            app:isEditText="true"
+app:isPsw="true"            android:layout_height="wrap_content">
+
+        </com.sxhxjy.roadmonitor.view.MyLinearLayout>
+
+
+        <RelativeLayout style="@style/edit_item" android:visibility="gone">
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="验证码："
+                        android:id="@+id/textView4"/>
+                <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="6"
+                        android:id="@+id/code" android:layout_toRightOf="@+id/textView4"
+                        android:background="@null" android:hint="请输入验证码"
+                        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+                        android:layout_marginTop="4dp" android:inputType="number"/>
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="获取验证码"
+                        android:id="@+id/get_code" android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/code" android:layout_toEndOf="@+id/code"
+                        android:layout_marginLeft="75dp" android:background="@drawable/button_selector"
+                        android:padding="5dp" android:textColor="#fff"/>
+        </RelativeLayout>
+
+        <View android:layout_width="match_parent" android:layout_height="1px" android:background="@color/default_color"/>
+
+        <Button
+                android:layout_width="match_parent"
+            android:layout_margin="20dp"
+                android:layout_height="wrap_content"
+                android:text="修改密码"
+                android:id="@+id/sign_up" android:layout_gravity="center_horizontal"
+                android:background="@drawable/button_selector" android:layout_marginTop="30dp"
+              android:textColor="#fff"/>
+
+</LinearLayout>

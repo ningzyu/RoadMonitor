@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"
-        android:textSize="15sp"
+        android:textSize="16sp"
         android:id="@+id/titleOfMy"
         android:layout_gravity="left"
         android:layout_marginLeft="20dp"
@@ -54,4 +54,18 @@
         android:id="@+id/decoration"
         android:layout_centerVertical="true"
         android:layout_marginLeft="18dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_marginRight="20dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:lines="1"
+        android:layout_marginStart="10dp"
+        android:background="@null"
+        android:id="@+id/editText"
+        android:textSize="16sp"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/titleOfMy"
+        android:layout_marginEnd="20dp" />
 </RelativeLayout>

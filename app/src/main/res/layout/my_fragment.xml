@@ -8,6 +8,7 @@
     <com.sxhxjy.roadmonitor.view.MyLinearLayout
         android:layout_width="match_parent"
         app:titleOfMyLinearLayout="修改密码"
+        android:onClick="changePassword"
         app:expandedOfMyLinearLayout="true"
         android:layout_height="wrap_content">
 

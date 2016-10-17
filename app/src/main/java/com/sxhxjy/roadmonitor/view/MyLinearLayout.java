@@ -3,9 +3,12 @@ package com.sxhxjy.roadmonitor.view;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.text.InputType;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -21,6 +24,7 @@ import com.sxhxjy.roadmonitor.R;
 public class MyLinearLayout extends LinearLayout {
 
     private TextView tvContent;
+    private EditText etContent;
 
     public MyLinearLayout(Context context) {
         super(context);
@@ -32,6 +36,7 @@ public class MyLinearLayout extends LinearLayout {
 
         TextView tvTitle = (TextView) v.findViewById(R.id.titleOfMy);
         tvContent = (TextView) v.findViewById(R.id.contentOfMy);
+        etContent = (EditText) v.findViewById(R.id.editText);
         View divider = v.findViewById(R.id.divider);
         ImageView ivArrow = (ImageView) v.findViewById(R.id.iv_arrow);
         ivArrow.setColorFilter(getResources().getColor(R.color.default_color));
@@ -51,6 +56,17 @@ public class MyLinearLayout extends LinearLayout {
         if (!expanded) ivArrow.setVisibility(GONE);
         decoration.setImageDrawable(drawable);
         decoration.setColorFilter(getResources().getColor(R.color.colorPrimary));
+
+        if (a.getBoolean(R.styleable.MyLinearLayout_isEditText, false)) {
+            etContent.setVisibility(VISIBLE);
+            ivArrow.setVisibility(GONE);
+        } else {
+            etContent.setVisibility(GONE);
+        }
+
+        if (a.getBoolean(R.styleable.MyLinearLayout_isPsw, false)) {
+            etContent.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        }
 
         a.recycle();
     }

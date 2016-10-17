@@ -8,5 +8,7 @@
         <attr name="decoratedDrawableOfMyLinearLayout" format="reference"/>
         <attr name="formNameOfMyLinearLayout" format="reference"/>
         <attr name="isNumOfMyLinearLayout" format="boolean"/>
+        <attr name="isEditText" format="boolean"/>
+        <attr name="isPsw" format="boolean"/>
     </declare-styleable>
 </resources>

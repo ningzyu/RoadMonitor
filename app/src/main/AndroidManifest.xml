@@ -41,6 +41,7 @@
         <activity android:name=".ui.main.AddDataContrastActivity"/>
         <activity android:name=".ui.main.AddDataCorrelationActivity"/>
         <activity android:name=".ui.main.AlertDetailActivity"/>
+        <activity android:name=".ui.main.RegisterActivity"/>
 
         <activity android:name=".view.TakePictureActivity"/>
 

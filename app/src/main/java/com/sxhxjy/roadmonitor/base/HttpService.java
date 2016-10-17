@@ -82,6 +82,9 @@ public interface HttpService {
     @POST("alarm/confirmAlarmInfo")
     Observable<HttpResponse<Object>> confirmAlertMsg(@Field("alarmId") String alarmId, @Field("userId") String userId, @Field("confirmMsg") String confirmMsg);
 
+    @FormUrlEncoded
+    @POST("user/editPwd")
+    Observable<HttpResponse<Object>> changePassword(@Field("userId") String uid, @Field("oldPwd") String old, @Field("newPwd") String newP);
 
 
 
@@ -113,6 +116,7 @@ public interface HttpService {
 
     @GET("visitPlan/addBusiness.htm")
     Call<BaseResult> submitCustomer(@QueryMap Map<String, String> map);
+
 
 
     class BaseResult {}

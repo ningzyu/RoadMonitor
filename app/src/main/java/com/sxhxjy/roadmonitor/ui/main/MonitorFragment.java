@@ -52,7 +52,7 @@ public class MonitorFragment extends BaseFragment implements View.OnClickListene
     private RecyclerView mFilterList;
     private MyPopupWindow myPopupWindow;
     private FilterTreeAdapter filterTreeAdapter;
-    private List<FilterTreeAdapter.Group> groupsOfFilterTree =  new ArrayList<>();
+    public List<FilterTreeAdapter.Group> groupsOfFilterTree =  new ArrayList<>();
 
     @Nullable
     @Override

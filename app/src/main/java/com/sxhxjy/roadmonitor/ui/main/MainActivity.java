@@ -1,5 +1,6 @@
 package com.sxhxjy.roadmonitor.ui.main;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
@@ -245,5 +246,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
 
     public void test(View view) {
         ActivityUtil.startActivityForResult(this, TakePictureActivity.class);
+    }
+
+    public void changePassword(View view) {
+        ActivityUtil.startActivityForResult(this, RegisterActivity.class);
     }
 }

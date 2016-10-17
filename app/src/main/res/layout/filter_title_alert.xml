@@ -15,14 +15,15 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" android:layout_weight="1">
             <TextView
-                android:layout_width="match_parent"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
                 android:background="@drawable/gray_white_selector"
                 android:layout_height="match_parent"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="等级"
                 android:id="@+id/filter_left" android:layout_weight="1" android:gravity="center"
-                android:layout_alignParentLeft="true" android:layout_marginLeft="0dp"
-                android:layout_alignParentTop="true" android:layout_marginTop="0dp" android:paddingRight="10dp"/>
+                android:layout_alignParentLeft="false" android:layout_marginLeft="0dp"
+                android:layout_alignParentTop="false" android:layout_marginTop="0dp" android:paddingRight="10dp"/>
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
