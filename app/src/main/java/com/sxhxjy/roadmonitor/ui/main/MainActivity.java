@@ -18,7 +18,6 @@ import com.sxhxjy.roadmonitor.base.BaseActivity;
 import com.sxhxjy.roadmonitor.base.CacheManager;
 import com.sxhxjy.roadmonitor.base.MyApplication;
 import com.sxhxjy.roadmonitor.util.ActivityUtil;
-import com.sxhxjy.roadmonitor.util.StringX;
 import com.sxhxjy.roadmonitor.view.TakePictureActivity;
 
 import java.util.ArrayList;
@@ -61,8 +60,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
 
         String stationName = getIntent().getStringExtra("stationName");
         String stationId = getIntent().getStringExtra("stationId");
-
-
+        // read from local
+        if (stationId == null) {
+            stationId = MyApplication.getMyApplication().getSharedPreference().getString("stationId", "");
+            stationName = MyApplication.getMyApplication().getSharedPreference().getString("stationName", "");
+        }
 
         initView();
 
@@ -70,6 +72,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         Fragment monitorFragment = new MonitorFragment();
         Bundle b = new Bundle();
         b.putString("stationName", stationName);
+        b.putString("stationId", stationId);
         monitorFragment.setArguments(b);
         fragments.add(monitorFragment);
         fragments.add(new DataAnalysisFragment());

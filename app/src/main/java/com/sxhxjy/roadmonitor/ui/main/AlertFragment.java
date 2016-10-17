@@ -22,7 +22,10 @@ import com.sxhxjy.roadmonitor.base.BaseActivity;
 import com.sxhxjy.roadmonitor.base.BaseFragment;
 import com.sxhxjy.roadmonitor.base.BaseListFragment;
 import com.sxhxjy.roadmonitor.base.HttpResponse;
+import com.sxhxjy.roadmonitor.base.MySubscriber;
 import com.sxhxjy.roadmonitor.entity.AlertData;
+import com.sxhxjy.roadmonitor.entity.AlertTree;
+import com.sxhxjy.roadmonitor.entity.MonitorTypeTree;
 import com.sxhxjy.roadmonitor.entity.SimpleItem;
 import com.sxhxjy.roadmonitor.view.MyPopupWindow;
 
@@ -143,26 +146,47 @@ public class AlertFragment extends BaseListFragment<AlertData> {
         });
 
         final List<FilterTreeAdapter.Group> groups = new ArrayList<>();
-        List<SimpleItem> mList0 = new ArrayList<>();
-        mList0.add(new SimpleItem("", "全部", true));
+        final List<SimpleItem> mList0 = new ArrayList<>();
+/*        mList0.add(new SimpleItem("", "全部", true));
         mList0.add(new SimpleItem("", "一级", false));
         mList0.add(new SimpleItem("", "二级", false));
-        mList0.add(new SimpleItem("", "三级", false));
-        List<SimpleItem> mList1 = new ArrayList<>();
-        mList1.add(new SimpleItem("", "全部", true));
+        mList0.add(new SimpleItem("", "三级", false));*/
+        final List<SimpleItem> mList1 = new ArrayList<>();
+/*        mList1.add(new SimpleItem("", "全部", true));
         mList1.add(new SimpleItem("", "传感器", false));
         mList1.add(new SimpleItem("", "节点", false));
-        mList1.add(new SimpleItem("", "DTU", false));
-        List<SimpleItem> mList2 = new ArrayList<>();
-        mList2.add(new SimpleItem("", "全部", true));
+        mList1.add(new SimpleItem("", "DTU", false));*/
+        final List<SimpleItem> mList2 = new ArrayList<>();
+ /*       mList2.add(new SimpleItem("", "全部", true));
         mList2.add(new SimpleItem("", "新告警", false));
-        mList2.add(new SimpleItem("", "历史告警", false));
+        mList2.add(new SimpleItem("", "历史告警", false));*/
         FilterTreeAdapter.Group group0 = new FilterTreeAdapter.Group(mList0, "告警等级");
         FilterTreeAdapter.Group group1 = new FilterTreeAdapter.Group(mList1, "设备类型");
         FilterTreeAdapter.Group group2 = new FilterTreeAdapter.Group(mList2, "状态");
         groups.add(group0);
         groups.add(group1);
         groups.add(group2);
+
+
+
+        getMessage(getHttpService().getAlertTree(), new MySubscriber<AlertTree>() {
+            @Override
+            protected void onMyNext(AlertTree alertTree) {
+
+                for (AlertTree.AlarmLevelBean alarmLevelBean : alertTree.getAlarmLevel()) {
+                    mList0.add(new SimpleItem(alarmLevelBean.getId(), alarmLevelBean.getValue(), false));
+                }
+
+                for (AlertTree.AlarmTypeBean alarmTypeBean : alertTree.getAlarmType()) {
+                    mList1.add(new SimpleItem(alarmTypeBean.getId(), alarmTypeBean.getValue(), false));
+                }
+                for (AlertTree.AlarmStateBean alarmStateBean : alertTree.getAlarmState()) {
+                    mList2.add(new SimpleItem(alarmStateBean.getId(), alarmStateBean.getValue(), false));
+                }
+            }
+        });
+
+
 
         filterTreeAdapter = new FilterTreeAdapter(groups);
         expandableListView.setAdapter(filterTreeAdapter);

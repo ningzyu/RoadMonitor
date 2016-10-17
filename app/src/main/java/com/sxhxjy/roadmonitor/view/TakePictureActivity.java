@@ -20,11 +20,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.FileAsyncHttpResponseHandler;
 import com.sxhxjy.roadmonitor.R;
 import com.sxhxjy.roadmonitor.base.BaseActivity;
+import com.sxhxjy.roadmonitor.base.HttpResponse;
+import com.sxhxjy.roadmonitor.base.HttpService;
 import com.sxhxjy.roadmonitor.base.MyApplication;
 
 import java.io.File;
+
+import cz.msebera.android.httpclient.Header;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 /**
  * 2016/10/12
@@ -99,18 +110,31 @@ public class TakePictureActivity extends BaseActivity {
         startActivityForResult(intentCamera, 8);
     }
 
- /*   public static void upload(String path, Callback<BaseResult> callback) {
+    public void upload(String path, Callback<HttpResponse<String>> callback) {
         File file = new File(path);
         RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
         MultipartBody.Part part = MultipartBody.Part.createFormData("image", "test.jpg", requestBody);
-        Call<BaseResult> call = MyApplication.getMyApplication().getHttpService().uploadImage(part);
+        Call<HttpResponse<String>> call = MyApplication.getMyApplication().getHttpService().uploadImage(part);
         call.enqueue(callback);
-    }*/
+    }
 
-   /* public void coordinate() {
-        Bitmap bitmap = BitmapFactory.decodeFile("");
-        bitmap.
-    }*/
+    public void test() {
+        AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
+        asyncHttpClient.post(this, "", null, new FileAsyncHttpResponseHandler(new File("")) {
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
 
+            }
 
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, File file) {
+
+            }
+
+            @Override
+            public void onProgress(long bytesWritten, long totalSize) {
+                super.onProgress(bytesWritten, totalSize);
+            }
+        });
+    }
 }

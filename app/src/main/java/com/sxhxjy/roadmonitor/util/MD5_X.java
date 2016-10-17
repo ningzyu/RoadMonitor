@@ -17,14 +17,14 @@ import java.util.Map;
 import java.util.Stack;
 
 
-public class StringX {
+public class MD5_X {
 	public static final String ZEROS = "00000000000000000000000000000000";
 	public static final String TRUE = "true";
 	public static final String FALSE = "false";
 	public static final String EMPTY_STRING = "";
 	public static final String COMMA = ",";
 	public static final String DIGEST_MD5 = "MD5";
-	public static final StringX STRINGX = new StringX();
+	public static final MD5_X STRINGX = new MD5_X();
 	public static final char[] TRIM_CHAR = { ' ', '\t', '\n', '\r' };
 
 	public static boolean equals(Object o1, Object o2) {

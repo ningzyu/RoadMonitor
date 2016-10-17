@@ -22,7 +22,10 @@ import com.sxhxjy.roadmonitor.adapter.FilterTreeAdapter;
 import com.sxhxjy.roadmonitor.adapter.SimpleListAdapter;
 import com.sxhxjy.roadmonitor.base.BaseActivity;
 import com.sxhxjy.roadmonitor.base.BaseFragment;
+import com.sxhxjy.roadmonitor.base.MonitorPosition;
+import com.sxhxjy.roadmonitor.base.MyApplication;
 import com.sxhxjy.roadmonitor.base.MySubscriber;
+import com.sxhxjy.roadmonitor.base.ParamInfo;
 import com.sxhxjy.roadmonitor.entity.MonitorTypeTree;
 import com.sxhxjy.roadmonitor.entity.SimpleItem;
 import com.sxhxjy.roadmonitor.util.ActivityUtil;
@@ -39,7 +42,7 @@ import java.util.List;
 
 public class MonitorFragment extends BaseFragment implements View.OnClickListener {
 
-    private String stationId = "40288164568be6a401568bf1e5100000";
+    private String stationId;
     private TextView mTextViewCenter;
     private ImageView mImageViewLeft;
     private List<SimpleItem> mListLeft = new ArrayList<>();
@@ -61,6 +64,9 @@ public class MonitorFragment extends BaseFragment implements View.OnClickListene
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initToolBar(getView(), getArguments().getString("stationName"), false);
+        stationId = getArguments().getString("stationId");
+        cacheStation(stationId, getArguments().getString("stationName"));
+
         mTextViewCenter = (TextView) getView().findViewById(R.id.toolbar_title);
         mImageViewLeft = (ImageView) getView().findViewById(R.id.toolbar_left);
         mImageViewLeft.setVisibility(View.VISIBLE);
@@ -73,12 +79,23 @@ public class MonitorFragment extends BaseFragment implements View.OnClickListene
         mFilterTitleLeft = (TextView) view.findViewById(R.id.filter_left);
         mFilterTitleRight = (TextView) view.findViewById(R.id.filter_right);
 
-        mListLeft.add(new SimpleItem("", "南中环桥", false));
+       /* mListLeft.add(new SimpleItem("", "南中环桥", false));
         mListLeft.add(new SimpleItem("", "祥云桥", false));
-        mListLeft.add(new SimpleItem("", "漪汾桥", false));
+        mListLeft.add(new SimpleItem("", "漪汾桥", false));*/
         mListRight.add(new SimpleItem("", "最近一天", false));
         mListRight.add(new SimpleItem("", "最近一周", false));
         mListRight.add(new SimpleItem("", "最近一月", false));
+
+        getMessage(getHttpService().getPositions(stationId, MyApplication.getMyApplication().getSharedPreference().getString("gid", "")), new MySubscriber<List<MonitorPosition>>() {
+            @Override
+            protected void onMyNext(List<MonitorPosition> monitorPositions) {
+                for (MonitorPosition position : monitorPositions) {
+                    mListLeft.add(new SimpleItem(position.getId(), position.getName(), false));
+                }
+            }
+        });
+
+        getParamInfo();
 
         mFilterTitleLeft.setOnClickListener(this);
 
@@ -209,12 +226,30 @@ public class MonitorFragment extends BaseFragment implements View.OnClickListene
         });
     }
 
+    private void getParamInfo() {
+        getMessage(getHttpService().getParamInfo(stationId), new MySubscriber<ParamInfo>() {
+            @Override
+            protected void onMyNext(ParamInfo paramInfo) {
+                ((TextView)getView().findViewById(R.id.position)).setText("位置：" + MyApplication.getMyApplication().getSharedPreference().getString("stationName", ""));
+                ((TextView)getView().findViewById(R.id.min)).setText("最小值：" + paramInfo.getXmin() + "");
+                ((TextView)getView().findViewById(R.id.max)).setText("最大值：" + paramInfo.getXmax() + "");
+                ((TextView)getView().findViewById(R.id.threshold1)).setText("一级阈值：" + paramInfo.getxOneThreshold() + "");
+                ((TextView)getView().findViewById(R.id.threshold2)).setText("二级阈值：" + paramInfo.getxTwoThreshold() + "");
+                ((TextView)getView().findViewById(R.id.threshold3)).setText("三级阈值：" + paramInfo.getxThreeThreshold() + "");
+                ((TextView)getView().findViewById(R.id.threshold4)).setText("四级阈值：" + paramInfo.getxFourThreshold() + "");
+
+            }
+        });
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == StationListActivity.REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             stationId = data.getStringExtra("stationId");
             mTextViewCenter.setText(data.getStringExtra("stationName"));
+            cacheStation(stationId, data.getStringExtra("stationName"));
+            getParamInfo();
         }
     }
 
@@ -254,5 +289,10 @@ public class MonitorFragment extends BaseFragment implements View.OnClickListene
 
                 break;
         }
+    }
+
+    public void cacheStation(String stationId, String stationName) {
+        MyApplication.getMyApplication().getSharedPreference().edit().putString("stationId", stationId).apply();
+        MyApplication.getMyApplication().getSharedPreference().edit().putString("stationName", stationName).apply();
     }
 }

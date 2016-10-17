@@ -1,12 +1,9 @@
 package com.sxhxjy.roadmonitor.ui.main;
 
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,24 +15,12 @@ import com.google.gson.Gson;
 import com.sxhxjy.roadmonitor.R;
 import com.sxhxjy.roadmonitor.base.BaseActivity;
 import com.sxhxjy.roadmonitor.base.CacheManager;
-import com.sxhxjy.roadmonitor.base.HttpResponseFunc;
 import com.sxhxjy.roadmonitor.base.MyApplication;
 import com.sxhxjy.roadmonitor.base.MySubscriber;
-import com.sxhxjy.roadmonitor.base.UserManager;
 import com.sxhxjy.roadmonitor.entity.LoginData;
 import com.sxhxjy.roadmonitor.util.ActivityUtil;
-import com.sxhxjy.roadmonitor.util.StringX;
+import com.sxhxjy.roadmonitor.util.MD5_X;
 import com.sxhxjy.roadmonitor.util.Utils;
-
-import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Response;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 
 /**
@@ -101,11 +86,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
             case R.id.login:
                     getMessage(getHttpService()
-                            .login(mUser.getText().toString(), StringX.md5(mPassword.getText().toString().getBytes()).toLowerCase()), new MySubscriber<LoginData>() {
+                            .login(mUser.getText().toString(), MD5_X.md5(mPassword.getText().toString().getBytes()).toLowerCase()), new MySubscriber<LoginData>() {
                         @Override
                         public void onMyNext(LoginData loginData) {
                             showToastMsg("登录成功");
                             CacheManager.getInstance().set("login", new Gson().toJson(loginData));
+                            MyApplication.getMyApplication().getSharedPreference().edit().putString("uid", loginData.getId()).apply();
+                            MyApplication.getMyApplication().getSharedPreference().edit().putString("gid", loginData.getGid()).apply();
                             ActivityUtil.startActivityForResult(LoginActivity.this, StationListActivity.class, null, 111);
                             finish();
                         }

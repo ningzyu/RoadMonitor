@@ -41,7 +41,7 @@ public final class UserManager {
     }
 
     public static String getUID() {
-        return MyApplication.getMyApplication().getSharedPreference().getString(UID, "0");
+        return MyApplication.getMyApplication().getSharedPreference().getString("uid", "0");
     }
 
     public static void loginUser(BaseActivity activity, UserData userData) {

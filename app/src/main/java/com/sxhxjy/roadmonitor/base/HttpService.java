@@ -2,6 +2,7 @@ package com.sxhxjy.roadmonitor.base;
 
 
 
+import com.sxhxjy.roadmonitor.entity.AlertTree;
 import com.sxhxjy.roadmonitor.entity.GroupTree;
 import com.sxhxjy.roadmonitor.entity.LoginData;
 import com.sxhxjy.roadmonitor.entity.Monitor;
@@ -68,15 +69,25 @@ public interface HttpService {
     @GET("points/pointTreeList")
     Observable<HttpResponse<List<MonitorTypeTree>>> getMonitorTypeTree();
 
+    @GET("alarm/getAlermFilter")
+    Observable<HttpResponse<AlertTree>> getAlertTree();
 
+    @GET("stations/findStationByFilters")
+    Observable<HttpResponse<List<MonitorPosition>>> getPositions(@Query("pointId") String pointId, @Query("gid") String gid);
 
+    @GET("stations/stationDetail")
+    Observable<HttpResponse<ParamInfo>> getParamInfo(@Query("id") String id);
+
+    @FormUrlEncoded
+    @POST("alarm/confirmAlarmInfo")
+    Observable<HttpResponse<Object>> confirmAlertMsg(@Field("alarmId") String alarmId, @Field("userId") String userId, @Field("confirmMsg") String confirmMsg);
 
 
 
 
     @Multipart
     @POST("jk/uploadPic.htm")
-    Call<BaseResult> uploadGoods(@Part MultipartBody.Part file);
+    Call<HttpResponse<String>> uploadImage(@Part MultipartBody.Part file);
 
 
 
@@ -104,6 +115,5 @@ public interface HttpService {
     Call<BaseResult> submitCustomer(@QueryMap Map<String, String> map);
 
 
-    class BaseResult {
-    }
+    class BaseResult {}
 }

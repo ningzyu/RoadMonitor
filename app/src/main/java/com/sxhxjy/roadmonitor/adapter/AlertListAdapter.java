@@ -14,6 +14,8 @@ import android.widget.TextView;
 import com.sxhxjy.roadmonitor.R;
 import com.sxhxjy.roadmonitor.base.BaseFragment;
 import com.sxhxjy.roadmonitor.base.CacheManager;
+import com.sxhxjy.roadmonitor.base.MySubscriber;
+import com.sxhxjy.roadmonitor.base.UserManager;
 import com.sxhxjy.roadmonitor.entity.AlertData;
 import com.sxhxjy.roadmonitor.entity.Monitor;
 import com.sxhxjy.roadmonitor.ui.chart.ChartActivity;
@@ -37,6 +39,8 @@ import java.util.Locale;
 public class AlertListAdapter extends RecyclerView.Adapter<AlertListAdapter.ViewHolder> implements View.OnClickListener {
     private List<AlertData> mList;
     private BaseFragment mFragment;
+    private AlertDialog alertDialog;
+
     public AlertListAdapter(BaseFragment fragment, ArrayList<AlertData> list) {
         mFragment = fragment;
         mList = list;
@@ -58,13 +62,25 @@ public class AlertListAdapter extends RecyclerView.Adapter<AlertListAdapter.View
     public int getItemCount() {
         return mList.size();
     }
+
     @Override
     public void onClick(View v) {
         int p = (int) v.getTag();
 
-        new AlertDialog.Builder(mFragment.getActivity()).setTitle("确定警告信息").setView(mFragment.getActivity().getLayoutInflater().inflate(R.layout.dialog_view_alert, null)).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+        alertDialog = new AlertDialog.Builder(mFragment.getActivity()).setTitle("确定警告信息").setView(mFragment.getActivity().getLayoutInflater().inflate(R.layout.dialog_view_alert, null)).setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                mFragment.getMessage(mFragment.getHttpService().confirmAlertMsg("", UserManager.getUID(), ((EditText) alertDialog.findViewById(R.id.editText)).getText().toString()), new MySubscriber<Object>() {
+                    @Override
+                    protected void onMyNext(Object o) {
+                        mFragment.showToastMsg("确定警告信息成功！");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                    }
+                });
 
             }
         }).setNegativeButton("取消", null).setNeutralButton("查看详情", new DialogInterface.OnClickListener() {
@@ -72,9 +88,9 @@ public class AlertListAdapter extends RecyclerView.Adapter<AlertListAdapter.View
             public void onClick(DialogInterface dialog, int which) {
                 ActivityUtil.startActivityForResult(mFragment.getActivity(), AlertDetailActivity.class);
             }
-        }).show();
+        }).create();
 
-
+        alertDialog.show();
     }
 
 

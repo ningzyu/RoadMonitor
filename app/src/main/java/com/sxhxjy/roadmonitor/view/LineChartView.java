@@ -103,6 +103,9 @@ public class LineChartView extends View {
         super.onDraw(canvas);
         canvas.translate(OFFSET, getMeasuredHeight() - OFFSET - OFFSET_LEGEND);
         canvas.drawColor(getResources().getColor(R.color.white));
+
+        if (mList.isEmpty()) return;
+
         xEnd = Collections.max(mList, comparatorX).time;
         xStart = Collections.min(mList, comparatorX).time;
         yEnd = (int) Collections.max(mList, comparatorY).value;

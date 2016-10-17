@@ -47,7 +47,7 @@ public class MyLinearLayout extends LinearLayout {
 
         tvTitle.setText(title);
         tvContent.setText(content);
-        if (!dividerShow) divider.setVisibility(GONE);
+        if (!dividerShow) divider.setVisibility(INVISIBLE);
         if (!expanded) ivArrow.setVisibility(GONE);
         decoration.setImageDrawable(drawable);
         decoration.setColorFilter(getResources().getColor(R.color.colorPrimary));
