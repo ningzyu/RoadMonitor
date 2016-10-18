@@ -59,8 +59,8 @@ public interface HttpService {
     @GET("user/appLogin")
     Observable<HttpResponse<LoginData>> login(@Query("account") String username, @Query("password") String password);
 
-    @GET("sensorDataValue/dataList")
-    Observable<HttpResponse<List<RealTimeData>>> getRealTimeData(@Query("cid") String monitorId, @Query("beforeTime") String start, @Query("afterTime") String end);
+    @GET("sensorData/dataList")
+    Observable<HttpResponse<List<RealTimeData>>> getRealTimeData(@Query("code") String positionID, @Query("beforeTime") long start, @Query("afterTime") long end);
 
 
     @GET("points/pointDetail")

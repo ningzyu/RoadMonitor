@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.sxhxjy.roadmonitor.R;
+import com.sxhxjy.roadmonitor.entity.RealTimeData;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -58,7 +59,6 @@ public class LineChartView extends View {
     private PathEffect mPathEffect = new DashPathEffect(new float[] {8, 8}, 0);
 
     private List<MyLine> myLines = new ArrayList<>();
-    private List<MyPoint> mList = new ArrayList<>(POINTS_COUNT);
 
     private float[] points = new float[POINTS_COUNT * 2]; // x0, y0, x1, y1 ...
 
@@ -74,7 +74,7 @@ public class LineChartView extends View {
         mPath.setFillType(Path.FillType.WINDING);
 
         // fake data
-        new CountDownTimer(1000000, DELAY) {
+        /*new CountDownTimer(1000000, DELAY) {
             @Override
             public void onTick(long millisUntilFinished) {
                 if (mList.size() == POINTS_COUNT)
@@ -88,7 +88,7 @@ public class LineChartView extends View {
             public void onFinish() {
 
             }
-        }.start();
+        }.start();*/
     }
 
     @Override
@@ -104,13 +104,15 @@ public class LineChartView extends View {
         canvas.translate(OFFSET, getMeasuredHeight() - OFFSET - OFFSET_LEGEND);
         canvas.drawColor(getResources().getColor(R.color.white));
 
-        if (mList.isEmpty()) return;
-
-        xEnd = Collections.max(mList, comparatorX).time;
-        xStart = Collections.min(mList, comparatorX).time;
-        yEnd = (int) Collections.max(mList, comparatorY).value;
+        if (myLines.isEmpty()) return;
+        for (MyLine line : myLines) {
+            xEnd = Collections.max(line.points, comparatorX).time;
+            xStart = Collections.min(line.points, comparatorX).time;
+            yEnd = (int) Collections.max(line.points, comparatorY).value;
 //        yStart = (int) Collections.min(mList, comparatorY).value;
-        yStart = 0;
+            yStart = 0;
+        }
+
 
 
         mPaint.setTextSize(20);
@@ -118,37 +120,39 @@ public class LineChartView extends View {
         // draw point and line
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        for (MyPoint myPoint : mList) {
-            firstPointX = nextPointX;
-            firstPointY = nextPointY;
-            nextPointX = (float) (((double)(myPoint.time - xStart)) / (xEnd - xStart) * xAxisLength);
-            nextPointY = - (float) (((double)(myPoint.value - yStart)) / (yEnd - yStart) * yAxisLength);
+        for (MyLine line : myLines) {
+            for (MyPoint myPoint : line.points) {
+                firstPointX = nextPointX;
+                firstPointY = nextPointY;
+                nextPointX = (float) (((double) (myPoint.time - xStart)) / (xEnd - xStart) * xAxisLength);
+                nextPointY = -(float) (((double) (myPoint.value - yStart)) / (yEnd - yStart) * yAxisLength);
 
-            mPaint.setColor(getResources().getColor(R.color.colorPrimary));
-            mPaint.setStrokeWidth(10);
+                mPaint.setColor(getResources().getColor(R.color.colorPrimary));
+                mPaint.setStrokeWidth(10);
 
-            mPaint.setColor(getResources().getColor(R.color.colorPrimary));
-            if (mList.indexOf(myPoint) != 0) // do not draw line when draw first point !
-                canvas.drawLine(firstPointX, firstPointY, nextPointX, nextPointY, mPaint);
+                mPaint.setColor(getResources().getColor(R.color.colorPrimary));
+                if (line.points.indexOf(myPoint) != 0) // do not draw line when draw first point !
+                    canvas.drawLine(firstPointX, firstPointY, nextPointX, nextPointY, mPaint);
 
-            mPaint.setStrokeWidth(24);
+                mPaint.setStrokeWidth(24);
 
-            if (myPoint.value > ALERT_VALUE) {
-                mPaint.setColor(getResources().getColor(android.R.color.holo_red_light));
+                if (myPoint.value > ALERT_VALUE) {
+                    mPaint.setColor(getResources().getColor(android.R.color.holo_red_light));
+                }
+
+                canvas.drawPoint(nextPointX, nextPointY, mPaint);
+
+
+                // draw x scale
+                mPaint.setColor(getResources().getColor(R.color.default_color));
+                mPaint.setStrokeWidth(2);
+                mPaint.setTextAlign(Paint.Align.CENTER);
+
+                canvas.drawLine(nextPointX, 0, nextPointX, -OFFSET_SCALE, mPaint);
+                mPaint.setStrokeWidth(1);
+                canvas.drawText((myPoint.time - BASE_TIME) / 1000 + " s", nextPointX, OFFSET_SCALE * 4, mPaint);
+
             }
-
-            canvas.drawPoint(nextPointX, nextPointY, mPaint);
-
-
-            // draw x scale
-            mPaint.setColor(getResources().getColor(R.color.default_color));
-            mPaint.setStrokeWidth(2);
-            mPaint.setTextAlign(Paint.Align.CENTER);
-
-            canvas.drawLine(nextPointX, 0, nextPointX, - OFFSET_SCALE, mPaint);
-            mPaint.setStrokeWidth(1);
-            canvas.drawText((myPoint.time - BASE_TIME) / 1000 + " s", nextPointX, OFFSET_SCALE * 4, mPaint);
-
         }
 
         // draw axis
@@ -213,6 +217,14 @@ public class LineChartView extends View {
     public void addPoints(List<MyPoint> points, String s, int color) {
         myLines.add(new MyLine(s, points, color));
         invalidate();
+    }
+
+    public static List<MyPoint> convert(List<RealTimeData> list) {
+        List<MyPoint> points = new ArrayList<>();
+        for (RealTimeData realTimeData : list) {
+            points.add(new MyPoint(realTimeData.getSaveTime(), (long) realTimeData.getX()));
+        }
+        return points;
     }
 
     public List<MyLine> getLines() {

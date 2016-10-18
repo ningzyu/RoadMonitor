@@ -2,6 +2,7 @@ package com.sxhxjy.roadmonitor.ui.main;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,8 +28,10 @@ import com.sxhxjy.roadmonitor.base.MyApplication;
 import com.sxhxjy.roadmonitor.base.MySubscriber;
 import com.sxhxjy.roadmonitor.base.ParamInfo;
 import com.sxhxjy.roadmonitor.entity.MonitorTypeTree;
+import com.sxhxjy.roadmonitor.entity.RealTimeData;
 import com.sxhxjy.roadmonitor.entity.SimpleItem;
 import com.sxhxjy.roadmonitor.util.ActivityUtil;
+import com.sxhxjy.roadmonitor.view.LineChartView;
 import com.sxhxjy.roadmonitor.view.MyPopupWindow;
 
 import java.util.ArrayList;
@@ -86,14 +89,7 @@ public class MonitorFragment extends BaseFragment implements View.OnClickListene
         mListRight.add(new SimpleItem("", "最近一周", false));
         mListRight.add(new SimpleItem("", "最近一月", false));
 
-        getMessage(getHttpService().getPositions(stationId, MyApplication.getMyApplication().getSharedPreference().getString("gid", "")), new MySubscriber<List<MonitorPosition>>() {
-            @Override
-            protected void onMyNext(List<MonitorPosition> monitorPositions) {
-                for (MonitorPosition position : monitorPositions) {
-                    mListLeft.add(new SimpleItem(position.getId(), position.getName(), false));
-                }
-            }
-        });
+
 
         getParamInfo();
 
@@ -113,7 +109,7 @@ public class MonitorFragment extends BaseFragment implements View.OnClickListene
                 int p = (int) v.getTag();
 
                 if (mAdapter.isMultipleChoice()) {
-                    if (p == mAdapter.getListData().size()) {
+                    if (p == mAdapter.getListData().size()) { // button clicked
                         StringBuilder sb = new StringBuilder();
                         for (SimpleItem simpleItem : mAdapter.getListData()) {
                             if (simpleItem.isChecked()) {
@@ -146,6 +142,23 @@ public class MonitorFragment extends BaseFragment implements View.OnClickListene
                 } else {
                     mFilterTitleRight.setText(mAdapter.getListData().get(p).getTitle());
                 }
+
+
+
+                for (final SimpleItem simpleItem : mListLeft) {
+                    if (simpleItem.isChecked()) {
+                        getMessage(getHttpService().getRealTimeData(simpleItem.getCode(), System.currentTimeMillis() - 10000, System.currentTimeMillis()), new MySubscriber<List<RealTimeData>>() {
+                            @Override
+                            protected void onMyNext(List<RealTimeData> realTimeDatas) {
+                                LineChartView lineChartView = (LineChartView) getView().findViewById(R.id.chart);
+                                lineChartView.addPoints(LineChartView.convert(realTimeDatas), simpleItem.getTitle(), Color.BLUE);
+                            }
+                        });
+
+                    }
+                }
+
+
 
                 mAdapter.notifyDataSetChanged();
             }
@@ -221,6 +234,17 @@ public class MonitorFragment extends BaseFragment implements View.OnClickListene
                 filterTreeAdapter.mGroups.get(groupPosition).getList().get(childPosition).setChecked(true);
                 myPopupWindow.dismiss();
                 filterTreeAdapter.notifyDataSetChanged();
+                getMessage(getHttpService().getPositions(filterTreeAdapter.mGroups.get(groupPosition).getList().get(childPosition).getId(), MyApplication.getMyApplication().getSharedPreference().getString("gid", "")), new MySubscriber<List<MonitorPosition>>() {
+                    @Override
+                    protected void onMyNext(List<MonitorPosition> monitorPositions) {
+                        mListLeft.clear();
+                        for (MonitorPosition position : monitorPositions) {
+                            SimpleItem simpleItem = new SimpleItem(position.getId(), position.getName(), false);
+                            simpleItem.setCode(position.code);
+                            mListLeft.add(simpleItem);
+                        }
+                    }
+                });
                 return true;
             }
         });

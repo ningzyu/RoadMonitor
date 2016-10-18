@@ -10,6 +10,16 @@ public class SimpleItem {
     String title;
     boolean checked;
 
+    String code; // shit
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     public SimpleItem() {}
 
     public SimpleItem(String id, String title, boolean checked) {

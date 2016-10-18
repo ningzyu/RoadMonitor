@@ -13,6 +13,7 @@ public class MonitorPosition {
      */
 
     private String id;
+    public String code;
     private String name;
 
     public String getId() {

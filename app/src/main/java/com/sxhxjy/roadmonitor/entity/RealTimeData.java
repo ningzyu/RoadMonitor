@@ -7,210 +7,136 @@ package com.sxhxjy.roadmonitor.entity;
  */
 public class RealTimeData {
     /**
-     * id : 4028815a53bc2e060153bc4566a40001
-     * sid : 40288164568be6a401568bf1e5100000
-     * sensorMonitoringStations : {"id":"40288164568be6a401568bf1e5100000","name":"太旧高速阳泉路段监测点","saveTime":1473747914000,"sid":"4028816456da23dd0156da2d05570003","priUserGroup":{"id":"4028816456da23dd0156da2d05570003","type":null,"level":null,"uid":null,"num":"TJGSYQ","name":"太旧高速阳泉路段","description":"太旧高速阳泉路段","saveTime":1472539198000,"deleteState":"0","parentid":"4028816456da23dd0156da29ee1c0000","provinceid":"140000","cityid":"140100","adCity":{"id":140100,"city":"太原市","father":"140000"},"adProvince":{"id":140000,"province":"山西省"},"priRoleList":null,"roleIds":null,"childrenGroup":null},"code":"01","state":"0","cid":"40288115568d152901568d421b9e0003","sensorMonitoringPoints":{"id":"40288115568d152901568d421b9e0003","name":"温度传感器","saveTime":1471248735000,"cstate":0,"remark":"温度传感器","cstype":"40288115568d152901568d3f0a4f0001","priDict":{"id":"40288115568d152901568d3f0a4f0001","word":"device_type","code":"1","value":"平面值","remark":"类似温度这样的平面显示值","saveTime":1471248534000},"unit":"℃","style":null},"cname":"温度传感器","ctype":"40288115568d152901568d3f0a4f0001","cunit":"℃","priDict":{"id":"40288115568d152901568d3f0a4f0001","word":"device_type","code":"1","value":"平面值","remark":"类似温度这样的平面显示值","saveTime":1471248534000},"xmax":40,"ymax":null,"zmax":null,"gid":null,"selectGroupId":null,"pointName":null}
-     * x : 10
-     * saveTime : 1470904838000
-     * cstype : 0
+     * id : 5028586
+     * name : 忻报高速边坡1
+     * code : a1
+     * xColName : 温度
+     * x : 1.76
+     * yColName :
      * y : null
+     * zColName :
      * z : null
-     * applyType : null
-     * priDict : null
-     * name : null
-     * style : null
-     * beforetime : null
-     * aftertime : null
-     * flag : null
-     * getAllStateOrNon : null
-     * cid : null
-     * gid : null
-     * selectGroupId : null
+     * typeCode : 1
+     * typeValue : 平面值
+     * typeUnit : ℃
+     * saveTime : 1476806396000
      */
 
-    public String id;
-    public String sid;
-    /**
-     * id : 40288164568be6a401568bf1e5100000
-     * name : 太旧高速阳泉路段监测点
-     * saveTime : 1473747914000
-     * sid : 4028816456da23dd0156da2d05570003
-     * priUserGroup : {"id":"4028816456da23dd0156da2d05570003","type":null,"level":null,"uid":null,"num":"TJGSYQ","name":"太旧高速阳泉路段","description":"太旧高速阳泉路段","saveTime":1472539198000,"deleteState":"0","parentid":"4028816456da23dd0156da29ee1c0000","provinceid":"140000","cityid":"140100","adCity":{"id":140100,"city":"太原市","father":"140000"},"adProvince":{"id":140000,"province":"山西省"},"priRoleList":null,"roleIds":null,"childrenGroup":null}
-     * code : 01
-     * state : 0
-     * cid : 40288115568d152901568d421b9e0003
-     * sensorMonitoringPoints : {"id":"40288115568d152901568d421b9e0003","name":"温度传感器","saveTime":1471248735000,"cstate":0,"remark":"温度传感器","cstype":"40288115568d152901568d3f0a4f0001","priDict":{"id":"40288115568d152901568d3f0a4f0001","word":"device_type","code":"1","value":"平面值","remark":"类似温度这样的平面显示值","saveTime":1471248534000},"unit":"℃","style":null}
-     * cname : 温度传感器
-     * ctype : 40288115568d152901568d3f0a4f0001
-     * cunit : ℃
-     * priDict : {"id":"40288115568d152901568d3f0a4f0001","word":"device_type","code":"1","value":"平面值","remark":"类似温度这样的平面显示值","saveTime":1471248534000}
-     * xmax : 40
-     * ymax : null
-     * zmax : null
-     * gid : null
-     * selectGroupId : null
-     * pointName : null
-     */
+    private String id;
+    private String name;
+    private String code;
+    private String xColName;
+    private double x;
+    private String yColName;
+    private String y;
+    private String zColName;
+    private String z;
+    private String typeCode;
+    private String typeValue;
+    private String typeUnit;
+    private long saveTime;
 
-    public SensorMonitoringStations sensorMonitoringStations;
-    public int x;
-    public long saveTime;
-    public int cstype;
-    public Object y;
-    public Object z;
-    public Object applyType;
-    public Object priDict;
-    public Object name;
-    public Object style;
-    public Object beforetime;
-    public Object aftertime;
-    public Object flag;
-    public Object getAllStateOrNon;
-    public Object cid;
-    public Object gid;
-    public Object selectGroupId;
+    public String getId() {
+        return id;
+    }
 
-    public static class SensorMonitoringStations {
-        public String id;
-        public String name;
-        public long saveTime;
-        public String sid;
-        /**
-         * id : 4028816456da23dd0156da2d05570003
-         * type : null
-         * level : null
-         * uid : null
-         * num : TJGSYQ
-         * name : 太旧高速阳泉路段
-         * description : 太旧高速阳泉路段
-         * saveTime : 1472539198000
-         * deleteState : 0
-         * parentid : 4028816456da23dd0156da29ee1c0000
-         * provinceid : 140000
-         * cityid : 140100
-         * adCity : {"id":140100,"city":"太原市","father":"140000"}
-         * adProvince : {"id":140000,"province":"山西省"}
-         * priRoleList : null
-         * roleIds : null
-         * childrenGroup : null
-         */
+    public void setId(String id) {
+        this.id = id;
+    }
 
-        public PriUserGroup priUserGroup;
-        public String code;
-        public String state;
-        public String cid;
-        /**
-         * id : 40288115568d152901568d421b9e0003
-         * name : 温度传感器
-         * saveTime : 1471248735000
-         * cstate : 0
-         * remark : 温度传感器
-         * cstype : 40288115568d152901568d3f0a4f0001
-         * priDict : {"id":"40288115568d152901568d3f0a4f0001","word":"device_type","code":"1","value":"平面值","remark":"类似温度这样的平面显示值","saveTime":1471248534000}
-         * unit : ℃
-         * style : null
-         */
+    public String getName() {
+        return name;
+    }
 
-        public SensorMonitoringPoints sensorMonitoringPoints;
-        public String cname;
-        public String ctype;
-        public String cunit;
-        /**
-         * id : 40288115568d152901568d3f0a4f0001
-         * word : device_type
-         * code : 1
-         * value : 平面值
-         * remark : 类似温度这样的平面显示值
-         * saveTime : 1471248534000
-         */
+    public void setName(String name) {
+        this.name = name;
+    }
 
-        public PriDict priDict;
-        public int xmax;
-        public Object ymax;
-        public Object zmax;
-        public Object gid;
-        public Object selectGroupId;
-        public Object pointName;
+    public String getCode() {
+        return code;
+    }
 
-        public static class PriUserGroup {
-            public String id;
-            public Object type;
-            public Object level;
-            public Object uid;
-            public String num;
-            public String name;
-            public String description;
-            public long saveTime;
-            public String deleteState;
-            public String parentid;
-            public String provinceid;
-            public String cityid;
-            /**
-             * id : 140100
-             * city : 太原市
-             * father : 140000
-             */
+    public void setCode(String code) {
+        this.code = code;
+    }
 
-            public AdCity adCity;
-            /**
-             * id : 140000
-             * province : 山西省
-             */
+    public String getXColName() {
+        return xColName;
+    }
 
-            public AdProvince adProvince;
-            public Object priRoleList;
-            public Object roleIds;
-            public Object childrenGroup;
+    public void setXColName(String xColName) {
+        this.xColName = xColName;
+    }
 
-            public static class AdCity {
-                public int id;
-                public String city;
-                public String father;
-            }
+    public double getX() {
+        return x;
+    }
 
-            public static class AdProvince {
-                public int id;
-                public String province;
-            }
-        }
+    public void setX(double x) {
+        this.x = x;
+    }
 
-        public static class SensorMonitoringPoints {
-            public String id;
-            public String name;
-            public long saveTime;
-            public int cstate;
-            public String remark;
-            public String cstype;
-            /**
-             * id : 40288115568d152901568d3f0a4f0001
-             * word : device_type
-             * code : 1
-             * value : 平面值
-             * remark : 类似温度这样的平面显示值
-             * saveTime : 1471248534000
-             */
+    public String getYColName() {
+        return yColName;
+    }
 
-            public PriDict priDict;
-            public String unit;
-            public Object style;
+    public void setYColName(String yColName) {
+        this.yColName = yColName;
+    }
 
-            public static class PriDict {
-                public String id;
-                public String word;
-                public String code;
-                public String value;
-                public String remark;
-                public long saveTime;
-            }
-        }
+    public String getY() {
+        return y;
+    }
 
-        public static class PriDict {
-            public String id;
-            public String word;
-            public String code;
-            public String value;
-            public String remark;
-            public long saveTime;
-        }
+    public void setY(String y) {
+        this.y = y;
+    }
+
+    public String getZColName() {
+        return zColName;
+    }
+
+    public void setZColName(String zColName) {
+        this.zColName = zColName;
+    }
+
+    public String getZ() {
+        return z;
+    }
+
+    public void setZ(String z) {
+        this.z = z;
+    }
+
+    public String getTypeCode() {
+        return typeCode;
+    }
+
+    public void setTypeCode(String typeCode) {
+        this.typeCode = typeCode;
+    }
+
+    public String getTypeValue() {
+        return typeValue;
+    }
+
+    public void setTypeValue(String typeValue) {
+        this.typeValue = typeValue;
+    }
+
+    public String getTypeUnit() {
+        return typeUnit;
+    }
+
+    public void setTypeUnit(String typeUnit) {
+        this.typeUnit = typeUnit;
+    }
+
+    public long getSaveTime() {
+        return saveTime;
+    }
+
+    public void setSaveTime(long saveTime) {
+        this.saveTime = saveTime;
     }
 }
