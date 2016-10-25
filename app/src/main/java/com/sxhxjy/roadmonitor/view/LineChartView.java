@@ -60,8 +60,6 @@ public class LineChartView extends View {
 
     private List<MyLine> myLines = new ArrayList<>();
 
-    private float[] points = new float[POINTS_COUNT * 2]; // x0, y0, x1, y1 ...
-
 
     private RectF rectF = new RectF();
 
@@ -257,7 +255,7 @@ public class LineChartView extends View {
 
     }
 
-    private static class MyLine {
+    public static class MyLine {
         MyLine(String name, List<MyPoint> points, int color) {
             this.name = name;
             this.points = points;

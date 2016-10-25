@@ -44,6 +44,7 @@
 
                 <TextView
                     android:text="查看警告信息"
+                    android:visibility="invisible"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView7"

@@ -1,5 +1,6 @@
 package com.sxhxjy.roadmonitor.ui.main;
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -26,8 +27,12 @@ public class RealTimeDataListActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.base_activity);
+        Fragment f = new RealTimeDataListFragment();
+        Bundle b = new Bundle();
+        b.putString("type", getIntent().getStringExtra("type"));
+        f.setArguments(b);
         getFragmentManager().beginTransaction()
-                .add(R.id.container, new RealTimeDataListFragment()).commit();
+                .add(R.id.container, f).commit();
         initToolBar("实时数据", true);
     }
 
@@ -35,8 +40,7 @@ public class RealTimeDataListActivity extends BaseActivity {
 
         @Override
         public Observable<HttpResponse<List<RealTimeData>>> getObservable() {
-//            return getHttpService().getRealTimeData(getArguments().getString("monitorId"), "2016-08-01 08:00:00", "2016-08-31 23:00:00");
-            return null;
+            return getHttpService().getRealTimeData(getArguments().getString("type"), System.currentTimeMillis() - 10000, System.currentTimeMillis());
         }
 
         @Override

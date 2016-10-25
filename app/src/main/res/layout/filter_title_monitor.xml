@@ -16,21 +16,23 @@
                 android:layout_height="fill_parent" android:layout_weight="1">
             <TextView
                 android:layout_centerInParent="true"
-                android:layout_width="wrap_content"                    android:background="@drawable/gray_white_selector"
+                android:layout_width="match_parent"                    android:background="@drawable/gray_white_selector"
                     android:layout_height="match_parent"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="位置"
-                android:ems="8"
                 android:ellipsize="end"
                 android:id="@+id/filter_left" android:gravity="center"
 
                 />
+
             <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/indicator_sort" android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp" android:src="@drawable/filter_arrow"
-                android:layout_toRightOf="@+id/filter_left" />
+                    android:id="@+id/indicator_sort"
+                android:src="@drawable/filter_arrow"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
         </RelativeLayout>
         <View android:layout_width="1px" android:layout_height="match_parent" android:background="@color/default_color"/>
         <RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_weight="1">

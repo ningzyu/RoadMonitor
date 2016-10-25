@@ -1,8 +1,5 @@
 package com.sxhxjy.roadmonitor.adapter;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +10,6 @@ import android.widget.TextView;
 import com.sxhxjy.roadmonitor.R;
 import com.sxhxjy.roadmonitor.base.BaseFragment;
 import com.sxhxjy.roadmonitor.entity.AlertData;
-import com.sxhxjy.roadmonitor.ui.main.AlertDetailActivity;
-import com.sxhxjy.roadmonitor.util.ActivityUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +65,7 @@ public class AlertDetailListAdapter extends RecyclerView.Adapter<AlertListAdapte
 //            avatar = (ImageView) itemView.findViewById(R.id.avatar);
             location = (TextView) itemView.findViewById(R.id.location);
             date = (TextView) itemView.findViewById(R.id.date);
-            status = (TextView) itemView.findViewById(R.id.status);
+            status = (TextView) itemView.findViewById(R.id.level);
             title = (TextView) itemView.findViewById(R.id.title);
         }
     }

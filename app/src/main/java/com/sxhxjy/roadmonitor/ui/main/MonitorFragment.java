@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -45,6 +46,7 @@ import java.util.List;
 
 public class MonitorFragment extends BaseFragment implements View.OnClickListener {
 
+    public List<FilterTreeAdapter.Group> groupsOfFilterTree = new ArrayList<>();
     private String stationId;
     private TextView mTextViewCenter;
     private ImageView mImageViewLeft;
@@ -55,7 +57,8 @@ public class MonitorFragment extends BaseFragment implements View.OnClickListene
     private RecyclerView mFilterList;
     private MyPopupWindow myPopupWindow;
     private FilterTreeAdapter filterTreeAdapter;
-    public List<FilterTreeAdapter.Group> groupsOfFilterTree =  new ArrayList<>();
+    private CountDownTimer mTimer;
+    private String codeId;
 
     @Nullable
     @Override
@@ -82,13 +85,9 @@ public class MonitorFragment extends BaseFragment implements View.OnClickListene
         mFilterTitleLeft = (TextView) view.findViewById(R.id.filter_left);
         mFilterTitleRight = (TextView) view.findViewById(R.id.filter_right);
 
-       /* mListLeft.add(new SimpleItem("", "南中环桥", false));
-        mListLeft.add(new SimpleItem("", "祥云桥", false));
-        mListLeft.add(new SimpleItem("", "漪汾桥", false));*/
         mListRight.add(new SimpleItem("", "最近一天", false));
         mListRight.add(new SimpleItem("", "最近一周", false));
         mListRight.add(new SimpleItem("", "最近一月", false));
-
 
 
         getParamInfo();
@@ -109,7 +108,8 @@ public class MonitorFragment extends BaseFragment implements View.OnClickListene
                 int p = (int) v.getTag();
 
                 if (mAdapter.isMultipleChoice()) {
-                    if (p == mAdapter.getListData().size()) { // button clicked
+                    // button clicked
+                    if (p == mAdapter.getListData().size()) {
                         StringBuilder sb = new StringBuilder();
                         for (SimpleItem simpleItem : mAdapter.getListData()) {
                             if (simpleItem.isChecked()) {
@@ -123,6 +123,34 @@ public class MonitorFragment extends BaseFragment implements View.OnClickListene
                         }
                         mFilterTitleLeft.setText(sb.toString());
                         mFilterList.setVisibility(View.GONE);
+
+                        mTimer.cancel();
+                        LineChartView lineChartView = (LineChartView) getView().findViewById(R.id.chart);
+                        lineChartView.getLines().clear();
+                        mTimer = new CountDownTimer(100000, 1000) {
+                            @Override
+                            public void onTick(long millisUntilFinished) {
+                                for (final SimpleItem simpleItem : mListLeft) {
+                                    if (simpleItem.isChecked()) {
+                                        codeId = simpleItem.getCode();
+                                        getMessage(getHttpService().getRealTimeData(simpleItem.getCode(), System.currentTimeMillis() - 10000, System.currentTimeMillis()), new MySubscriber<List<RealTimeData>>() {
+                                            @Override
+                                            protected void onMyNext(List<RealTimeData> realTimeDatas) {
+                                                LineChartView lineChartView = (LineChartView) getView().findViewById(R.id.chart);
+                                                lineChartView.addPoints(LineChartView.convert(realTimeDatas), simpleItem.getTitle(), Color.BLUE);
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onFinish() {
+
+                            }
+                        };
+                        mTimer.start();
+
                         return;
                     } else {
                         mAdapter.getListData().get(p).setChecked(!mAdapter.getListData().get(p).isChecked());
@@ -143,23 +171,6 @@ public class MonitorFragment extends BaseFragment implements View.OnClickListene
                     mFilterTitleRight.setText(mAdapter.getListData().get(p).getTitle());
                 }
 
-
-
-                for (final SimpleItem simpleItem : mListLeft) {
-                    if (simpleItem.isChecked()) {
-                        getMessage(getHttpService().getRealTimeData(simpleItem.getCode(), System.currentTimeMillis() - 10000, System.currentTimeMillis()), new MySubscriber<List<RealTimeData>>() {
-                            @Override
-                            protected void onMyNext(List<RealTimeData> realTimeDatas) {
-                                LineChartView lineChartView = (LineChartView) getView().findViewById(R.id.chart);
-                                lineChartView.addPoints(LineChartView.convert(realTimeDatas), simpleItem.getTitle(), Color.BLUE);
-                            }
-                        });
-
-                    }
-                }
-
-
-
                 mAdapter.notifyDataSetChanged();
             }
         });
@@ -169,8 +180,8 @@ public class MonitorFragment extends BaseFragment implements View.OnClickListene
         mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
+                if (groupsOfFilterTree.isEmpty()) getTypeTree();
                 myPopupWindow.show();
-                filterTreeAdapter.notifyDataSetChanged();
                 return true;
             }
         });
@@ -180,45 +191,6 @@ public class MonitorFragment extends BaseFragment implements View.OnClickListene
         ExpandableListView expandableListView = (ExpandableListView) myPopupWindow.getContentView().findViewById(R.id.expandable_list_view);
         Button confirm = (Button) myPopupWindow.getContentView().findViewById(R.id.confirm);
         confirm.setVisibility(View.GONE);
-
-
-
-
-        getMessage(getHttpService().getMonitorTypeTree(), new MySubscriber<List<MonitorTypeTree>>() {
-            @Override
-            protected void onMyNext(List<MonitorTypeTree> monitorTypeTrees) {
-                for (MonitorTypeTree monitorTypeTree : monitorTypeTrees) {
-                    List<SimpleItem> list = new ArrayList<SimpleItem>();
-                    if (monitorTypeTree.getChildrenPoint() != null) {
-                        for (MonitorTypeTree.ChildrenPointBean childrenPointBean : monitorTypeTree.getChildrenPoint()) {
-                            list.add(new SimpleItem(childrenPointBean.getId(), childrenPointBean.getName(), false));
-                        }
-                    }
-                    FilterTreeAdapter.Group group = new FilterTreeAdapter.Group(list, monitorTypeTree.getName());
-                    groupsOfFilterTree.add(group);
-                }
-            }
-        });
-
-
-        /*List<SimpleItem> mList0 = new ArrayList<>();
-        mList0.add(new SimpleItem("", "温度检测", true));
-        mList0.add(new SimpleItem("", "温度检测", false));
-        mList0.add(new SimpleItem("", "温度检测", false));
-        List<SimpleItem> mList1 = new ArrayList<>();
-        mList1.add(new SimpleItem("", "位移检测", false));
-        mList1.add(new SimpleItem("", "伸缩检测", false));
-        List<SimpleItem> mList2 = new ArrayList<>();
-        mList2.add(new SimpleItem("", "应变检测", false));
-        mList2.add(new SimpleItem("", "受力检测", false));
-        mList2.add(new SimpleItem("", "受力检测", false));
-        mList1.add(new SimpleItem("", "挠度检测", false));
-        FilterTreeAdapter.Group group0 = new FilterTreeAdapter.Group(mList0, "环境主题");
-        FilterTreeAdapter.Group group1 = new FilterTreeAdapter.Group(mList1, "变形主题");
-        FilterTreeAdapter.Group group2 = new FilterTreeAdapter.Group(mList2, "应变主题");
-        groupsOfFilterTree.add(group0);
-        groupsOfFilterTree.add(group1);
-        groupsOfFilterTree.add(group2);*/
 
         filterTreeAdapter = new FilterTreeAdapter(groupsOfFilterTree);
         expandableListView.setAdapter(filterTreeAdapter);
@@ -232,6 +204,7 @@ public class MonitorFragment extends BaseFragment implements View.OnClickListene
                     }
                 }
                 filterTreeAdapter.mGroups.get(groupPosition).getList().get(childPosition).setChecked(true);
+//                codeId = filterTreeAdapter.mGroups.get(groupPosition).getList().get(childPosition).getId();
                 myPopupWindow.dismiss();
                 filterTreeAdapter.notifyDataSetChanged();
                 getMessage(getHttpService().getPositions(filterTreeAdapter.mGroups.get(groupPosition).getList().get(childPosition).getId(), MyApplication.getMyApplication().getSharedPreference().getString("gid", "")), new MySubscriber<List<MonitorPosition>>() {
@@ -250,17 +223,36 @@ public class MonitorFragment extends BaseFragment implements View.OnClickListene
         });
     }
 
+    private void getTypeTree(){
+        getMessage(getHttpService().getMonitorTypeTree(), new MySubscriber<List<MonitorTypeTree>>() {
+            @Override
+            protected void onMyNext(List<MonitorTypeTree> monitorTypeTrees) {
+                for (MonitorTypeTree monitorTypeTree : monitorTypeTrees) {
+                    List<SimpleItem> list = new ArrayList<SimpleItem>();
+                    if (monitorTypeTree.getChildrenPoint() != null) {
+                        for (MonitorTypeTree.ChildrenPointBean childrenPointBean : monitorTypeTree.getChildrenPoint()) {
+                            list.add(new SimpleItem(childrenPointBean.getId(), childrenPointBean.getName(), false));
+                        }
+                    }
+                    FilterTreeAdapter.Group group = new FilterTreeAdapter.Group(list, monitorTypeTree.getName());
+                    groupsOfFilterTree.add(group);
+                }
+                filterTreeAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
     private void getParamInfo() {
         getMessage(getHttpService().getParamInfo(stationId), new MySubscriber<ParamInfo>() {
             @Override
             protected void onMyNext(ParamInfo paramInfo) {
-                ((TextView)getView().findViewById(R.id.position)).setText("位置：" + MyApplication.getMyApplication().getSharedPreference().getString("stationName", ""));
-                ((TextView)getView().findViewById(R.id.min)).setText("最小值：" + paramInfo.getXmin() + "");
-                ((TextView)getView().findViewById(R.id.max)).setText("最大值：" + paramInfo.getXmax() + "");
-                ((TextView)getView().findViewById(R.id.threshold1)).setText("一级阈值：" + paramInfo.getxOneThreshold() + "");
-                ((TextView)getView().findViewById(R.id.threshold2)).setText("二级阈值：" + paramInfo.getxTwoThreshold() + "");
-                ((TextView)getView().findViewById(R.id.threshold3)).setText("三级阈值：" + paramInfo.getxThreeThreshold() + "");
-                ((TextView)getView().findViewById(R.id.threshold4)).setText("四级阈值：" + paramInfo.getxFourThreshold() + "");
+                ((TextView) getView().findViewById(R.id.position)).setText("位置：" + MyApplication.getMyApplication().getSharedPreference().getString("stationName", ""));
+                ((TextView) getView().findViewById(R.id.min)).setText("最小值：" + paramInfo.getXmin() + "");
+                ((TextView) getView().findViewById(R.id.max)).setText("最大值：" + paramInfo.getXmax() + "");
+                ((TextView) getView().findViewById(R.id.threshold1)).setText("一级阈值：" + paramInfo.getxOneThreshold() + "");
+                ((TextView) getView().findViewById(R.id.threshold2)).setText("二级阈值：" + paramInfo.getxTwoThreshold() + "");
+                ((TextView) getView().findViewById(R.id.threshold3)).setText("三级阈值：" + paramInfo.getxThreeThreshold() + "");
+                ((TextView) getView().findViewById(R.id.threshold4)).setText("四级阈值：" + paramInfo.getxFourThreshold() + "");
 
             }
         });
@@ -286,10 +278,16 @@ public class MonitorFragment extends BaseFragment implements View.OnClickListene
                 startActivityForResult(intent, StationListActivity.REQUEST_CODE);
                 break;
             case R.id.toolbar_left:
-                ActivityUtil.startActivityForResult(getActivity(), RealTimeDataListActivity.class);
+                Bundle b = new Bundle();
+                b.putString("type", codeId);
+                ActivityUtil.startActivityForResult(getActivity(), RealTimeDataListActivity.class, b, 100);
                 break;
 
             case R.id.filter_left:
+                if (groupsOfFilterTree.isEmpty()) {
+                    showToastMsg("请先选择监测类型");
+                    return;
+                }
                 mAdapter.setListData(mListLeft);
                 mAdapter.setMultipleChoice(true);
                 mAdapter.notifyDataSetChanged();

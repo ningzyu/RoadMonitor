@@ -22,6 +22,7 @@ import com.sxhxjy.roadmonitor.base.BaseActivity;
 import com.sxhxjy.roadmonitor.base.BaseFragment;
 import com.sxhxjy.roadmonitor.base.BaseListFragment;
 import com.sxhxjy.roadmonitor.base.HttpResponse;
+import com.sxhxjy.roadmonitor.base.MyApplication;
 import com.sxhxjy.roadmonitor.base.MySubscriber;
 import com.sxhxjy.roadmonitor.entity.AlertData;
 import com.sxhxjy.roadmonitor.entity.AlertTree;
@@ -47,11 +48,12 @@ public class AlertFragment extends BaseListFragment<AlertData> {
     private RecyclerView mFilterList;
     private MyPopupWindow myPopupWindow;
     private FilterTreeAdapter filterTreeAdapter;
+    private List<FilterTreeAdapter.Group> groups;
 
 
     @Override
     public Observable<HttpResponse<List<AlertData>>> getObservable() {
-        return null;
+        return getHttpService().getAlertDataList("4028812c57a344a30157a376908c0009");
     }
 
     @Override
@@ -145,7 +147,7 @@ public class AlertFragment extends BaseListFragment<AlertData> {
             }
         });
 
-        final List<FilterTreeAdapter.Group> groups = new ArrayList<>();
+        groups = new ArrayList<>();
         final List<SimpleItem> mList0 = new ArrayList<>();
 /*        mList0.add(new SimpleItem("", "全部", true));
         mList0.add(new SimpleItem("", "一级", false));

@@ -1,7 +1,6 @@
 package com.sxhxjy.roadmonitor.adapter;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +11,6 @@ import android.widget.TextView;
 import com.sxhxjy.roadmonitor.R;
 import com.sxhxjy.roadmonitor.base.BaseFragment;
 import com.sxhxjy.roadmonitor.entity.Monitor;
-import com.sxhxjy.roadmonitor.ui.chart.ChartActivity;
-import com.sxhxjy.roadmonitor.ui.main.StationListActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -68,7 +65,7 @@ public class MonitorListAdapter extends RecyclerView.Adapter<MonitorListAdapter.
 
         Intent intent = new Intent();
         intent.putExtra("monitorId", mList.get(p).id);
-        intent.setClass(mFragment.getActivity(), ChartActivity.class);
+//        intent.setClass(mFragment.getActivity(), ChartActivity.class);
         mFragment.startActivity(intent);
     }
 
@@ -81,7 +78,7 @@ public class MonitorListAdapter extends RecyclerView.Adapter<MonitorListAdapter.
 //            avatar = (ImageView) itemView.findViewById(R.id.avatar);
             location = (TextView) itemView.findViewById(R.id.location);
             date = (TextView) itemView.findViewById(R.id.date);
-            status = (TextView) itemView.findViewById(R.id.status);
+//            status = (TextView) itemView.findViewById(R.id.status);
             title = (TextView) itemView.findViewById(R.id.title);
         }
     }

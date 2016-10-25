@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         style="@style/smaller_text_view"
         android:text="正常"
-        android:id="@+id/status"
+        android:id="@+id/level"
         android:layout_alignParentTop="true"
         android:background="@drawable/round_rectangle_keycolor"
         android:padding="3dp"

@@ -1,5 +1,6 @@
 package com.sxhxjy.roadmonitor.view;
 
+import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -194,7 +195,6 @@ public class PullRefreshLoadLayout extends LinearLayout implements NestedScrolli
     public void refreshEnd() {
         mValueAnimator.setIntValues(getScrollY(), 0);
         mValueAnimator.start();
-        mRefreshing = false;
     }
 
     public void refreshBegin() {

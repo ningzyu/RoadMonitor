@@ -2,7 +2,6 @@ package com.sxhxjy.roadmonitor.adapter;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,16 +12,10 @@ import android.widget.TextView;
 
 import com.sxhxjy.roadmonitor.R;
 import com.sxhxjy.roadmonitor.base.BaseFragment;
-import com.sxhxjy.roadmonitor.base.CacheManager;
 import com.sxhxjy.roadmonitor.base.MySubscriber;
 import com.sxhxjy.roadmonitor.base.UserManager;
 import com.sxhxjy.roadmonitor.entity.AlertData;
-import com.sxhxjy.roadmonitor.entity.Monitor;
-import com.sxhxjy.roadmonitor.ui.chart.ChartActivity;
 import com.sxhxjy.roadmonitor.ui.main.AlertDetailActivity;
-import com.sxhxjy.roadmonitor.ui.main.AlertFragment;
-import com.sxhxjy.roadmonitor.ui.main.LoginActivity;
-import com.sxhxjy.roadmonitor.ui.main.MainActivity;
 import com.sxhxjy.roadmonitor.util.ActivityUtil;
 
 import java.text.SimpleDateFormat;
@@ -40,6 +33,7 @@ public class AlertListAdapter extends RecyclerView.Adapter<AlertListAdapter.View
     private List<AlertData> mList;
     private BaseFragment mFragment;
     private AlertDialog alertDialog;
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
 
     public AlertListAdapter(BaseFragment fragment, ArrayList<AlertData> list) {
         mFragment = fragment;
@@ -55,6 +49,16 @@ public class AlertListAdapter extends RecyclerView.Adapter<AlertListAdapter.View
     public void onBindViewHolder(AlertListAdapter.ViewHolder holder, int position) {
         holder.itemView.setOnClickListener(this);
         holder.itemView.setTag(position);
+        holder.num.setText(mList.get(position).getNum() + "次");
+
+        if (mList.get(position).getConfirmInfo() == null) {
+            holder.isConfirmed.setText("未确认");
+        } else {
+            holder.isConfirmed.setText("已确认");
+        }
+        holder.location.setText(mList.get(position).getAlarmContent());
+        holder.reason.setText(mList.get(position).getGenerationReason());
+        holder.date.setText(sdf.format(new Date(mList.get(position).getStime())) + "--" + sdf.format(new Date(mList.get(position).getEtime())));
 
     }
 
@@ -65,12 +69,12 @@ public class AlertListAdapter extends RecyclerView.Adapter<AlertListAdapter.View
 
     @Override
     public void onClick(View v) {
-        int p = (int) v.getTag();
+        final int p = (int) v.getTag();
 
         alertDialog = new AlertDialog.Builder(mFragment.getActivity()).setTitle("确定警告信息").setView(mFragment.getActivity().getLayoutInflater().inflate(R.layout.dialog_view_alert, null)).setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                mFragment.getMessage(mFragment.getHttpService().confirmAlertMsg("", UserManager.getUID(), ((EditText) alertDialog.findViewById(R.id.editText)).getText().toString()), new MySubscriber<Object>() {
+                mFragment.getMessage(mFragment.getHttpService().confirmAlertMsg(mList.get(p).getId(), UserManager.getUID(), ((EditText) alertDialog.findViewById(R.id.editText)).getText().toString()), new MySubscriber<Object>() {
                     @Override
                     protected void onMyNext(Object o) {
                         mFragment.showToastMsg("确定警告信息成功！");
@@ -95,7 +99,7 @@ public class AlertListAdapter extends RecyclerView.Adapter<AlertListAdapter.View
 
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView title, location, date, status;
+        TextView reason, location, date, status, num, isConfirmed, level;
         ImageView avatar;
 
         public ViewHolder(View itemView) {
@@ -103,8 +107,11 @@ public class AlertListAdapter extends RecyclerView.Adapter<AlertListAdapter.View
 //            avatar = (ImageView) itemView.findViewById(R.id.avatar);
             location = (TextView) itemView.findViewById(R.id.location);
             date = (TextView) itemView.findViewById(R.id.date);
-            status = (TextView) itemView.findViewById(R.id.status);
-            title = (TextView) itemView.findViewById(R.id.title);
+            reason = (TextView) itemView.findViewById(R.id.reason);
+            num = (TextView) itemView.findViewById(R.id.num);
+            isConfirmed = (TextView) itemView.findViewById(R.id.is_confirmed);
+            level = (TextView) itemView.findViewById(R.id.level);
+
         }
     }
 }

@@ -2,6 +2,7 @@ package com.sxhxjy.roadmonitor.base;
 
 
 
+import com.sxhxjy.roadmonitor.entity.AlertData;
 import com.sxhxjy.roadmonitor.entity.AlertTree;
 import com.sxhxjy.roadmonitor.entity.GroupTree;
 import com.sxhxjy.roadmonitor.entity.LoginData;
@@ -86,38 +87,17 @@ public interface HttpService {
     @POST("user/editPwd")
     Observable<HttpResponse<Object>> changePassword(@Field("userId") String uid, @Field("oldPwd") String old, @Field("newPwd") String newP);
 
-
-
     @Multipart
     @POST("jk/uploadPic.htm")
     Call<HttpResponse<String>> uploadImage(@Part MultipartBody.Part file);
 
+    @GET("alarm/findByStationId")
+    Observable<HttpResponse<List<AlertData>>> getAlertDataDetail(@Query("stationId") String stationId);
 
-
-    @GET("visitPlan/findByUserid.htm")
-    Call<BaseResult> getPlans(@Query("vcUserid") String uid, @Query("state") Integer state, @Query("stateOpt") String stateOpt, @Query("planTime") String time, @Query("planTimeOpt") String planTimeOpt);
-
-    @GET("business/findByUserid.htm")
-    Call<BaseResult> getCustomers(@Query("vcUserid") String uid);
-
-
+    @GET("alarmUnionData/pageList")
+    Observable<HttpResponse<List<AlertData>>> getAlertDataList(@Query("cStype") String type);
 
     /////////////////////////////////////////////////////////////////////////
     ////  home
     /////////////////////////////////////////////////////////////////////////
-
-
-    /////////////////////////////////////////////////////////////////////////
-    ////  publish
-    /////////////////////////////////////////////////////////////////////////
-
-    @GET("visitPlan/msave.htm")
-    Call<BaseResult> submitPlan(@QueryMap Map<String, String> map);
-
-    @GET("visitPlan/addBusiness.htm")
-    Call<BaseResult> submitCustomer(@QueryMap Map<String, String> map);
-
-
-
-    class BaseResult {}
 }
