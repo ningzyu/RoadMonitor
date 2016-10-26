@@ -19,6 +19,14 @@ public class AlertData {
      * stationName : 忻报高速边坡1
      * stime : 1476179548000
      * type : 传感器
+     *
+     *
+     * {
+     10-26 11:17:58.515 9783-9877/com.sxhxjy.roadmonitor D/OkHttp:     "alarmContent" : "传感器连接超时",
+     10-26 11:17:58.515 9783-9877/com.sxhxjy.roadmonitor D/OkHttp:     "generationTime" : 1476775261000,
+     10-26 11:17:58.515 9783-9877/com.sxhxjy.roadmonitor D/OkHttp:     "id" : "33",
+     10-26 11:17:58.515 9783-9877/com.sxhxjy.roadmonitor D/OkHttp:     "stationName" : "忻报高速边坡1"
+     10-26 11:17:58.515 9783-9877/com.sxhxjy.roadmonitor D/OkHttp:   }
      */
 
     private String alarmContent;
@@ -30,7 +38,17 @@ public class AlertData {
     private String num;
     private String stationName;
     private long stime;
+    private long generationTime;
     private String type;
+
+
+    public long getGenerationTime() {
+        return generationTime;
+    }
+
+    public void setGenerationTime(long generationTime) {
+        this.generationTime = generationTime;
+    }
 
     public String getAlarmContent() {
         return alarmContent;

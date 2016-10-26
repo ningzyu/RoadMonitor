@@ -60,6 +60,52 @@ public class MonitorFragment extends BaseFragment implements View.OnClickListene
     private CountDownTimer mTimer;
     private String codeId;
 
+    // multiple position clicked
+    private View.OnClickListener simpleListListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int p = (int) v.getTag();
+
+            if (mAdapter.isMultipleChoice()) {
+                // button clicked
+                if (p == mAdapter.getListData().size()) {
+                    StringBuilder sb = new StringBuilder();
+                    for (SimpleItem simpleItem : mAdapter.getListData()) {
+                        if (simpleItem.isChecked()) {
+                            sb.append(simpleItem.getTitle() + "...");
+                            break;
+                        }
+                    }
+                    if (TextUtils.isEmpty(sb.toString())) {
+                        showToastMsg("请至少选择一个位置！");
+                        return;
+                    }
+                    mFilterTitleLeft.setText(sb.toString());
+                    mFilterList.setVisibility(View.GONE);
+
+                    getChartData();
+
+                    return;
+                } else {
+                    mAdapter.getListData().get(p).setChecked(!mAdapter.getListData().get(p).isChecked());
+                }
+            } else {
+                for (SimpleItem simpleItem : mAdapter.getListData()) {
+                    simpleItem.setChecked(false);
+                }
+                mAdapter.getListData().get(p).setChecked(true);
+                mFilterList.setVisibility(View.GONE);
+            }
+
+
+            if (mAdapter.getListData() != mListLeft) {
+                mFilterTitleRight.setText(mAdapter.getListData().get(p).getTitle());
+            }
+
+            mAdapter.notifyDataSetChanged();
+        }
+    };
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -89,11 +135,7 @@ public class MonitorFragment extends BaseFragment implements View.OnClickListene
         mListRight.add(new SimpleItem("", "最近一周", false));
         mListRight.add(new SimpleItem("", "最近一月", false));
 
-
-        getParamInfo();
-
         mFilterTitleLeft.setOnClickListener(this);
-
         mFilterTitleRight.setOnClickListener(this);
 
         mFilterList = (RecyclerView) view.findViewById(R.id.filter_list);
@@ -102,78 +144,7 @@ public class MonitorFragment extends BaseFragment implements View.OnClickListene
         mFilterList.setAdapter(mAdapter);
         mAdapter.setFilterList(mFilterList);
 
-        mAdapter.setListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int p = (int) v.getTag();
-
-                if (mAdapter.isMultipleChoice()) {
-                    // button clicked
-                    if (p == mAdapter.getListData().size()) {
-                        StringBuilder sb = new StringBuilder();
-                        for (SimpleItem simpleItem : mAdapter.getListData()) {
-                            if (simpleItem.isChecked()) {
-                                sb.append(simpleItem.getTitle() + "...");
-                                break;
-                            }
-                        }
-                        if (TextUtils.isEmpty(sb.toString())) {
-                            showToastMsg("请至少选择一个位置！");
-                            return;
-                        }
-                        mFilterTitleLeft.setText(sb.toString());
-                        mFilterList.setVisibility(View.GONE);
-
-                        mTimer.cancel();
-                        LineChartView lineChartView = (LineChartView) getView().findViewById(R.id.chart);
-                        lineChartView.getLines().clear();
-                        mTimer = new CountDownTimer(100000, 1000) {
-                            @Override
-                            public void onTick(long millisUntilFinished) {
-                                for (final SimpleItem simpleItem : mListLeft) {
-                                    if (simpleItem.isChecked()) {
-                                        codeId = simpleItem.getCode();
-                                        getMessage(getHttpService().getRealTimeData(simpleItem.getCode(), System.currentTimeMillis() - 10000, System.currentTimeMillis()), new MySubscriber<List<RealTimeData>>() {
-                                            @Override
-                                            protected void onMyNext(List<RealTimeData> realTimeDatas) {
-                                                LineChartView lineChartView = (LineChartView) getView().findViewById(R.id.chart);
-                                                lineChartView.addPoints(LineChartView.convert(realTimeDatas), simpleItem.getTitle(), Color.BLUE);
-                                            }
-                                        });
-                                    }
-                                }
-                            }
-
-                            @Override
-                            public void onFinish() {
-
-                            }
-                        };
-                        mTimer.start();
-
-                        return;
-                    } else {
-                        mAdapter.getListData().get(p).setChecked(!mAdapter.getListData().get(p).isChecked());
-                    }
-                } else {
-                    for (SimpleItem simpleItem : mAdapter.getListData()) {
-                        simpleItem.setChecked(false);
-                    }
-                    mAdapter.getListData().get(p).setChecked(true);
-                    mFilterList.setVisibility(View.GONE);
-                }
-
-
-                if (mAdapter.getListData() == mListLeft) {
-
-
-                } else {
-                    mFilterTitleRight.setText(mAdapter.getListData().get(p).getTitle());
-                }
-
-                mAdapter.notifyDataSetChanged();
-            }
-        });
+        mAdapter.setListener(simpleListListener);
 
 
         mToolbar.inflateMenu(R.menu.filter_right);
@@ -221,6 +192,40 @@ public class MonitorFragment extends BaseFragment implements View.OnClickListene
                 return true;
             }
         });
+
+
+        getParamInfo();
+
+    }
+
+    private void getChartData() {
+        if (mTimer != null)
+            mTimer.cancel();
+        LineChartView lineChartView = (LineChartView) getView().findViewById(R.id.chart);
+        lineChartView.getLines().clear();
+        mTimer = new CountDownTimer(100000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                for (final SimpleItem simpleItem : mListLeft) {
+                    if (simpleItem.isChecked()) {
+                        codeId = simpleItem.getCode();
+                        getMessage(getHttpService().getRealTimeData(simpleItem.getCode(), System.currentTimeMillis() - 10000, System.currentTimeMillis()), new MySubscriber<List<RealTimeData>>() {
+                            @Override
+                            protected void onMyNext(List<RealTimeData> realTimeDatas) {
+                                LineChartView lineChartView = (LineChartView) getView().findViewById(R.id.chart);
+                                lineChartView.addPoints(LineChartView.convert(realTimeDatas), simpleItem.getTitle(), Color.MAGENTA);
+                            }
+                        });
+                    }
+                }
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        };
+        mTimer.start();
     }
 
     private void getTypeTree(){

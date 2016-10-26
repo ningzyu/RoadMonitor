@@ -2,6 +2,7 @@ package com.sxhxjy.roadmonitor.adapter;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -74,27 +75,40 @@ public class AlertListAdapter extends RecyclerView.Adapter<AlertListAdapter.View
         alertDialog = new AlertDialog.Builder(mFragment.getActivity()).setTitle("确定警告信息").setView(mFragment.getActivity().getLayoutInflater().inflate(R.layout.dialog_view_alert, null)).setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                mFragment.getMessage(mFragment.getHttpService().confirmAlertMsg(mList.get(p).getId(), UserManager.getUID(), ((EditText) alertDialog.findViewById(R.id.editText)).getText().toString()), new MySubscriber<Object>() {
+                mFragment.getMessage(mFragment.getHttpService().confirmAlertMsg(mList.get(p).getId(), UserManager.getUID(), ((EditText) alertDialog.findViewById(R.id.editText)).getText().toString(), mList.get(p).getStime()+"", mList.get(p).getEtime()+""), new MySubscriber<Object>() {
+                    @Override
+                    public void onNext(Object o) {
+                        mFragment.showToastMsg("确定警告信息成功！");
+                        mList.get(p).setConfirmInfo("");
+                        notifyDataSetChanged();
+                    }
+
                     @Override
                     protected void onMyNext(Object o) {
-                        mFragment.showToastMsg("确定警告信息成功！");
+
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
                     }
+
                 });
 
             }
         }).setNegativeButton("取消", null).setNeutralButton("查看详情", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                ActivityUtil.startActivityForResult(mFragment.getActivity(), AlertDetailActivity.class);
+                Bundle b = new Bundle();
+                b.putString("start", mList.get(p).getStime()+"");
+                b.putString("end", mList.get(p).getEtime()+"");
+                b.putString("id", mList.get(p).getId());
+                ActivityUtil.startActivityForResult(mFragment.getActivity(), AlertDetailActivity.class, b, 100);
             }
         }).create();
-
         alertDialog.show();
+        ((EditText) alertDialog.findViewById(R.id.editText)).setText(mList.get(p).getConfirmInfo());
+
     }
 
 
@@ -111,7 +125,6 @@ public class AlertListAdapter extends RecyclerView.Adapter<AlertListAdapter.View
             num = (TextView) itemView.findViewById(R.id.num);
             isConfirmed = (TextView) itemView.findViewById(R.id.is_confirmed);
             level = (TextView) itemView.findViewById(R.id.level);
-
         }
     }
 }

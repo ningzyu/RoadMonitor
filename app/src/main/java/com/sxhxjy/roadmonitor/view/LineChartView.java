@@ -111,8 +111,6 @@ public class LineChartView extends View {
             yStart = 0;
         }
 
-
-
         mPaint.setTextSize(20);
 
         // draw point and line
@@ -125,10 +123,9 @@ public class LineChartView extends View {
                 nextPointX = (float) (((double) (myPoint.time - xStart)) / (xEnd - xStart) * xAxisLength);
                 nextPointY = -(float) (((double) (myPoint.value - yStart)) / (yEnd - yStart) * yAxisLength);
 
-                mPaint.setColor(getResources().getColor(R.color.colorPrimary));
+                mPaint.setColor(line.color);
                 mPaint.setStrokeWidth(10);
 
-                mPaint.setColor(getResources().getColor(R.color.colorPrimary));
                 if (line.points.indexOf(myPoint) != 0) // do not draw line when draw first point !
                     canvas.drawLine(firstPointX, firstPointY, nextPointX, nextPointY, mPaint);
 
@@ -141,7 +138,7 @@ public class LineChartView extends View {
                 canvas.drawPoint(nextPointX, nextPointY, mPaint);
 
 
-                // draw x scale
+                // draw x
                 mPaint.setColor(getResources().getColor(R.color.default_color));
                 mPaint.setStrokeWidth(2);
                 mPaint.setTextAlign(Paint.Align.CENTER);
@@ -153,18 +150,14 @@ public class LineChartView extends View {
             }
         }
 
-        // draw axis
+        // draw y
         mPaint.setColor(getResources().getColor(R.color.default_color));
         mPaint.setStrokeWidth(2);
         canvas.drawLine(0, 0, 0, - yAxisLength, mPaint);
         canvas.drawLine(0, 0, xAxisLength, 0, mPaint);
 
-
         mPaint.setTextAlign(Paint.Align.RIGHT);
-
-
-        // draw y scale
-        canvas.drawText((int) yStart + "", - OFFSET_SCALE, 0, mPaint);
+        canvas.drawText(yStart + "", - OFFSET_SCALE, 0, mPaint);
         for (int j = 0; j < SPLIT_TO; j++) {
             float y = yStart + (yEnd - yStart) / SPLIT_TO * (j + 1);
             float yInView = y / (yEnd - yStart) * yAxisLength;
@@ -189,31 +182,26 @@ public class LineChartView extends View {
         mPaint.setPathEffect(null);
 
         mPaint.setTextAlign(Paint.Align.LEFT);
-        canvas.drawText((int) ALERT_VALUE + "", xAxisLength + OFFSET_SCALE, alertY - OFFSET_SCALE, mPaint);
+        canvas.drawText(ALERT_VALUE + "", xAxisLength + OFFSET_SCALE, alertY - OFFSET_SCALE, mPaint);
 
         // draw legend
-
-       /* for (MyLine myLine : myLines) {
-            mPaint.setColor(myLine.);
+        for (MyLine myLine : myLines) {
+            mPaint.setColor(myLine.color);
+            rectF.top = OFFSET;
+            rectF.left = 0;
+            rectF.bottom = rectF.top + OFFSET_LEGEND - 20;
+            rectF.right = OFFSET_LEGEND * 3;
             canvas.drawRoundRect(rectF, 2, 2, mPaint);
-        }*/
-        rectF.top = OFFSET;
-        rectF.left = 0;
-        rectF.bottom = rectF.top + OFFSET_LEGEND - 20;
-        rectF.right = OFFSET_LEGEND * 3;
-        canvas.drawRoundRect(rectF, 2, 2, mPaint);
-        mPaint.setColor(getResources().getColor(R.color.default_text_color));
-        mPaint.setStrokeWidth(0.1f);
-        mPaint.setTextAlign(Paint.Align.LEFT);
-        canvas.drawText("位移传感器", rectF.right + 15, rectF.bottom, mPaint);
-
-//canvas.drawBitmap();
-
+            mPaint.setColor(getResources().getColor(R.color.default_text_color));
+            mPaint.setStrokeWidth(0.1f);
+            mPaint.setTextAlign(Paint.Align.LEFT);
+            canvas.drawText(myLine.name, rectF.right + 15, rectF.bottom, mPaint);
+        }
 
     }
 
     public void addPoints(List<MyPoint> points, String s, int color) {
-        myLines.add(new MyLine(s, points, color));
+        myLines.add(new MyLine(s, points, color)); // TODO cost memory
         invalidate();
     }
 

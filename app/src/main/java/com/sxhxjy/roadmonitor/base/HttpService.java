@@ -81,18 +81,19 @@ public interface HttpService {
 
     @FormUrlEncoded
     @POST("alarm/confirmAlarmInfo")
-    Observable<HttpResponse<Object>> confirmAlertMsg(@Field("alarmId") String alarmId, @Field("userId") String userId, @Field("confirmMsg") String confirmMsg);
+    Observable<HttpResponse<Object>> confirmAlertMsg(@Field("alarmId") String alarmId, @Field("userId") String userId, @Field("confirmMsg") String confirmMsg, @Field("stime") String startTime, @Field("etime") String endTime);
 
     @FormUrlEncoded
     @POST("user/editPwd")
     Observable<HttpResponse<Object>> changePassword(@Field("userId") String uid, @Field("oldPwd") String old, @Field("newPwd") String newP);
 
     @Multipart
+
     @POST("jk/uploadPic.htm")
     Call<HttpResponse<String>> uploadImage(@Part MultipartBody.Part file);
 
     @GET("alarm/findByStationId")
-    Observable<HttpResponse<List<AlertData>>> getAlertDataDetail(@Query("stationId") String stationId);
+    Observable<HttpResponse<List<AlertData>>> getAlertDataDetail(@Query("stationId") String stationId, @Query("stime") String startTime, @Query("etime") String endTime);
 
     @GET("alarmUnionData/pageList")
     Observable<HttpResponse<List<AlertData>>> getAlertDataList(@Query("cStype") String type);

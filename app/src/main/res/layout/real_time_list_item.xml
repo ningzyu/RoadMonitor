@@ -35,9 +35,8 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="false"
         android:layout_centerVertical="true"
-        fresco:layout_constraintTop_toTopOf="@+id/location"
         fresco:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="3dp" />
+        fresco:layout_constraintTop_toTopOf="@+id/location" />
 
     <TextView
         android:text="温度：10   温度：20"
